@@ -2,10 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
+// @ts-ignore
 import App from "./App";
 import Workpage from "./Workpage";
 import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
+import PlaygroundPage from "./PlaygroundPage";
+import { AdminProvider } from "./AdminContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,12 +17,15 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/work" element={<Workpage />} />
-        <Route path="/ad-cognitive" element={<ADCognitive />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
+      <AdminProvider>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/work" element={<Workpage />} />
+          <Route path="/ad-cognitive" element={<ADCognitive />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/playground" element={<PlaygroundPage />} />
+        </Routes>
+      </AdminProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

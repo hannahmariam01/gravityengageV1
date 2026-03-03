@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAdmin } from "./AdminContext";
 
 export default function Index() {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -38,6 +39,7 @@ export default function Index() {
   const [hoveredProject, setHoveredProject] = useState(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [hoveredCardIdx, setHoveredCardIdx] = useState(null);
   const [gravityParticles, setGravityParticles] = useState([]);
   const waveCanvasRef = useRef(null);
   const waveCanvas2Ref = useRef(null);
@@ -725,6 +727,27 @@ export default function Index() {
     return () => window.removeEventListener("wheel", wheelListener);
   }, [showLanding, activeProjectIndex]);
 
+  const { isAdmin, login, logout } = useAdmin();
+  const [logoClicks, setLogoClicks] = useState(0);
+
+  const handleLogoClick = () => {
+    const newClicks = logoClicks + 1;
+    if (newClicks >= 5) {
+      setLogoClicks(0);
+      const pass = prompt("Enter Admin Password:");
+      if (pass) {
+        if (!login(pass)) {
+          alert("Incorrect password");
+        }
+      }
+    } else {
+      setLogoClicks(newClicks);
+      // Reset clicks after 2 seconds of inactivity
+      setTimeout(() => setLogoClicks(0), 2000);
+      navigate("/");
+    }
+  };
+
   if (showLanding) {
     return (
       <div style={{ position: "relative" }}>
@@ -834,15 +857,13 @@ export default function Index() {
                     position: "absolute",
                     width: Math.random() * 4 + 2 + "px",
                     height: Math.random() * 4 + 2 + "px",
-                    background: `radial-gradient(circle, ${
-                      colors[i % 5]
-                    }, transparent)`,
+                    background: `radial-gradient(circle, ${colors[i % 5]
+                      }, transparent)`,
                     borderRadius: "50%",
                     left: Math.random() * 100 + "%",
                     top: Math.random() * 100 + "%",
-                    animation: `pulse ${
-                      2 + Math.random() * 3
-                    }s ease-in-out infinite`,
+                    animation: `pulse ${2 + Math.random() * 3
+                      }s ease-in-out infinite`,
                     animationDelay: `${Math.random() * 2}s`,
                     opacity: 0.6,
                   }}
@@ -1005,9 +1026,8 @@ export default function Index() {
           top: cursorPos.y,
           width: isHoveringNav ? "60px" : "20px",
           height: isHoveringNav ? "60px" : "20px",
-          border: `2px solid ${
-            isHoveringNav ? "#89cff0" : "rgba(255, 255, 255, 0.6)"
-          }`,
+          border: `2px solid ${isHoveringNav ? "#89cff0" : "rgba(255, 255, 255, 0.6)"
+            }`,
           borderRadius: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
@@ -1066,8 +1086,8 @@ export default function Index() {
               scrollProgress < 0.2
                 ? `rgba(0, 0, 0, ${0.3 + scrollProgress * 0.4})`
                 : scrollProgress < 0.7
-                ? `rgba(0, 0, 0, 0.7)`
-                : `rgba(0, 0, 0, ${0.7 + (scrollProgress - 0.7) * 0.3})`,
+                  ? `rgba(0, 0, 0, 0.7)`
+                  : `rgba(0, 0, 0, ${0.7 + (scrollProgress - 0.7) * 0.3})`,
             transition: "background 0.3s ease",
           }}
         />
@@ -1132,6 +1152,7 @@ export default function Index() {
                 width: "auto",
                 transition: "transform 0.3s ease",
               }}
+              onClick={handleLogoClick}
               onMouseEnter={(e) => {
                 setIsHoveringNav(true);
                 e.currentTarget.style.transform = "scale(1.1)";
@@ -1143,7 +1164,7 @@ export default function Index() {
             />
           </div>
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -1151,6 +1172,8 @@ export default function Index() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
+                  } else if (item === "PLAYGROUND") {
+                    navigate("/playground");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }
@@ -1277,7 +1300,7 @@ export default function Index() {
 
             <h1
               style={{
-                fontSize: "clamp(36px, 6vw, 72px)",
+                fontSize: "clamp(24px, 4vw, 52px)",
                 fontWeight: 300,
                 lineHeight: 1.2,
                 color: "#ffffff",
@@ -1290,14 +1313,14 @@ export default function Index() {
                 textShadow: "0 0 30px rgba(137, 207, 240, 0.3)",
               }}
             >
-              We're multidisciplinary
+              We bridge the friction between
               <br />
-              problem-solvers
+              complex human needs and high-fidelity technology.
             </h1>
 
             <p
               style={{
-                fontSize: "24px",
+                fontSize: "clamp(12px, 1.2vw, 16px)",
                 fontWeight: 300,
                 lineHeight: "1.8",
                 color: "rgba(255, 255, 255, 0.9)",
@@ -1305,44 +1328,7 @@ export default function Index() {
                 textShadow: "0 2px 20px rgba(0, 0, 0, 0.5)",
               }}
             >
-              blending{" "}
-              <span
-                style={{
-                  fontWeight: 700,
-                  background: "linear-gradient(135deg, #89cff0, #8b5cf6)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                design
-              </span>
-              ,{" "}
-              <span
-                style={{
-                  fontWeight: 700,
-                  background: "linear-gradient(135deg, #8b5cf6, #89cff0)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                technology
-              </span>
-              , and{" "}
-              <span
-                style={{
-                  fontWeight: 700,
-                  background: "linear-gradient(135deg, #89cff0, #8b5cf6)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                art
-              </span>
-              <br />
-              to create meaningful products and experiences.
+              Gravity Engage is a strategic innovation partner at the intersection of systemic logic, immersive narrative, and human-centric orchestration.
             </p>
           </div>
 
@@ -1495,18 +1481,16 @@ export default function Index() {
                 opacity: screen2Progress > 0.2 ? 0.2 : 0,
                 animation:
                   screen2Progress > 0.2
-                    ? `gentlePulse ${
-                        12 + Math.random() * 10
-                      }s ease-in-out infinite`
+                    ? `gentlePulse ${12 + Math.random() * 10
+                    }s ease-in-out infinite`
                     : "none",
                 animationDelay: `${Math.random() * 8}s`,
-                boxShadow: `0 0 ${6 + Math.random() * 4}px ${
-                  i % 3 === 0
-                    ? "rgba(137, 207, 240, 0.2)"
-                    : i % 3 === 1
+                boxShadow: `0 0 ${6 + Math.random() * 4}px ${i % 3 === 0
+                  ? "rgba(137, 207, 240, 0.2)"
+                  : i % 3 === 1
                     ? "rgba(139, 92, 246, 0.2)"
                     : "rgba(236, 72, 153, 0.2)"
-                }`,
+                  }`,
                 transition: "opacity 2s ease",
                 zIndex: 3,
               }}
@@ -1686,9 +1670,18 @@ export default function Index() {
           >
             {[
               {
-                title: "Breakthrough Products",
-                subtitle: "",
-                description: "Applied Innovation at Speed",
+                title: "Accelerated Innovation &",
+                subtitle: "Synthetic Prototyping",
+                description: "Innovation at the speed of imagination",
+                problem:
+                  "Traditional R&D is too slow and too expensive for the 2026 market velocity.",
+                secretSauce: [
+                  "AI-Driven Fidelity: We use proprietary generative workflows to jump from concept to high-fidelity 'interventions' in days.",
+                  "Iterative Stress-Testing: We don't build 'moodboards'; we build functional simulations that allow you to 'live' in a product before it's engineered.",
+                ],
+                deliverables:
+                  "Functional AI-generated prototypes, interactive 'what-if' simulations, and technical roadmap specifications.",
+                roi: "Save millions in wasted development costs by validating technical and market viability before committing.",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle
@@ -1741,9 +1734,18 @@ export default function Index() {
                 ),
               },
               {
-                title: "Design as a Strategic",
-                subtitle: "Enabler",
-                description: "Holistic Design Capabilities",
+                title: "Civic Infrastructure &",
+                subtitle: "Service Orchestration",
+                description: "Designing services that survive the real world",
+                problem:
+                  "Most digital solutions fail because they ignore the messy, non-linear offline processes required to achieve a real-world result.",
+                secretSauce: [
+                  "Full-Stack Service Design: We specialize in mapping high-density digital interfaces to the physical, bureaucratic, or logistical realities they must serve.",
+                  "Resilient UX: Our approach treats user error as a systemic risk, ensuring the solution holds up in high-stakes environments.",
+                ],
+                deliverables:
+                  "End-to-end Service Blueprints and WCAG-compliant, high-density digital portals.",
+                roi: "Operational Resilience. Drastic reduction in support overhead and manual processing errors, ensuring public trust and regulatory compliance.",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <path
@@ -1770,9 +1772,18 @@ export default function Index() {
                 ),
               },
               {
-                title: "Data-Driven Visual",
-                subtitle: "Communication",
-                description: "Visualising Complex Information",
+                title: "Spatial Narrative &",
+                subtitle: "Immersive Worlds",
+                description: "Where imagination becomes a place you can feel",
+                problem:
+                  "Immersive media often feels like a fleeting gimmick, technically impressive but disconnected from the core purpose and brand logic.",
+                secretSauce: [
+                  "Mindful Immersion: We deploy spatial UI and immersive tech with precision, ensuring every interaction serves a strategic purpose rather than acting as visual noise.",
+                  "Cinematic Product Experience: We integrate the principles of immersive art and filmmaking to build high-fidelity environments that carry the emotional weight of a tangible reality.",
+                ],
+                deliverables:
+                  "Purpose-built 3D environments, immersive product narratives, and film-grade conceptual renders.",
+                roi: "Cultural Authority. We create meaningful experiences that move beyond the 'tech demo' to become industry benchmarks, securing deeper engagement and lasting brand equity.",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     {/* Axis lines */}
@@ -1845,9 +1856,18 @@ export default function Index() {
                 ),
               },
               {
-                title: "Adoption by Design",
-                subtitle: "",
-                description: "Enterprise Change Management",
+                title: "Ecosystem Visualization &",
+                subtitle: "Digital Twins",
+                description: "Clarity at the scale of your ecosystem",
+                problem:
+                  "Executives are often blinded by the sheer scale of their own organizational or data complexity.",
+                secretSauce: [
+                  "Bespoke Illustration: We use custom illustration to make abstract data structures human-readable and navigable.",
+                  "Cognitive Mapping: We don't just 'show' data; we map the relationships between nodes to reveal hidden bottlenecks and opportunities.",
+                ],
+                deliverables:
+                  "Interactive 'System Command Centers' and high-fidelity illustrated ecosystem maps.",
+                roi: "Decisiveness. A reduction in stakeholder 'discovery time' and the ability to communicate complex pivots to a board in minutes, not hours.",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle
@@ -1895,10 +1915,13 @@ export default function Index() {
 
               const shouldAnimate = screen2Progress > threshold;
               const isLeftColumn = idx % 2 === 0;
+              const isHovered = hoveredCardIdx === idx;
 
               return (
                 <div
                   key={idx}
+                  onMouseEnter={() => setHoveredCardIdx(idx)}
+                  onMouseLeave={() => setHoveredCardIdx(null)}
                   style={{
                     display: "flex",
                     gap: "1.5rem",
@@ -1907,12 +1930,15 @@ export default function Index() {
                     transform: shouldAnimate
                       ? "translateX(0)"
                       : isLeftColumn
-                      ? "translateX(-100px)"
-                      : "translateX(100px)",
+                        ? "translateX(-100px)"
+                        : "translateX(100px)",
                     filter: `blur(${shouldAnimate ? 0 : 12}px)`,
-                    transition: `all 1.4s cubic-bezier(0.16, 1, 0.3, 1) ${
-                      idx * 0.1
-                    }s`,
+                    transition: `all 1.4s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.1
+                      }s, background-color 0.3s ease, padding 0.3s ease, border-radius 0.3s ease`,
+                    backgroundColor: isHovered ? "rgba(137, 207, 240, 0.05)" : "transparent",
+                    padding: isHovered ? "1.5rem" : "0",
+                    borderRadius: "16px",
+                    cursor: item.problem ? "pointer" : "default",
                   }}
                 >
                   <div
@@ -1928,6 +1954,7 @@ export default function Index() {
                     style={{
                       borderLeft: "2px solid rgba(137, 207, 240, 0.5)",
                       paddingLeft: "2rem",
+                      width: "100%",
                     }}
                   >
                     <h3
@@ -1960,10 +1987,54 @@ export default function Index() {
                         fontWeight: 300,
                         color: "rgba(255, 255, 255, 0.7)",
                         margin: 0,
+                        transition: "opacity 0.3s ease, height 0.3s ease, margin 0.3s ease",
+                        opacity: isHovered && item.problem ? 0 : 1,
+                        height: isHovered && item.problem ? 0 : "auto",
+                        overflow: "hidden",
                       }}
                     >
                       {item.description}
                     </p>
+
+                    {/* Hover Content */}
+                    {item.problem && (
+                      <div
+                        style={{
+                          opacity: isHovered ? 1 : 0,
+                          height: isHovered ? "auto" : 0,
+                          overflow: "hidden",
+                          transition: "opacity 0.3s ease, height 0.3s ease",
+                          marginTop: isHovered ? "1rem" : 0,
+                        }}
+                      >
+                        <div style={{ marginBottom: "1rem" }}>
+                          <span style={{ color: "#89cff0", fontWeight: 600, marginRight: "0.5rem" }}>The Problem:</span>
+                          <span style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px" }}>{item.problem}</span>
+                        </div>
+
+                        <div style={{ marginBottom: "1rem" }}>
+                          <span style={{ color: "#8b5cf6", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>Our Secret Sauce:</span>
+                          <ul style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px", margin: 0, paddingLeft: "1.2rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                            {item.secretSauce.map((point, i) => {
+                              const [title, desc] = point.split(": ");
+                              return (
+                                <li key={i}>
+                                  <strong style={{ color: "#ffffff" }}>{title}:</strong> {desc}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <span style={{ color: "#ec4899", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>Tangible Outcomes:</span>
+                          <div style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                            <div><strong style={{ color: "#ffffff" }}>Deliverables:</strong> {item.deliverables}</div>
+                            <div><strong style={{ color: "#ffffff" }}>ROI:</strong> {item.roi}</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -2312,11 +2383,10 @@ export default function Index() {
                           height: "100%",
                           borderRadius: "16px",
                           overflow: "hidden",
-                          border: `2px solid ${
-                            hoveredProject === idx
-                              ? "rgba(137, 207, 240, 0.8)"
-                              : "rgba(137, 207, 240, 0.5)"
-                          }`,
+                          border: `2px solid ${hoveredProject === idx
+                            ? "rgba(137, 207, 240, 0.8)"
+                            : "rgba(137, 207, 240, 0.5)"
+                            }`,
                           background: "rgba(15, 5, 30, 0.8)",
                           backdropFilter: "blur(15px)",
                           boxShadow:
@@ -3166,6 +3236,6 @@ export default function Index() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

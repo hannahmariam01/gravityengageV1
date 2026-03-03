@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 export default function ADCognitive() {
   const navigate = useNavigate();
   const [currentStage, setCurrentStage] = useState(0);
-  const containerRef = useRef(null);
-  const canvasRef = useRef(null);
-  const videoRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const stages = [
     {
@@ -76,7 +76,7 @@ export default function ADCognitive() {
       opacity: Math.random() * 0.5 + 0.2,
     }));
 
-    let animationFrame;
+    let animationFrame: number;
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((particle) => {
@@ -98,9 +98,8 @@ export default function ADCognitive() {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(137, 207, 240, ${
-              0.15 * (1 - distance / 120)
-            })`;
+            ctx.strokeStyle = `rgba(137, 207, 240, ${0.15 * (1 - distance / 120)
+              })`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -309,7 +308,7 @@ export default function ADCognitive() {
           />
 
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -317,6 +316,8 @@ export default function ADCognitive() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
+                  } else if (item === "PLAYGROUND") {
+                    navigate("/playground");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }

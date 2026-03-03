@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAdmin } from "./AdminContext";
 
 export default function Workpage() {
   const navigate = useNavigate();
@@ -75,9 +76,8 @@ export default function Workpage() {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(137, 207, 240, ${
-              0.15 * (1 - distance / 120)
-            })`;
+            ctx.strokeStyle = `rgba(137, 207, 240, ${0.15 * (1 - distance / 120)
+              })`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -92,50 +92,80 @@ export default function Workpage() {
     };
   }, []);
 
-  const projects = [
-    {
-      name: "AD cognitive",
-      subtitle: "smart city",
-      route: "/ad-cognitive",
-      video:
-        "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
-    },
-    {
-      name: "Australian Health",
-      subtitle: "landscape",
-      route: null,
-      video:
-        "https://videos.pexels.com/video-files/3130284/3130284-uhd_2560_1440_30fps.mp4",
-    },
-    {
-      name: "APSC future",
-      subtitle: "of work",
-      route: null,
-      video:
-        "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4",
-    },
-    {
-      name: "Australian",
-      subtitle: "Campaign",
-      route: null,
-      video:
-        "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
-    },
-    {
-      name: "VFS Digital",
-      subtitle: "Experience",
-      route: null,
-      video:
-        "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
-    },
-    {
-      name: "Smart City",
-      subtitle: "Dashboard",
-      route: null,
-      video:
-        "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
-    },
-  ];
+  const { isAdmin, login, logout } = useAdmin();
+  const [logoClicks, setLogoClicks] = useState(0);
+
+  const [projects, setProjects] = useState(() => {
+    const saved = localStorage.getItem("work_projects");
+    return saved ? JSON.parse(saved) : [
+      {
+        name: "AD cognitive",
+        subtitle: "smart city",
+        route: "/ad-cognitive",
+        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+      },
+      {
+        name: "Australian Health",
+        subtitle: "landscape",
+        route: null,
+        video: "https://videos.pexels.com/video-files/3130284/3130284-uhd_2560_1440_30fps.mp4",
+      },
+      {
+        name: "APSC future",
+        subtitle: "of work",
+        route: null,
+        video: "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4",
+      },
+      {
+        name: "Australian",
+        subtitle: "Campaign",
+        route: null,
+        video: "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+      },
+      {
+        name: "VFS Digital",
+        subtitle: "Experience",
+        route: null,
+        video: "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+      },
+      {
+        name: "Smart City",
+        subtitle: "Dashboard",
+        route: null,
+        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+      },
+    ];
+  });
+
+  const [editingProject, setEditingProject] = useState<number | null>(null);
+
+  const handleLogoClick = () => {
+    const newClicks = logoClicks + 1;
+    if (newClicks >= 5) {
+      setLogoClicks(0);
+      if (isAdmin) {
+        if (confirm("Logout from Admin?")) logout();
+      } else {
+        const pass = prompt("Enter Admin Password:");
+        if (pass && login(pass)) {
+          // Success
+        } else if (pass) {
+          alert("Incorrect password");
+        }
+      }
+    } else {
+      setLogoClicks(newClicks);
+      setTimeout(() => setLogoClicks(0), 2000);
+      navigate("/");
+    }
+  };
+
+  const updateProject = (index: number, field: string, value: string) => {
+    const newProjects = [...projects];
+    newProjects[index] = { ...newProjects[index], [field]: value };
+    setProjects(newProjects);
+    localStorage.setItem("work_projects", JSON.stringify(newProjects));
+  };
 
   const clearAllFilters = () => {
     setSelectedOfferings([]);
@@ -317,7 +347,7 @@ export default function Workpage() {
             src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
             alt="Gravity Engage"
             style={{ height: "40px", cursor: "pointer" }}
-            onClick={() => navigate("/")}
+            onClick={handleLogoClick}
           />
           <div style={{ display: "flex", gap: "3rem" }}>
             {["HOME", "WORK", "ABOUT"].map((item, idx) => (
@@ -486,14 +516,14 @@ export default function Workpage() {
                   key === "offering"
                     ? selectedOfferings
                     : key === "skill"
-                    ? selectedSkills
-                    : selectedIndustries;
+                      ? selectedSkills
+                      : selectedIndustries;
                 const setSelected =
                   key === "offering"
                     ? setSelectedOfferings
                     : key === "skill"
-                    ? setSelectedSkills
-                    : setSelectedIndustries;
+                      ? setSelectedSkills
+                      : setSelectedIndustries;
                 return (
                   <div key={key} style={{ position: "relative" }}>
                     <button
@@ -790,7 +820,7 @@ export default function Workpage() {
               marginTop: "2rem",
             }}
           >
-            {projects.map((project, idx) => (
+            {projects.map((project: any, idx: number) => (
               <div
                 key={idx}
                 style={{
@@ -831,6 +861,29 @@ export default function Workpage() {
                         : "0 10px 30px rgba(0, 0, 0, 0.3)",
                   }}
                 >
+                  {isAdmin && (
+                    <div style={{ position: "absolute", top: "1rem", right: "1rem", zIndex: 10 }}>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setEditingProject(editingProject === idx ? null : idx);
+                        }}
+                        style={{
+                          background: "rgba(137, 207, 240, 0.2)",
+                          border: "1px solid #89cff0",
+                          color: "#89cff0",
+                          borderRadius: "50%",
+                          width: "32px",
+                          height: "32px",
+                          cursor: "pointer",
+                          fontSize: "12px",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {editingProject === idx ? "X" : "EDIT"}
+                      </button>
+                    </div>
+                  )}
                   {/* Video Background */}
                   <video
                     src={project.video}
@@ -879,6 +932,7 @@ export default function Workpage() {
                       zIndex: 1,
                       textAlign: "center",
                       padding: "2rem",
+                      display: editingProject === idx ? "none" : "block"
                     }}
                   >
                     <div
@@ -930,6 +984,43 @@ export default function Workpage() {
                       </div>
                     )}
                   </div>
+
+                  {isAdmin && editingProject === idx && (
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      style={{
+                        position: "relative",
+                        zIndex: 1,
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.75rem",
+                        width: "80%"
+                      }}
+                    >
+                      <label style={{ color: "#89cff0", fontSize: "10px", fontWeight: 600, textTransform: "uppercase" }}>Name</label>
+                      <input
+                        type="text"
+                        value={project.name}
+                        onChange={(e) => updateProject(idx, "name", e.target.value)}
+                        style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid #89cff0", padding: "8px", borderRadius: "8px", outline: "none" }}
+                      />
+                      <label style={{ color: "#89cff0", fontSize: "10px", fontWeight: 600, textTransform: "uppercase" }}>Subtitle</label>
+                      <input
+                        type="text"
+                        value={project.subtitle}
+                        onChange={(e) => updateProject(idx, "subtitle", e.target.value)}
+                        style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid #89cff0", padding: "8px", borderRadius: "8px", outline: "none" }}
+                      />
+                      <label style={{ color: "#89cff0", fontSize: "10px", fontWeight: 600, textTransform: "uppercase" }}>Video URL</label>
+                      <input
+                        type="text"
+                        value={project.video}
+                        onChange={(e) => updateProject(idx, "video", e.target.value)}
+                        style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid #89cff0", padding: "8px", borderRadius: "8px", outline: "none" }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
