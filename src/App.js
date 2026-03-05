@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "./AdminContext";
+import VelocityEngine from "./VelocityEngine";
 
 export default function Index() {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -18,9 +19,11 @@ export default function Index() {
   const pipeCanvasRef = useRef(null);
   const [screen1Progress, setScreen1Progress] = useState(1);
   const [screen2Progress, setScreen2Progress] = useState(0);
+  const [velocityProgress, setVelocityProgress] = useState(0);
   const [screen3Progress, setScreen3Progress] = useState(0);
   const screen1Ref = useRef(null);
   const screen2Ref = useRef(null);
+  const velocityRef = useRef(null);
   const screen3Ref = useRef(null);
   const contactRef = useRef(null);
   const navigate = useNavigate();
@@ -166,27 +169,40 @@ export default function Index() {
         }
       }
 
+      // Screen 2 visibility
       if (screen2Ref.current) {
         const rect = screen2Ref.current.getBoundingClientRect();
         const screenHeight = window.innerHeight;
-        if (rect.top < screenHeight * 0.7) {
-          const progressCalc = Math.min(
-            Math.max((screenHeight * 0.7 - rect.top) / (screenHeight * 0.5), 0),
-            1
-          );
-          setScreen2Progress(progressCalc);
+        if (rect.top < screenHeight && rect.bottom > 0) {
+          const progress = Math.max(0, Math.min(1, (screenHeight - rect.top) / screenHeight));
+          setScreen2Progress(progress);
+        } else {
+          setScreen2Progress(0);
         }
       }
 
+      // Velocity Engine visibility
+      if (velocityRef.current) {
+        const rect = velocityRef.current.getBoundingClientRect();
+        const screenHeight = window.innerHeight;
+        if (rect.top < screenHeight && rect.bottom > 0) {
+          const progress = Math.max(0, Math.min(1, (screenHeight - rect.top) / screenHeight));
+          setVelocityProgress(progress);
+        } else {
+          setVelocityProgress(0);
+        }
+      }
+
+      // Screen 3 visibility
       if (screen3Ref.current) {
         const rect = screen3Ref.current.getBoundingClientRect();
         const screenHeight = window.innerHeight;
-        if (rect.top < screenHeight * 0.7) {
-          const progressCalc = Math.min(
-            Math.max((screenHeight * 0.7 - rect.top) / (screenHeight * 0.5), 0),
-            1
-          );
-          setScreen3Progress(progressCalc);
+        // Start progress earlier (when it enters the bottom half of the screen) to overlap with Velocity Engine
+        if (rect.top < screenHeight * 0.8 && rect.bottom > 0) {
+          const progress = Math.max(0, Math.min(1, (screenHeight * 0.8 - rect.top) / (screenHeight * 0.6)));
+          setScreen3Progress(progress);
+        } else {
+          setScreen3Progress(0);
         }
       }
     };
@@ -1073,8 +1089,9 @@ export default function Index() {
             backgroundPosition: "center center",
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
-            opacity: scrollProgress < 0.2 ? 1 : scrollProgress < 0.7 ? 0.05 : 0,
-            transition: "opacity 0.8s ease",
+            opacity: scrollProgress < 0.25 ? 1 - (scrollProgress * 4) : 0,
+            visibility: scrollProgress > 0.3 ? "hidden" : "visible",
+            transition: "opacity 0.5s ease, visibility 0.5s ease",
           }}
         />
         <div
@@ -1099,11 +1116,12 @@ export default function Index() {
             pointerEvents: "none",
             zIndex: 3,
             opacity:
-              scrollProgress < 0.35
+              scrollProgress < 0.2
                 ? 0.7
-                : Math.max(0, 0.7 - (scrollProgress - 0.35) * 2),
+                : Math.max(0, 0.7 - (scrollProgress - 0.2) * 5),
+            visibility: scrollProgress > 0.4 ? "hidden" : "visible",
             mixBlendMode: "screen",
-            transition: "opacity 0.3s ease",
+            transition: "opacity 0.4s ease, visibility 0.4s ease",
           }}
         />
         <canvas
@@ -1125,6 +1143,9 @@ export default function Index() {
             inset: 0,
             pointerEvents: "none",
             zIndex: 4,
+            opacity: scrollProgress < 0.3 ? 1 : Math.max(0, 1 - (scrollProgress - 0.3) * 10),
+            visibility: scrollProgress > 0.45 ? "hidden" : "visible",
+            transition: "opacity 0.3s ease",
           }}
         />
 
@@ -2041,6 +2062,25 @@ export default function Index() {
             })}
           </div>
         </div>
+      </div>
+
+      <div
+        ref={velocityRef}
+        style={{
+          position: "relative",
+          zIndex: 250,
+          minHeight: "100vh",
+          background: "rgba(10, 5, 20, 1)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: velocityProgress > 0 ? 1 : 0,
+          transform: `translateY(${(1 - velocityProgress) * 50}px)`,
+          transition: "opacity 0.5s cubic-bezier(0.2, 0, 0, 1), transform 0.5s cubic-bezier(0.2, 0, 0, 1)",
+          padding: "10vh 0"
+        }}
+      >
+        <VelocityEngine />
       </div>
 
       <div

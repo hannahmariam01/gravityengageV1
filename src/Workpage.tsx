@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "./AdminContext";
+import VelocityEngine from "./VelocityEngine";
 
 export default function Workpage() {
   const navigate = useNavigate();
@@ -350,7 +351,7 @@ export default function Workpage() {
             onClick={handleLogoClick}
           />
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -358,6 +359,8 @@ export default function Workpage() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
+                  } else if (item === "PLAYGROUND") {
+                    navigate("/playground");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }
@@ -453,6 +456,15 @@ export default function Workpage() {
                 />
               </div>
             </div>
+          </div>
+
+          <div
+            style={{
+              animation: "fadeInUp 0.8s ease-out 0.3s backwards",
+              marginBottom: "4rem"
+            }}
+          >
+            <VelocityEngine />
           </div>
 
           {/* Filter Section */}
