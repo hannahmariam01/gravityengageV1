@@ -464,7 +464,7 @@ export default function Workpage() {
               marginBottom: "4rem"
             }}
           >
-            <VelocityEngine />
+            <VelocityEngine variant="work" />
           </div>
 
           {/* Filter Section */}

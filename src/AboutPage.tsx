@@ -598,9 +598,11 @@ export default function AboutPage() {
                         gap: "4rem",
                       }}
                     >
-                      <img
-                        src="/images/generative-brand-engine.png"
-                        alt="Generative Brand Engine"
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
                         style={{
                           width: "480px",
                           height: "320px",
@@ -609,7 +611,10 @@ export default function AboutPage() {
                           border: "1px solid rgba(137, 207, 240, 0.3)",
                           flexShrink: 0,
                         }}
-                      />
+                      >
+                        <source src="/videos/generative-brand-engine.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
                       <p
                         style={{
                           fontSize: "20px",

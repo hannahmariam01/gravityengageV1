@@ -1074,7 +1074,7 @@ export default function Index() {
         style={{
           position: "relative",
           minHeight: "100vh",
-          background: "#000000",
+          background: "#080412", // Solid theme dark base to prevent white flashes
         }}
       >
         <div
@@ -1090,8 +1090,7 @@ export default function Index() {
             backgroundRepeat: "no-repeat",
             backgroundAttachment: "fixed",
             opacity: scrollProgress < 0.25 ? 1 - (scrollProgress * 4) : 0,
-            visibility: scrollProgress > 0.3 ? "hidden" : "visible",
-            transition: "opacity 0.5s ease, visibility 0.5s ease",
+            transition: "opacity 0.5s ease",
           }}
         />
         <div
@@ -1101,10 +1100,8 @@ export default function Index() {
             zIndex: 2,
             background:
               scrollProgress < 0.2
-                ? `rgba(0, 0, 0, ${0.3 + scrollProgress * 0.4})`
-                : scrollProgress < 0.7
-                  ? `rgba(0, 0, 0, 0.7)`
-                  : `rgba(0, 0, 0, ${0.7 + (scrollProgress - 0.7) * 0.3})`,
+                ? `rgba(8, 4, 18, ${Math.min(1, 0.3 + scrollProgress * 6)})`
+                : "#080412", // Theme dark instead of pure black/white
             transition: "background 0.3s ease",
           }}
         />
@@ -1116,12 +1113,11 @@ export default function Index() {
             pointerEvents: "none",
             zIndex: 3,
             opacity:
-              scrollProgress < 0.2
+              scrollProgress < 0.15
                 ? 0.7
-                : Math.max(0, 0.7 - (scrollProgress - 0.2) * 5),
-            visibility: scrollProgress > 0.4 ? "hidden" : "visible",
+                : Math.max(0, 0.7 - (scrollProgress - 0.15) * 8),
             mixBlendMode: "screen",
-            transition: "opacity 0.4s ease, visibility 0.4s ease",
+            transition: "opacity 0.4s ease",
           }}
         />
         <canvas
@@ -1143,8 +1139,7 @@ export default function Index() {
             inset: 0,
             pointerEvents: "none",
             zIndex: 4,
-            opacity: scrollProgress < 0.3 ? 1 : Math.max(0, 1 - (scrollProgress - 0.3) * 10),
-            visibility: scrollProgress > 0.45 ? "hidden" : "visible",
+            opacity: scrollProgress < 0.2 ? 1 : Math.max(0, 1 - (scrollProgress - 0.2) * 10),
             transition: "opacity 0.3s ease",
           }}
         />
@@ -1399,9 +1394,10 @@ export default function Index() {
             justifyContent: "center",
             padding: "6rem 6rem 6rem 12rem", // Increased left padding from 9rem to 12rem
             position: "relative",
-            background:
-              "linear-gradient(135deg, #000000 0%, #0a0a15 50%, #000000 100%)",
+            background: "#080412",
             overflow: "hidden",
+            opacity: 1 - velocityProgress, // Simple fade like Screen 1
+            transition: "opacity 0.4s ease",
           }}
         >
           {/* Animated gradient orbs - More subtle opacity */}
@@ -2070,17 +2066,11 @@ export default function Index() {
           position: "relative",
           zIndex: 250,
           minHeight: "100vh",
-          background: "rgba(10, 5, 20, 1)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: velocityProgress > 0 ? 1 : 0,
-          transform: `translateY(${(1 - velocityProgress) * 50}px)`,
-          transition: "opacity 0.5s cubic-bezier(0.2, 0, 0, 1), transform 0.5s cubic-bezier(0.2, 0, 0, 1)",
-          padding: "10vh 0"
+          background: "#080412",
+          position: "relative",
         }}
       >
-        <VelocityEngine />
+        <VelocityEngine progress={velocityProgress} variant="home" />
       </div>
 
       <div
