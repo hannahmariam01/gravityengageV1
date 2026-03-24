@@ -2,52 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "./AdminContext";
 import VelocityEngine from "./VelocityEngine";
-import LensWorld from "./components/LensWorld";
-import Navbar from "./components/Navbar";
-
-const ProjectVideo = ({ src, isActive }) => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    let playPromise;
-    const video = videoRef.current;
-    if (video) {
-       if (isActive) {
-        playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {});
-        }
-      } else {
-        video.pause();
-      }
-    }
-    return () => {
-      if (video) {
-        video.pause();
-      }
-    };
-  }, [src, isActive]);
-
-  return (
-    <video
-      ref={videoRef}
-      src={src}
-      loop
-      muted
-      playsInline
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        opacity: 1,
-        transition: "opacity 0.6s ease",
-      }}
-    />
-  );
-};
-
 
 export default function Index() {
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -89,10 +43,8 @@ export default function Index() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [isHoveringNav, setIsHoveringNav] = useState(false);
   const [hoveredCardIdx, setHoveredCardIdx] = useState(null);
-  const [activeLens, setActiveLens] = useState(null);
-  const [hoveredLens, setHoveredLens] = useState(null);
+  const [gravityParticles, setGravityParticles] = useState([]);
   const waveCanvasRef = useRef(null);
-
   const waveCanvas2Ref = useRef(null);
   const [sliderPosition, setSliderPosition] = useState(0);
   const [formData, setFormData] = useState({
@@ -314,7 +266,7 @@ export default function Index() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const stars = Array.from({ length: 100 }, () => ({
+    const stars = Array.from({ length: 200 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * 2 + 0.5,
@@ -362,11 +314,6 @@ export default function Index() {
     };
 
     const animate = () => {
-      if (scrollProgress > 0.3) {
-        // Skip animation when not visible
-        animationFrame = requestAnimationFrame(animate);
-        return;
-      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const currentTime = Date.now() - startTime;
       stars.forEach((star) => {
@@ -407,10 +354,7 @@ export default function Index() {
     let imageLoaded = false;
 
     const animate = () => {
-      if (!imageLoaded || scrollProgress > 0.3) {
-        animationFrame = requestAnimationFrame(animate);
-        return;
-      }
+      if (!imageLoaded) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += 0.01;
       const waveX =
@@ -590,6 +534,45 @@ export default function Index() {
     return () => clearInterval(fadeInterval);
   }, []);
 
+  // Gravity particles effect
+  useEffect(() => {
+    if (showLanding) return;
+
+    const generateParticles = () => {
+      const particles = [];
+      const particleCount = 12;
+
+      for (let i = 0; i < particleCount; i++) {
+        const angle = (i / particleCount) * Math.PI * 2;
+        const distance = 100 + Math.random() * 50;
+        particles.push({
+          id: Date.now() + i,
+          angle,
+          distance,
+          baseDistance: distance,
+          speed: 0.01 + Math.random() * 0.01,
+          size: 3 + Math.random() * 4,
+          opacity: 0.3 + Math.random() * 0.4,
+        });
+      }
+      setGravityParticles(particles);
+    };
+
+    generateParticles();
+
+    const animateParticles = () => {
+      setGravityParticles((prev) =>
+        prev.map((p) => ({
+          ...p,
+          angle: p.angle + p.speed,
+          distance: p.baseDistance + Math.sin(p.angle * 3) * 20,
+        }))
+      );
+    };
+
+    const particleInterval = setInterval(animateParticles, 30);
+    return () => clearInterval(particleInterval);
+  }, [showLanding]);
 
   useEffect(() => {
     if (showLanding || !pipeCanvasRef.current) return;
@@ -1161,27 +1144,244 @@ export default function Index() {
           }}
         />
 
-        <Navbar activeLens={activeLens} setActiveLens={setActiveLens} />
-
+        <nav
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "1.5rem 3rem",
+            zIndex: 10001,
+            background: "rgba(0, 0, 0, 0.3)", // Subtle dark background
+            backdropFilter: "blur(10px)", // Blur effect
+          }}
+        >
+          <div>
+            <img
+              src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
+              alt="Gravity Engage"
+              style={{
+                height: "40px",
+                width: "auto",
+                transition: "transform 0.3s ease",
+              }}
+              onClick={handleLogoClick}
+              onMouseEnter={(e) => {
+                setIsHoveringNav(true);
+                e.currentTarget.style.transform = "scale(1.1)";
+              }}
+              onMouseLeave={(e) => {
+                setIsHoveringNav(false);
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            />
+          </div>
+          <div style={{ display: "flex", gap: "3rem" }}>
+            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
+              <button
+                key={item}
+                onClick={() => {
+                  if (item === "HOME") {
+                    navigate("/");
+                  } else if (item === "WORK") {
+                    navigate("/work");
+                  } else if (item === "PLAYGROUND") {
+                    navigate("/playground");
+                  } else if (item === "ABOUT") {
+                    navigate("/about");
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  setIsHoveringNav(true);
+                  e.currentTarget.style.color = "#89cff0";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                }}
+                onMouseLeave={(e) => {
+                  setIsHoveringNav(false);
+                  if (idx !== 0) e.currentTarget.style.color = "#ffffff";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+                style={{
+                  position: "relative",
+                  background: "transparent",
+                  border: "none",
+                  color: idx === 0 ? "#89cff0" : "#ffffff",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  letterSpacing: "0.1em",
+                  transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+                  padding: "8px 0",
+                }}
+              >
+                {item}
+                {idx === 0 && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: -8,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: "linear-gradient(90deg, #89cff0, #8b5cf6)",
+                      boxShadow: "0 0 10px rgba(236, 72, 153, 0.8)",
+                    }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </nav>
         <div
           ref={screen1Ref}
           style={{
             position: "relative",
             minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 6rem",
+            overflow: "hidden",
             zIndex: 100,
             opacity: screen1Progress,
             transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         >
-          <LensWorld
-            activeLens={activeLens}
-            setActiveLens={setActiveLens}
-            hoveredLens={hoveredLens}
-            setHoveredLens={setHoveredLens}
-            scrollRef={{ current: scrollProgress }}
+          <div
+            style={{
+              position: "absolute",
+              top: "20%",
+              left: "10%",
+              width: "500px",
+              height: "500px",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(137, 207, 240, 0.3) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 70%)",
+              filter: "blur(60px)",
+              animation: "float 8s ease-in-out infinite",
+              opacity: screen1Progress,
+            }}
           />
-        </div>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "10%",
+              right: "15%",
+              width: "400px",
+              height: "400px",
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(139, 92, 246, 0.2) 50%, transparent 70%)",
+              filter: "blur(60px)",
+              animation: "float 10s ease-in-out infinite reverse",
+              opacity: screen1Progress,
+            }}
+          />
 
+          <canvas
+            ref={waveCanvasRef}
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              zIndex: 10,
+              opacity: screen1Progress,
+            }}
+          />
+
+          <div
+            style={{
+              position: "relative",
+              zIndex: 200,
+              maxWidth: "900px",
+              textAlign: "center",
+              transform: `translateY(${(1 - screen1Progress) * 30}px)`,
+              opacity: screen1Progress,
+              transition: "all 0.5s ease",
+            }}
+          >
+            <div
+              style={{
+                width: "80px",
+                height: "3px",
+                background: "linear-gradient(90deg, #89cff0, #8b5cf6, #ec4899)",
+                margin: "0 auto 2rem",
+                boxShadow: "0 0 20px rgba(137, 207, 240, 0.8)",
+                animation: "expandContract 3s ease-in-out infinite",
+              }}
+            />
+
+            <h1
+              style={{
+                fontSize: "clamp(24px, 4vw, 52px)",
+                fontWeight: 300,
+                lineHeight: 1.2,
+                color: "#ffffff",
+                marginBottom: "2rem",
+                background:
+                  "linear-gradient(135deg, #ffffff 0%, #89cff0 50%, #8b5cf6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                textShadow: "0 0 30px rgba(137, 207, 240, 0.3)",
+              }}
+            >
+              We bridge the friction between
+              <br />
+              complex human needs and high-fidelity technology.
+            </h1>
+
+            <p
+              style={{
+                fontSize: "clamp(12px, 1.2vw, 16px)",
+                fontWeight: 300,
+                lineHeight: "1.8",
+                color: "rgba(255, 255, 255, 0.9)",
+                marginBottom: "3rem",
+                textShadow: "0 2px 20px rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              Gravity Engage is a strategic innovation partner at the intersection of systemic logic, immersive narrative, and human-centric orchestration.
+            </p>
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              bottom: "5%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "12px",
+              opacity: screen1Progress,
+            }}
+          >
+            <span
+              style={{
+                fontSize: "12px",
+                color: "rgba(255, 255, 255, 0.6)",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+              }}
+            >
+              Scroll to explore
+            </span>
+            <div
+              style={{
+                width: "2px",
+                height: "60px",
+                background:
+                  "linear-gradient(180deg, rgba(137, 207, 240, 0.8), transparent)",
+                animation: "scrollIndicator 2s ease-in-out infinite",
+              }}
+            />
+          </div>
+        </div>
       </div>
 
       <div ref={screen2Ref} style={{ position: "relative", zIndex: 200 }}>
@@ -1402,9 +1602,7 @@ export default function Index() {
 
           {/* Main heading */}
           <div
-            id="offerings"
             style={{
-
               width: "100%",
               marginBottom: "8rem",
               paddingLeft: 0,
@@ -1862,10 +2060,21 @@ export default function Index() {
         </div>
       </div>
 
+      <div
+        ref={velocityRef}
+        style={{
+          position: "relative",
+          zIndex: 250,
+          minHeight: "100vh",
+          background: "#080412",
+          position: "relative",
+        }}
+      >
+        <VelocityEngine progress={velocityProgress} variant="home" />
+      </div>
 
       <div
         ref={screen3Ref}
-        id="projects"
         style={{
           position: "relative",
           zIndex: 300,
@@ -2216,7 +2425,22 @@ export default function Index() {
                               : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
                         }}
                       >
-                        <ProjectVideo src={project.video} isActive={offset === 0} />
+                        <video
+                          src={project.video}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            opacity: 1,
+                            transition: "opacity 0.6s ease",
+                          }}
+                        />
                         <div
                           style={{
                             position: "absolute",
@@ -2395,7 +2619,6 @@ export default function Index() {
       >
         <div
           ref={contactRef}
-          id="contact"
           style={{
             maxWidth: "1400px",
             margin: "0 auto",

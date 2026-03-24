@@ -683,29 +683,26 @@ export default function AboutPage() {
                         gap: "4rem",
                       }}
                     >
-                      <div
+                      <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="metadata"
                         style={{
                           width: "480px",
                           height: "320px",
-                          background: "rgba(137, 207, 240, 0.15)",
-                          border: "1px solid rgba(137, 207, 240, 0.3)",
+                          objectFit: "cover",
                           borderRadius: "16px",
+                          border: "1px solid rgba(137, 207, 240, 0.3)",
                           flexShrink: 0,
-                          position: "relative",
-                          overflow: "hidden",
+                          backgroundColor: "rgba(0,0,0,0.5)" // Placeholder while it loads
                         }}
                       >
-                        <div
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            background:
-                              "linear-gradient(45deg, transparent, rgba(137, 207, 240, 0.1), transparent)",
-                            animation: "shimmer 3s infinite",
-                            animationDelay: "2s",
-                          }}
-                        />
-                      </div>
+                        <source src="/videos/interactive-strategy-orchestration.mov" type="video/mp4" />
+                        <source src="/videos/interactive-strategy-orchestration.mov" type="video/quicktime" />
+                        Your browser does not support the video tag.
+                      </video>
                       <p
                         style={{
                           fontSize: "20px",
