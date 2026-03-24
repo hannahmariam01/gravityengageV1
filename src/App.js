@@ -187,6 +187,17 @@ export default function Index() {
     return () => clearInterval(interval);
   }, []);
 
+  /* Automate the lens interaction to play as an animation (from original project) */
+  useEffect(() => {
+    const lensKeys = [null, 'build', 'understand', 'industry'];
+    let index = 0;
+    const interval = setInterval(() => {
+      index = (index + 1) % lensKeys.length;
+      setHoveredLens(lensKeys[index]);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -1490,17 +1501,8 @@ export default function Index() {
             {[
               {
                 title: "Accelerated Innovation &",
-                subtitle: "Synthetic Prototyping",
-                description: "Innovation at the speed of imagination",
-                problem:
-                  "Traditional R&D is too slow and too expensive for the 2026 market velocity.",
-                secretSauce: [
-                  "AI-Driven Fidelity: We use proprietary generative workflows to jump from concept to high-fidelity 'interventions' in days.",
-                  "Iterative Stress-Testing: We don't build 'moodboards'; we build functional simulations that allow you to 'live' in a product before it's engineered.",
-                ],
-                deliverables:
-                  "Functional AI-generated prototypes, interactive 'what-if' simulations, and technical roadmap specifications.",
-                roi: "Save millions in wasted development costs by validating technical and market viability before committing.",
+                subtitle: "Prototyping",
+                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • simulations, • technical roadmaps to validate ideas early",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle
@@ -1553,18 +1555,9 @@ export default function Index() {
                 ),
               },
               {
-                title: "Civic Infrastructure &",
-                subtitle: "Service Orchestration",
-                description: "Designing services that survive the real world",
-                problem:
-                  "Most digital solutions fail because they ignore the messy, non-linear offline processes required to achieve a real-world result.",
-                secretSauce: [
-                  "Full-Stack Service Design: We specialize in mapping high-density digital interfaces to the physical, bureaucratic, or logistical realities they must serve.",
-                  "Resilient UX: Our approach treats user error as a systemic risk, ensuring the solution holds up in high-stakes environments.",
-                ],
-                deliverables:
-                  "End-to-end Service Blueprints and WCAG-compliant, high-density digital portals.",
-                roi: "Operational Resilience. Drastic reduction in support overhead and manual processing errors, ensuring public trust and regulatory compliance.",
+                title: "Digital Product &",
+                subtitle: "System Design",
+                description: "End-to-end service including user research, experience and interface design and thorough development handoff and support to bring prototypes to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems and UI kits",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <path
@@ -1591,18 +1584,9 @@ export default function Index() {
                 ),
               },
               {
-                title: "Spatial Narrative &",
-                subtitle: "Immersive Worlds",
-                description: "Where imagination becomes a place you can feel",
-                problem:
-                  "Immersive media often feels like a fleeting gimmick, technically impressive but disconnected from the core purpose and brand logic.",
-                secretSauce: [
-                  "Mindful Immersion: We deploy spatial UI and immersive tech with precision, ensuring every interaction serves a strategic purpose rather than acting as visual noise.",
-                  "Cinematic Product Experience: We integrate the principles of immersive art and filmmaking to build high-fidelity environments that carry the emotional weight of a tangible reality.",
-                ],
-                deliverables:
-                  "Purpose-built 3D environments, immersive product narratives, and film-grade conceptual renders.",
-                roi: "Cultural Authority. We create meaningful experiences that move beyond the 'tech demo' to become industry benchmarks, securing deeper engagement and lasting brand equity.",
+                title: "Immersive Narratives &",
+                subtitle: "Experiences",
+                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• Purpose-built 3D environments • immersive product narratives, • high-fidelity visual assets for live events",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     {/* Axis lines */}
@@ -1676,17 +1660,8 @@ export default function Index() {
               },
               {
                 title: "Ecosystem Visualization &",
-                subtitle: "Digital Twins",
-                description: "Clarity at the scale of your ecosystem",
-                problem:
-                  "Executives are often blinded by the sheer scale of their own organizational or data complexity.",
-                secretSauce: [
-                  "Bespoke Illustration: We use custom illustration to make abstract data structures human-readable and navigable.",
-                  "Cognitive Mapping: We don't just 'show' data; we map the relationships between nodes to reveal hidden bottlenecks and opportunities.",
-                ],
-                deliverables:
-                  "Interactive 'System Command Centers' and high-fidelity illustrated ecosystem maps.",
-                roi: "Decisiveness. A reduction in stakeholder 'discovery time' and the ability to communicate complex pivots to a board in minutes, not hours.",
+                subtitle: "Digital Systems",
+                description: "We map data, workflows, and system relationships into clear visual structures, making dependencies, gaps, and opportunities easier to identify.\n\nOutcomes\n• Interactive infographics • visual dashboards",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle
@@ -1734,13 +1709,10 @@ export default function Index() {
 
               const shouldAnimate = screen2Progress > threshold;
               const isLeftColumn = idx % 2 === 0;
-              const isHovered = hoveredCardIdx === idx;
 
               return (
                 <div
                   key={idx}
-                  onMouseEnter={() => setHoveredCardIdx(idx)}
-                  onMouseLeave={() => setHoveredCardIdx(null)}
                   style={{
                     display: "flex",
                     gap: "1.5rem",
@@ -1754,10 +1726,10 @@ export default function Index() {
                     filter: `blur(${shouldAnimate ? 0 : 12}px)`,
                     transition: `all 1.4s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.1
                       }s, background-color 0.3s ease, padding 0.3s ease, border-radius 0.3s ease`,
-                    backgroundColor: isHovered ? "rgba(137, 207, 240, 0.05)" : "transparent",
-                    padding: isHovered ? "1.5rem" : "0",
+                    backgroundColor: "transparent",
+                    padding: "0",
                     borderRadius: "16px",
-                    cursor: item.problem ? "pointer" : "default",
+                    cursor: "default",
                   }}
                 >
                   <div
@@ -1806,54 +1778,12 @@ export default function Index() {
                         fontWeight: 300,
                         color: "rgba(255, 255, 255, 0.7)",
                         margin: 0,
-                        transition: "opacity 0.3s ease, height 0.3s ease, margin 0.3s ease",
-                        opacity: isHovered && item.problem ? 0 : 1,
-                        height: isHovered && item.problem ? 0 : "auto",
-                        overflow: "hidden",
+                        whiteSpace: "pre-line",
                       }}
                     >
                       {item.description}
                     </p>
 
-                    {/* Hover Content */}
-                    {item.problem && (
-                      <div
-                        style={{
-                          opacity: isHovered ? 1 : 0,
-                          height: isHovered ? "auto" : 0,
-                          overflow: "hidden",
-                          transition: "opacity 0.3s ease, height 0.3s ease",
-                          marginTop: isHovered ? "1rem" : 0,
-                        }}
-                      >
-                        <div style={{ marginBottom: "1rem" }}>
-                          <span style={{ color: "#89cff0", fontWeight: 600, marginRight: "0.5rem" }}>The Problem:</span>
-                          <span style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px" }}>{item.problem}</span>
-                        </div>
-
-                        <div style={{ marginBottom: "1rem" }}>
-                          <span style={{ color: "#8b5cf6", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>Our Secret Sauce:</span>
-                          <ul style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px", margin: 0, paddingLeft: "1.2rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            {item.secretSauce.map((point, i) => {
-                              const [title, desc] = point.split(": ");
-                              return (
-                                <li key={i}>
-                                  <strong style={{ color: "#ffffff" }}>{title}:</strong> {desc}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <span style={{ color: "#ec4899", fontWeight: 600, display: "block", marginBottom: "0.5rem" }}>Tangible Outcomes:</span>
-                          <div style={{ color: "rgba(255, 255, 255, 0.8)", fontSize: "14px", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            <div><strong style={{ color: "#ffffff" }}>Deliverables:</strong> {item.deliverables}</div>
-                            <div><strong style={{ color: "#ffffff" }}>ROI:</strong> {item.roi}</div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
               );

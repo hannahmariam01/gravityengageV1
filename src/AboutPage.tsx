@@ -632,48 +632,6 @@ export default function AboutPage() {
                       </p>
                     </div>
 
-                    {/* Outcome 2 */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4rem",
-                        justifyContent: "flex-end",
-                        textAlign: "right",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: "20px",
-                          lineHeight: "1.6",
-                          color: "rgba(255, 255, 255, 0.9)",
-                          maxWidth: "600px",
-                          fontWeight: 300,
-                        }}
-                      >
-                        <strong style={{ color: "#ffffff", fontWeight: 600 }}>
-                          Gamified Learning Architectures:
-                        </strong>{" "}
-                        A high-engagement educational module designed to turn
-                        abstract knowledge into an interactive, reward-based
-                        experience.
-                      </p>
-                      <video
-                        src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{
-                          width: "480px",
-                          height: "320px",
-                          objectFit: "cover",
-                          borderRadius: "16px",
-                          border: "1px solid rgba(137, 207, 240, 0.3)",
-                          flexShrink: 0,
-                        }}
-                      />
-                    </div>
 
                     {/* Outcome 3 */}
                     <div

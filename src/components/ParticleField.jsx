@@ -106,8 +106,8 @@ const ParticleField = ({ activeLens, scrollRef }) => {
   useFrame((state) => {
     const t = state.clock.getElapsedTime(), { mouse } = state, scroll = scrollRef?.current ?? 0;
     const mx = (mouse.x * viewport.width) / 2, my = (mouse.y * viewport.height) / 2;
-    const targetColor = activeLens ? LENS_COLORS[activeLens] : DEFAULT_COLOR;
-    const lerp = activeLens ? 0.05 : 0.018;
+    const targetColor = (activeLens && LENS_COLORS[activeLens]) ? LENS_COLORS[activeLens] : DEFAULT_COLOR;
+    const lerp = activeLens ? 0.045 : 0.012;
 
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3, ph = phaseArr[i];
@@ -115,7 +115,7 @@ const ParticleField = ({ activeLens, scrollRef }) => {
 
       if (activeLens === 'build') {
         const sx = targets.build[i3], sy = targets.build[i3 + 1], sz = targets.build[i3 + 2];
-        const rotY = t * 0.45;
+        const rotY = t * 0.15;
         const rotX = Math.PI * 0.2; // ~35deg X for isometric feel
 
         // Microwave rotation (Isometric Projection Approximation)
@@ -131,34 +131,36 @@ const ParticleField = ({ activeLens, scrollRef }) => {
       } else if (activeLens === 'understand') {
         const sx = targets.understand[i3], sy = targets.understand[i3 + 1], sz = targets.understand[i3 + 2];
         const dist = Math.sqrt(sx * sx + sy * sy + sz * sz);
-        const wave = Math.sin(dist * 0.85 - t * 4.2) * 0.55;
+        const wave = Math.sin(dist * 0.85 - t * 1.2) * 0.55;
         tx = (sx + sx / dist * wave); ty = (sy + sy / dist * wave); tz = (sz + sz / dist * wave);
       } else if (activeLens === 'industry') {
         const sx = targets.industry[i3], sy = targets.industry[i3 + 1], sz = targets.industry[i3 + 2];
         let bodyIdx = 0;
         if (i < 900) bodyIdx = 0; else if (i < 1400) bodyIdx = 1; else if (i < 2000) bodyIdx = 2; else if (i < 2600) bodyIdx = 3; else bodyIdx = 4;
         const b = [{ d: 0, s: 0 }, { d: 6.5, s: 1.1 }, { d: 10.5, s: 0.7 }, { d: 15, s: 0.45 }, { d: 19.5, s: 0.25 }][bodyIdx];
-        const rot = t * b.s;
+        const rot = t * b.s * 0.4;
         tx = Math.cos(rot) * b.d + sx; ty = sy; tz = Math.sin(rot) * b.d + sz;
       } else {
         // IDLE: Wave lower with cursor flux
-        tx = waveArr[i3] + Math.sin(t * 0.5 + ph) * 1.0;
-        ty = waveArr[i3 + 1] + Math.cos(t * 0.6 + ph) * 1.0;
-        tz = waveArr[i3 + 2] + Math.sin(t * 0.4 + ph) * 1.0;
+        tx = waveArr[i3] + Math.sin(t * 0.2 + ph) * 1.0;
+        ty = waveArr[i3 + 1] + Math.cos(t * 0.25 + ph) * 1.0;
+        tz = waveArr[i3 + 2] + Math.sin(t * 0.15 + ph) * 1.0;
       }
 
       // Apply cursor influence to all states
       const dx = mx - tx, dy = my - ty;
       const distSq = dx * dx + dy * dy;
-      if (distSq < 130) { // Large influence area
+      if (distSq < 250) { // Increased influence area
         const dist = Math.sqrt(distSq);
-        const force = (1 - dist / 11.5) * 0.75; // Strong visible attraction
+        const force = (1 - dist / 15.8) * 1.2; // Strengthened attraction
         tx += dx * force;
         ty += dy * force;
       }
 
       px += (tx - px) * lerp; py += (ty - py) * lerp; pz += (tz - pz) * lerp;
-      if (scroll > 0) { velArr[i3 + 1] -= scroll * 0.065; py += velArr[i3 + 1]; } else { velArr[i3 + 1] *= 0.88; }
+      // Apply a direct vertical offset based on scroll to make particles 'rise' slightly as you go down
+      const scrollY = scroll * 10.0;
+      py += scrollY; 
       posArr[i3] = px; posArr[i3 + 2] = pz; posArr[i3 + 1] = py;
       colArr[i3] += (targetColor[0] - colArr[i3]) * 0.04; colArr[i3 + 1] += (targetColor[1] - colArr[i3 + 1]) * 0.04; colArr[i3 + 2] += (targetColor[2] - colArr[i3 + 2]) * 0.04;
     }

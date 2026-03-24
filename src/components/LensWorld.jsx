@@ -217,15 +217,6 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.div 
-              className="prompt-eyebrow"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 1 }}
-            >
-              <img src="/logo.png" alt="Gravity Engage Logo" className="prompt-logo" />
-              Gravity Engage Studio
-            </motion.div>
             <motion.h1 
               className="prompt-headline"
               initial={{ opacity: 0, y: 30 }}
@@ -257,27 +248,6 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
           <NegativeSpaceInfo key={activeLens} lens={activeLens} />
         )}
       </AnimatePresence>
-
-      {/* ── INTEGRATED LENS NAV PANEL (TOP) ── */}
-      <div className="lens-nav-container">
-        <div className="lens-nav-prompt">Explore Our Lenses</div>
-        <div className="lens-integrated-panel">
-          <div className="panel-lens-icon"><Aperture size={18} strokeWidth={1} /></div>
-          <div className="lens-shapes-cluster">
-            {LENSES.map((l) => (
-              <LensShape
-                key={l.id}
-                lens={l}
-                hovered={hoveredLens}
-                active={activeLens}
-                onHover={handleHover}
-                onLeave={handleLeave}
-                onClick={handleClick}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
 
     </section>
   );
