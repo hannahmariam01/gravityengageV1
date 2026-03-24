@@ -699,8 +699,7 @@ export default function AboutPage() {
                           backgroundColor: "rgba(0,0,0,0.5)" // Placeholder while it loads
                         }}
                       >
-                        <source src="/videos/interactive-strategy-orchestration.mov" type="video/mp4" />
-                        <source src="/videos/interactive-strategy-orchestration.mov" type="video/quicktime" />
+                        <source src="https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4" type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                       <p
