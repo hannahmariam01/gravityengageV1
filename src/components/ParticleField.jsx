@@ -68,9 +68,9 @@ function buildSolarTargets() {
 }
 
 const LENS_COLORS = {
-  build: [0.23, 0.51, 0.96],
-  understand: [0.85, 0.27, 0.94],
-  industry: [0.06, 0.73, 0.51],
+  build: [0.54, 0.36, 0.96],
+  understand: [0.54, 0.36, 0.96],
+  industry: [0.54, 0.36, 0.96],
 };
 const DEFAULT_COLOR = [0.65, 0.68, 0.95];
 

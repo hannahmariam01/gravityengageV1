@@ -4,15 +4,15 @@ import { motion } from 'framer-motion';
 const ORB_SIZE = 340;
 
 const COLOR_MAP = {
-  build:      '59, 130, 246',
-  understand: '217, 70, 239',
-  industry:   '16, 185, 129',
+  build:      '139, 92, 246',
+  understand: '139, 92, 246',
+  industry:   '139, 92, 246',
 };
 
 const GLOW_MAP = {
-  build:      '#3B82F6',
-  understand: '#D946EF',
-  industry:   '#10B981',
+  build:      '#8b5cf6',
+  understand: '#8b5cf6',
+  industry:   '#8b5cf6',
 };
 
 // Placeholder video for cinematic interface interaction

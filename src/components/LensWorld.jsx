@@ -7,7 +7,7 @@ import CrystalOrb from './CrystalOrb';
 
 const LENS_DATA = {
   build: {
-    number: '01', label: 'Build', rgb: '59,130,246',
+    number: '01', label: 'Build', rgb: '139, 92, 246',
     headline: "Design systems built for scale.",
     subtext: "End-to-end design capabilities across product, brand, and experience.",
     categories: [
@@ -19,7 +19,7 @@ const LENS_DATA = {
     cta: "Start a project"
   },
   understand: {
-    number: '02', label: 'Understand', rgb: '217,70,239',
+    number: '02', label: 'Understand', rgb: '139, 92, 246',
     headline: "Structured thinking. Measurable outcomes.",
     subtext: "Our approach combines research, systems thinking, and iterative design.",
     categories: [
@@ -30,7 +30,7 @@ const LENS_DATA = {
     cta: "View work"
   },
   industry: {
-    number: '03', label: 'Industry', rgb: '16,185,129',
+    number: '03', label: 'Industry', rgb: '139, 92, 246',
     headline: "Context-driven design.",
     subtext: "We work across sectors with tailored design approaches.",
     categories: [
@@ -161,9 +161,9 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
       {/* ── Background layers ── */}
       {[
         { key: 'idle',       src: '/bg2@2x-100.jpg', filter: 'brightness(0.52)' },
-        { key: 'build',      src: '/bg1@2x-100.jpg', filter: 'brightness(0.52) hue-rotate(0deg)' },
-        { key: 'understand', src: '/bg2@2x-100.jpg', filter: 'brightness(0.60) hue-rotate(25deg)' },
-        { key: 'industry',   src: '/bg1@2x-100.jpg', filter: 'brightness(0.52) hue-rotate(115deg)' },
+        { key: 'build',      src: '/bg1@2x-100.jpg', filter: 'brightness(0.52)' },
+        { key: 'understand', src: '/bg2@2x-100.jpg', filter: 'brightness(0.52)' },
+        { key: 'industry',   src: '/bg1@2x-100.jpg', filter: 'brightness(0.52)' },
       ].map(({ key, src, filter }) => (
         <div
           key={key}

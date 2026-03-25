@@ -106,10 +106,11 @@ export default function Workpage() {
         video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
       },
       {
-        name: "Australian Health",
-        subtitle: "landscape",
+        name: "Eden Monaro",
+        subtitle: "",
         route: null,
-        video: "https://videos.pexels.com/video-files/3130284/3130284-uhd_2560_1440_30fps.mp4",
+        video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
+        blur: true,
       },
       {
         name: "APSC future",
@@ -904,6 +905,7 @@ export default function Workpage() {
                       transition: "transform 0.4s ease",
                       transform:
                         hoveredProject === idx ? "scale(1.05)" : "scale(1)",
+                      filter: project.blur ? "blur(2px)" : "none",
                     }}
                   />
 

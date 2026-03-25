@@ -457,6 +457,7 @@ h5 {
   -webkit-text-fill-color: transparent;
   font-style: italic;
   font-weight: 300;
+  padding-right: 0.1em;
 }
 
 .prompt-choose-container {
