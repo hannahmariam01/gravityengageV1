@@ -1465,54 +1465,7 @@ export default function Index() {
                 subtitle: "Prototyping",
                 description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • simulations • technical roadmaps",
                 icon: (
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle
-                      cx="24"
-                      cy="24"
-                      r="18"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M24 14 L24 34 M14 24 L34 24"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <circle
-                      cx="24"
-                      cy="14"
-                      r="2"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="24"
-                      cy="34"
-                      r="2"
-                      stroke="#8b5cf6"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="14"
-                      cy="24"
-                      r="2"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="34"
-                      cy="24"
-                      r="2"
-                      stroke="#8b5cf6"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                  </svg>
+                  <img src="/accelerated.svg" alt="Accelerated Innovation" style={{ width: 48, height: 48 }} />
                 ),
               },
               {
@@ -1520,28 +1473,7 @@ export default function Index() {
                 subtitle: "System Design",
                 description: "End-to-end service including user research, experience and interface design and thorough development handoff and support to bring prototypes to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems • UI kits",
                 icon: (
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <path
-                      d="M12 24 L24 12 L36 24 L24 36 Z"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="24"
-                      cy="24"
-                      r="6"
-                      stroke="#8b5cf6"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M24 18 L24 30 M18 24 L30 24"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 48, height: 48 }} />
                 ),
               },
               {
@@ -1549,74 +1481,7 @@ export default function Index() {
                 subtitle: "Experiences",
                 description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• 3D environments • immersive products • spatial visual assets",
                 icon: (
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    {/* Axis lines */}
-                    <line
-                      x1="10"
-                      y1="10"
-                      x2="10"
-                      y2="38"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="10"
-                      y1="38"
-                      x2="40"
-                      y2="38"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Three vertical lines (bars) */}
-                    <line
-                      x1="18"
-                      y1="28"
-                      x2="18"
-                      y2="38"
-                      stroke="#8b5cf6"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="26"
-                      y1="24"
-                      x2="26"
-                      y2="38"
-                      stroke="#89cff0"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="34"
-                      y1="18"
-                      x2="34"
-                      y2="38"
-                      stroke="#8b5cf6"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Curved arrow showing growth - positioned well above the lines */}
-                    <path
-                      d="M 12 28 L 18 20 L 26 14 L 36 8"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-
-                    {/* Larger, clearer arrow head */}
-                    <path
-                      d="M36 8 L30 10 L33 15 Z"
-                      fill="#89cff0"
-                      stroke="#89cff0"
-                      strokeWidth="1"
-                    />
-                  </svg>
+                  <img src="/immersive.svg" alt="Immersive Narratives" style={{ width: 48, height: 48 }} />
                 ),
               },
               {
@@ -1624,38 +1489,7 @@ export default function Index() {
                 subtitle: "Digital Systems",
                 description: "We map data, workflows, and system relationships into clear visual structures, making dependencies, gaps, and opportunities easier to identify.\n\nOutcomes\n• Interactive infographics • visual dashboards",
                 icon: (
-                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                    <circle
-                      cx="24"
-                      cy="18"
-                      r="6"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <path
-                      d="M14 32 C14 28 18 26 24 26 C30 26 34 28 34 32 L34 36 L14 36 Z"
-                      stroke="#8b5cf6"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="18"
-                      cy="24"
-                      r="3"
-                      stroke="#89cff0"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                    <circle
-                      cx="30"
-                      cy="24"
-                      r="3"
-                      stroke="#8b5cf6"
-                      strokeWidth="2"
-                      fill="none"
-                    />
-                  </svg>
+                  <img src="/ecosystem.svg" alt="Ecosystem" style={{ width: 48, height: 48 }} />
                 ),
               },
             ].map((item, idx) => {

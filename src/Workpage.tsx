@@ -458,14 +458,6 @@ export default function Workpage() {
             </div>
           </div>
 
-          <div
-            style={{
-              animation: "fadeInUp 0.8s ease-out 0.3s backwards",
-              marginBottom: "4rem"
-            }}
-          >
-            <VelocityEngine variant="work" />
-          </div>
 
           {/* Filter Section */}
           <div
