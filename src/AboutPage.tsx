@@ -112,8 +112,8 @@ export default function AboutPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body, html, #root { margin: 0; padding: 0; overflow-x: hidden; font-family: 'Poppins', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+        body, html, #root { margin: 0; padding: 0; overflow-x: hidden; font-family: 'Inter', sans-serif; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
@@ -238,9 +238,10 @@ export default function AboutPage() {
                   background: "transparent",
                   border: "none",
                   color: idx === 3 ? "#89cff0" : "#ffffff",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.1em",
+                   fontSize: "11px",
+                   fontWeight: "400",
+                   letterSpacing: "0.2em",
+                   fontFamily: "'Outfit', sans-serif",
                   transition: "all 0.3s ease",
                   padding: "8px 0",
                 }}

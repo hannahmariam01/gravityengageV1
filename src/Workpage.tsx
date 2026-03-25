@@ -183,14 +183,14 @@ export default function Workpage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
         
         body, html, #root {
           margin: 0;
           padding: 0;
           overflow: hidden !important;
           height: 100vh !important;
-          font-family: 'Poppins', sans-serif;
+          font-family: 'Inter', sans-serif;
         }
         
         @keyframes fadeInUp {
@@ -372,9 +372,10 @@ export default function Workpage() {
                   background: "transparent",
                   border: "none",
                   color: idx === 1 ? "#89cff0" : "#ffffff",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.1em",
+                  fontSize: "11px",
+                  fontWeight: "400",
+                  letterSpacing: "0.2em",
+                  fontFamily: "'Outfit', sans-serif",
                   transition: "all 0.3s ease",
                   padding: "8px 0",
                 }}
