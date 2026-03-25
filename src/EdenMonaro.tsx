@@ -28,6 +28,17 @@ export default function EdenMonaro() {
             transform: translateY(0);
           }
         }
+
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.1);
+            opacity: 1;
+          }
+        }
       `}</style>
 
       <div
@@ -36,8 +47,52 @@ export default function EdenMonaro() {
           inset: 0,
           background: "radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%)",
           zIndex: -1,
+          overflow: "hidden",
         }}
-      />
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "8%",
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(137, 207, 240, 0.4), transparent 60%)",
+            filter: "blur(90px)",
+            animation: "pulse 10s ease-in-out infinite",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "15%",
+            right: "10%",
+            width: "600px",
+            height: "600px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 60%)",
+            filter: "blur(100px)",
+            animation: "pulse 12s ease-in-out infinite",
+            animationDelay: "3s",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "400px",
+            height: "400px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%)",
+            filter: "blur(80px)",
+            animation: "pulse 8s ease-in-out infinite",
+            animationDelay: "1.5s",
+          }}
+        />
+      </div>
 
       <div
         style={{
