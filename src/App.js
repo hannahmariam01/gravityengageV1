@@ -1479,7 +1479,7 @@ export default function Index() {
               {
                 title: "Immersive Narratives &",
                 subtitle: "Experiences",
-                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• 3D environments • immersive products • spatial visual assets",
+                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• 3D environments • immersive narratives • spatial visual assets",
                 icon: (
                   <img src="/immersive.svg" alt="Immersive Narratives" style={{ width: 48, height: 48 }} />
                 ),
