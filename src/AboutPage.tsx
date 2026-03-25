@@ -587,34 +587,16 @@ export default function AboutPage() {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: "6rem",
+                      gap: "3rem",
                     }}
                   >
                     {/* Outcome 1 */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4rem",
-                      }}
-                    >
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{
-                          width: "480px",
-                          height: "320px",
-                          objectFit: "cover",
-                          borderRadius: "16px",
-                          border: "1px solid rgba(137, 207, 240, 0.3)",
-                          flexShrink: 0,
-                        }}
-                      >
-                        <source src="/videos/generative-brand-engine.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
+                    <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+                      <img
+                        src="/accelerated.svg"
+                        alt="Generative Brand Engine"
+                        style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
+                      />
                       <p
                         style={{
                           fontSize: "20px",
@@ -634,32 +616,12 @@ export default function AboutPage() {
 
 
                     {/* Outcome 3 */}
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4rem",
-                      }}
-                    >
-                      <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        preload="metadata"
-                        style={{
-                          width: "480px",
-                          height: "320px",
-                          objectFit: "cover",
-                          borderRadius: "16px",
-                          border: "1px solid rgba(137, 207, 240, 0.3)",
-                          flexShrink: 0,
-                          backgroundColor: "rgba(0,0,0,0.5)" // Placeholder while it loads
-                        }}
-                      >
-                        <source src="https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4" type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video>
+                    <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+                      <img
+                        src="/ecosystem.svg"
+                        alt="Interactive Strategy Orchestration"
+                        style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
+                      />
                       <p
                         style={{
                           fontSize: "20px",
