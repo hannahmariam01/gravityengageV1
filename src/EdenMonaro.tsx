@@ -2,21 +2,22 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function EdenMonaro() {
-  const navigate = useNavigate();
-  const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const navigate = useNavigate();
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body, html {
           margin: 0;
           padding: 0;
           font-family: 'Inter', sans-serif;
+          background: radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%);
+          overflow: hidden;
         }
-        
+
         @keyframes fadeInDown {
           from {
             opacity: 0;
@@ -27,143 +28,31 @@ export default function EdenMonaro() {
             transform: translateY(0);
           }
         }
-        
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        ::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.3);
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: rgba(137, 207, 240, 0.5);
-          border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: rgba(137, 207, 240, 0.7);
-        }
       `}</style>
 
       <div
         style={{
           position: "fixed",
           inset: 0,
-          overflow: "hidden",
-          backgroundColor: "#000",
+          background: "radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%)",
+          zIndex: -1,
+        }}
+      />
+
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        {/* Frosted Background Image */}
-        <div
-          style={{
-            position: "absolute",
-            inset: -50,
-            backgroundImage: "url('/edden monaro.png')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            filter: "blur(40px) brightness(0.4)",
-            zIndex: 1,
-          }}
-        />
-
-        {/* Navigation Bar */}
-        <nav
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "1.5rem 3rem",
-            zIndex: 10000,
-            background: "rgba(0, 0, 0, 0.6)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(137, 207, 240, 0.2)",
-            animation: "fadeInDown 0.8s ease-out",
-          }}
-        >
-          <img
-            src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
-            alt="Gravity Engage"
-            onClick={() => navigate("/")}
-            style={{ height: "40px", cursor: "pointer" }}
-          />
-
-          <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
-              <button
-                key={item}
-                onClick={() => {
-                  if (item === "HOME") {
-                    navigate("/");
-                  } else if (item === "WORK") {
-                    navigate("/work");
-                  } else if (item === "PLAYGROUND") {
-                    navigate("/playground");
-                  } else if (item === "ABOUT") {
-                    navigate("/about");
-                  }
-                }}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  background: "transparent",
-                  border: "none",
-                  color: idx === 1 ? "#89cff0" : "#ffffff",
-                  fontSize: "11px",
-                  fontWeight: "400",
-                  letterSpacing: "0.2em",
-                  fontFamily: "'Outfit', sans-serif",
-                  transition: "all 0.3s ease",
-                  padding: "8px 0",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#89cff0";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  if (idx !== 1) e.currentTarget.style.color = "#ffffff";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                {item}
-                {idx === 1 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: -8,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "linear-gradient(90deg, #89cff0, #8b5cf6)",
-                    }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-        </nav>
-
         {/* Back Button */}
         <button
           onClick={() => navigate("/work")}
           style={{
             position: "fixed",
-            top: "8rem",
+            top: "2rem",
             left: "3rem",
             zIndex: 10000,
             display: "flex",
@@ -204,142 +93,109 @@ export default function EdenMonaro() {
           Back to Projects
         </button>
 
-        {/* Main Content Area */}
+        {/* Top Section */}
         <div
-          ref={containerRef}
           style={{
             position: "relative",
-            height: "100vh",
-            padding: "12rem 4rem 4rem",
+            width: "100%",
+            height: "55vh",
+            overflow: "hidden",
             display: "flex",
-            zIndex: 100,
-            overflowY: "auto",
-            scrollBehavior: "smooth",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
+          {/* Frosted Background Image */}
           <div
             style={{
-              maxWidth: "1600px",
-              margin: "0 auto",
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: "1fr 1.5fr",
-              gap: "4rem",
-              alignItems: "center",
-              animation: "fadeInUp 1s ease-out",
+              position: "absolute",
+              inset: -20,
+              backgroundImage: "url('/edden monaro.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              filter: "blur(20px)",
+              opacity: 0.8,
+              zIndex: 1,
+            }}
+          />
+
+          {/* Centered Video */}
+          <video
+            ref={videoRef}
+            src="/Eden monaro.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: "relative",
+              zIndex: 2,
+              height: "100%",
+              width: "auto",
+              maxWidth: "100%",
+              objectFit: "contain",
+              boxShadow: "0px 0px 30px rgba(0,0,0,0.5)",
+            }}
+          />
+        </div>
+
+        {/* Bottom Section */}
+        <div
+          style={{
+            width: "100%",
+            height: "45vh",
+            background: "transparent",
+            color: "#fff",
+            padding: "2rem 4rem",
+            boxSizing: "border-box",
+            display: "flex",
+            flexDirection: "column",
+            overflowY: "auto",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "36px",
+              fontWeight: 400,
+              margin: "0 0 1.5rem 0",
+              letterSpacing: "0.02em",
             }}
           >
-            {/* Left Column: Text Content */}
-            <div style={{ color: "#fff" }}>
-              <h1
-                style={{
-                  fontSize: "clamp(36px, 4vw, 56px)",
-                  fontWeight: 400,
-                  marginBottom: "1.5rem",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Eden-Monaro
-              </h1>
-              
-              <p
-                style={{
-                  fontSize: "clamp(18px, 2vw, 22px)",
-                  lineHeight: 1.5,
-                  color: "rgba(255, 255, 255, 0.9)",
-                  marginBottom: "3rem",
-                  fontWeight: 300,
-                }}
-              >
-                Reframing Political Communication Through Interactive Storytelling
-              </p>
+            Eden-Monaro
+          </h1>
+          
+          <p
+            style={{
+              fontSize: "18px",
+              margin: "0 0 2rem 0",
+              fontWeight: 400,
+              color: "#e2e2e2",
+              lineHeight: 1.4,
+            }}
+          >
+            Reframing Political Communication Through Interactive<br />Storytelling
+          </p>
 
-              <div style={{ marginBottom: "2.5rem" }}>
-                <h3
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: 500,
-                    marginBottom: "1rem",
-                    color: "rgba(255, 255, 255, 0.8)",
-                  }}
-                >
-                  Context
-                </h3>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.7,
-                    color: "rgba(255, 255, 255, 0.6)",
-                    marginBottom: "1rem",
-                    fontWeight: 300,
-                  }}
-                >
-                  Campaign impact is often buried in fragmented updates and static
-                  reports—hard to navigate, harder to trust.
-                </p>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.7,
-                    color: "rgba(255, 255, 255, 0.6)",
-                    fontWeight: 300,
-                  }}
-                >
-                  Here, the challenge wasn't the work—it was how people
-                  experienced it.
-                </p>
-              </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem" }}>
+            <p style={{ margin: "0 0 0.5rem 0", fontSize: "16px", fontWeight: 400, color: "#e2e2e2" }}>
+              Context
+            </p>
+            <p style={{ margin: 0, fontSize: "16px", fontWeight: 400, color: "#e2e2e2", lineHeight: 1.4 }}>
+              Campaign impact is often buried in fragmented updates and static reports—hard to navigate,
+            </p>
+            <p style={{ margin: 0, fontSize: "16px", fontWeight: 400, color: "#e2e2e2", lineHeight: 1.4 }}>
+              harder to trust.
+            </p>
+            <p style={{ margin: "0 0 1rem 0", fontSize: "16px", fontWeight: 400, color: "#e2e2e2", lineHeight: 1.4 }}>
+              &nbsp;Here, the challenge wasn't the work—it was how people experienced it.
+            </p>
 
-              <div>
-                <h3
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: 500,
-                    marginBottom: "1rem",
-                    color: "rgba(255, 255, 255, 0.8)",
-                  }}
-                >
-                  The Challenge
-                </h3>
-                <p
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.7,
-                    color: "rgba(255, 255, 255, 0.6)",
-                    fontWeight: 300,
-                  }}
-                >
-                  Turn a scattered set of initiatives into a clear, engaging, and
-                  explorable narrative—one that allows people to intuitively understand value.
-                </p>
-              </div>
-            </div>
-
-            {/* Right Column: Video */}
-            <div
-              style={{
-                position: "relative",
-                borderRadius: "24px",
-                overflow: "hidden",
-                boxShadow: "0 25px 50px rgba(0,0,0,0.5)",
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <video
-                ref={videoRef}
-                src="/Eden monaro.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
+            <p style={{ margin: "0 0 0.5rem 0", fontSize: "16px", fontWeight: 400, color: "#e2e2e2" }}>
+              The Challenge
+            </p>
+            <p style={{ margin: 0, fontSize: "16px", fontWeight: 400, color: "#e2e2e2", lineHeight: 1.4 }}>
+              Turn a scattered set of initiatives into a clear, engaging, and explorable narrative—one that
+            </p>
           </div>
         </div>
       </div>

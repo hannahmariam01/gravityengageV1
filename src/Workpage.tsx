@@ -108,7 +108,7 @@ export default function Workpage() {
       {
         name: "Eden Monaro",
         subtitle: "",
-        route: null,
+        route: "/eden-monaro",
         video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
         blur: true,
       },
