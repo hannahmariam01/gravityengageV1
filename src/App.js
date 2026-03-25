@@ -1463,7 +1463,7 @@ export default function Index() {
               {
                 title: "Accelerated Innovation &",
                 subtitle: "Prototyping",
-                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • simulations, • technical roadmaps to validate ideas early",
+                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • simulations • technical roadmaps",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <circle
@@ -1518,7 +1518,7 @@ export default function Index() {
               {
                 title: "Digital Product &",
                 subtitle: "System Design",
-                description: "End-to-end service including user research, experience and interface design and thorough development handoff and support to bring prototypes to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems and UI kits",
+                description: "End-to-end service including user research, experience and interface design and thorough development handoff and support to bring prototypes to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems • UI kits",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     <path
@@ -1547,7 +1547,7 @@ export default function Index() {
               {
                 title: "Immersive Narratives &",
                 subtitle: "Experiences",
-                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• Purpose-built 3D environments • immersive product narratives, • high-fidelity visual assets for live events",
+                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• 3D environments • immersive products • spatial visual assets",
                 icon: (
                   <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
                     {/* Axis lines */}
@@ -1733,17 +1733,54 @@ export default function Index() {
                         {item.subtitle}
                       </h3>
                     )}
-                    <p
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 300,
-                        color: "rgba(255, 255, 255, 0.7)",
-                        margin: 0,
-                        whiteSpace: "pre-line",
-                      }}
-                    >
-                      {item.description}
-                    </p>
+                    {(() => {
+                      const descParts = item.description.split("\n\nOutcomes\n");
+                      const mainDesc = descParts[0];
+                      const outcomesString = descParts[1];
+                      let outcomesList = [];
+                      if (outcomesString) {
+                         outcomesList = outcomesString.split("•").map(s => s.trim()).filter(Boolean);
+                      }
+                      
+                      return (
+                        <>
+                          <p
+                            style={{
+                              fontSize: "16px",
+                              fontWeight: 300,
+                              color: "rgba(255, 255, 255, 0.7)",
+                              margin: 0,
+                              whiteSpace: "pre-line",
+                              marginBottom: outcomesList.length > 0 ? "1.5rem" : 0,
+                            }}
+                          >
+                            {mainDesc}
+                          </p>
+                          {outcomesList.length > 0 && (
+                            <div>
+                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                                {outcomesList.map((outcome, i) => (
+                                  <span
+                                    key={i}
+                                    style={{
+                                      backgroundColor: "rgba(137, 207, 240, 0.15)",
+                                      border: "1px solid rgba(137, 207, 240, 0.3)",
+                                      color: "#89cff0",
+                                      padding: "0.35rem 0.85rem",
+                                      borderRadius: "9999px",
+                                      fontSize: "13px",
+                                      fontWeight: 400,
+                                    }}
+                                  >
+                                    {outcome.replace(/,$/, '')}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
 
                   </div>
                 </div>
