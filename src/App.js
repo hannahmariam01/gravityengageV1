@@ -1133,45 +1133,6 @@ export default function Index() {
             transition: "background 0.3s ease",
           }}
         />
-        <canvas
-          ref={meshCanvasRef}
-          style={{
-            position: "fixed",
-            inset: 0,
-            pointerEvents: "none",
-            zIndex: 3,
-            opacity:
-              scrollProgress < 0.15
-                ? 0.7
-                : Math.max(0, 0.7 - (scrollProgress - 0.15) * 8),
-            mixBlendMode: "screen",
-            transition: "opacity 0.4s ease",
-          }}
-        />
-        <canvas
-          ref={pipeCanvasRef}
-          style={{
-            position: "fixed",
-            inset: 0,
-            pointerEvents: "none",
-            zIndex: 5,
-            opacity: scrollProgress > 0.2 ? 0.6 : 0,
-            transition: "opacity 0.5s ease",
-            mixBlendMode: "screen",
-          }}
-        />
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "fixed",
-            inset: 0,
-            pointerEvents: "none",
-            zIndex: 4,
-            opacity: scrollProgress < 0.2 ? 1 : Math.max(0, 1 - (scrollProgress - 0.2) * 10),
-            transition: "opacity 0.3s ease",
-          }}
-        />
-
         <Navbar activeLens={activeLens} setActiveLens={setActiveLens} />
 
         <div
