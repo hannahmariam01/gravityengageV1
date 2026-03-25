@@ -113,10 +113,10 @@ export default function Workpage() {
         blur: true,
       },
       {
-        name: "APSC future",
-        subtitle: "of work",
+        name: "DOH Visualisation",
+        subtitle: "",
         route: null,
-        video: "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4",
+        video: "/DOH project card.mp4",
       },
       {
         name: "Australian",
