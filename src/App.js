@@ -212,7 +212,7 @@ export default function Index() {
       const scrollHeight =
         document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = window.scrollY;
-      const progress = Math.min(scrolled / scrollHeight, 1);
+      const progress = scrollHeight > 0 ? Math.max(0, Math.min(scrolled / scrollHeight, 1)) : 0;
       setScrollProgress(progress);
 
       if (screen1Ref.current) {
@@ -1463,7 +1463,7 @@ export default function Index() {
               {
                 title: "Accelerated Innovation &",
                 subtitle: "Prototyping",
-                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • simulations • technical roadmaps",
+                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • technical roadmaps",
                 icon: (
                   <img src="/accelerated.svg" alt="Accelerated Innovation" style={{ width: 48, height: 48 }} />
                 ),
@@ -1471,7 +1471,7 @@ export default function Index() {
               {
                 title: "Digital Product &",
                 subtitle: "System Design",
-                description: "End-to-end service including user research, experience and interface design and thorough development handoff and support to bring prototypes to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems • UI kits",
+                description: "User research, experience and interface design and thorough development handoff to bring concepts to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems • UI kits",
                 icon: (
                   <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 48, height: 48 }} />
                 ),

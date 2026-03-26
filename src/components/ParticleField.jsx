@@ -8,7 +8,7 @@ const COUNT = 3200;
 function buildCubeTargets() {
   const arr = new Float32Array(COUNT * 3);
   const side = 14;
-  const step = 0.72;
+  const step = 1.05; // Increased step size to physically expand the cube geometry
   let idx = 0;
   for (let x = 0; x < side; x++) {
     for (let y = 0; y < side; y++) {
@@ -78,11 +78,32 @@ const ParticleField = ({ activeLens, scrollRef }) => {
   const { viewport } = useThree();
   const pointsRef = useRef();
 
-  const posArr = useMemo(() => new Float32Array(COUNT * 3), []);
-  const colArr = useMemo(() => new Float32Array(COUNT * 3), []);
-  const waveArr = useMemo(() => new Float32Array(COUNT * 3), []);
-  const velArr = useMemo(() => new Float32Array(COUNT * 3), []);
-  const phaseArr = useMemo(() => new Float32Array(COUNT), []);
+  const { posArr, colArr, waveArr, phaseArr } = useMemo(() => {
+    const pos = new Float32Array(COUNT * 3);
+    const col = new Float32Array(COUNT * 3);
+    const wav = new Float32Array(COUNT * 3);
+    const pha = new Float32Array(COUNT);
+    
+    for (let i = 0; i < COUNT; i++) {
+        const t = i / COUNT;
+        const x = (t * 2 - 1) * 26;
+        const y = Math.sin(t * Math.PI * 1.8) * 4.5 - 2.5; 
+        wav[i * 3] = x; 
+        wav[i * 3 + 1] = y; 
+        wav[i * 3 + 2] = (Math.random() - 0.5) * 12;
+        
+        pos[i * 3] = wav[i * 3]; 
+        pos[i * 3 + 1] = Math.max(-999, Math.min(999, wav[i * 3 + 1])); // Prevent NaN corruption
+        pos[i * 3 + 2] = wav[i * 3 + 2];
+        
+        col[i * 3] = DEFAULT_COLOR[0]; 
+        col[i * 3 + 1] = DEFAULT_COLOR[1]; 
+        col[i * 3 + 2] = DEFAULT_COLOR[2];
+        
+        pha[i] = Math.random() * Math.PI * 2;
+    }
+    return { posArr: pos, colArr: col, waveArr: wav, phaseArr: pha };
+  }, []);
 
   const targets = useMemo(() => ({
     build: buildCubeTargets(),
@@ -90,40 +111,31 @@ const ParticleField = ({ activeLens, scrollRef }) => {
     industry: buildSolarTargets()
   }), []);
 
-  useEffect(() => {
-    for (let i = 0; i < COUNT; i++) {
-      const t = i / COUNT;
-      // Stable wave base below center
-      const x = (t * 2 - 1) * 26;
-      const y = Math.sin(t * Math.PI * 1.8) * 4.5 - 2.5; // Offset lower
-      waveArr[i * 3] = x; waveArr[i * 3 + 1] = y; waveArr[i * 3 + 2] = (Math.random() - 0.5) * 12;
-      posArr[i * 3] = waveArr[i * 3]; posArr[i * 3 + 1] = waveArr[i * 3 + 1]; posArr[i * 3 + 2] = waveArr[i * 3 + 2];
-      colArr[i * 3] = DEFAULT_COLOR[0]; colArr[i * 3 + 1] = DEFAULT_COLOR[1]; colArr[i * 3 + 2] = DEFAULT_COLOR[2];
-      phaseArr[i] = Math.random() * Math.PI * 2;
-    }
-  }, []);
-
   useFrame((state) => {
-    const t = state.clock.getElapsedTime(), { mouse } = state, scroll = scrollRef?.current ?? 0;
+    if (!pointsRef.current) return;
+    const positions = pointsRef.current.geometry.attributes.position.array;
+    const colors = pointsRef.current.geometry.attributes.color.array;
+
+    const t = state.clock.getElapsedTime();
+    const { mouse } = state;
+    const scroll = scrollRef?.current && !isNaN(scrollRef.current) ? scrollRef.current : 0;
     const mx = (mouse.x * viewport.width) / 2, my = (mouse.y * viewport.height) / 2;
     const targetColor = (activeLens && LENS_COLORS[activeLens]) ? LENS_COLORS[activeLens] : DEFAULT_COLOR;
-    const lerp = activeLens ? 0.045 : 0.012;
+    const lerpSpeed = activeLens ? 0.045 : 0.012;
 
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3, ph = phaseArr[i];
-      let px = posArr[i3], py = posArr[i3 + 1], pz = posArr[i3 + 2], tx, ty, tz;
+      let px = positions[i3], py = positions[i3 + 1], pz = positions[i3 + 2], tx, ty, tz;
 
       if (activeLens === 'build') {
         const sx = targets.build[i3], sy = targets.build[i3 + 1], sz = targets.build[i3 + 2];
         const rotY = t * 0.15;
-        const rotX = Math.PI * 0.2; // ~35deg X for isometric feel
+        const rotX = Math.PI * 0.2; 
 
-        // Microwave rotation (Isometric Projection Approximation)
         let rx = sx * Math.cos(rotY) - sz * Math.sin(rotY);
         let rz = sx * Math.sin(rotY) + sz * Math.cos(rotY);
         let ry = sy;
 
-        // Apply X tilt
         tx = rx;
         ty = ry * Math.cos(rotX) - rz * Math.sin(rotX);
         tz = ry * Math.sin(rotX) + rz * Math.cos(rotX);
@@ -134,45 +146,56 @@ const ParticleField = ({ activeLens, scrollRef }) => {
         const wave = Math.sin(dist * 0.85 - t * 1.2) * 0.55;
         tx = (sx + sx / dist * wave); ty = (sy + sy / dist * wave); tz = (sz + sz / dist * wave);
       } else if (activeLens === 'industry') {
-        const sx = targets.industry[i3], sy = targets.industry[i3 + 1], sz = targets.industry[i3 + 2];
-        let bodyIdx = 0;
-        if (i < 900) bodyIdx = 0; else if (i < 1400) bodyIdx = 1; else if (i < 2000) bodyIdx = 2; else if (i < 2600) bodyIdx = 3; else bodyIdx = 4;
-        const b = [{ d: 0, s: 0 }, { d: 6.5, s: 1.1 }, { d: 10.5, s: 0.7 }, { d: 15, s: 0.45 }, { d: 19.5, s: 0.25 }][bodyIdx];
-        const rot = t * b.s * 0.4;
-        tx = Math.cos(rot) * b.d + sx; ty = sy; tz = Math.sin(rot) * b.d + sz;
+        // Engaging 3D Swirling Energy Wave
+        const x = waveArr[i3]; 
+        
+        const spiralSpeed = 1.8;
+        const waveSpeed = 1.0;
+        
+        // Central wave backbone
+        const mainWave = Math.sin(x * 0.15 - t * waveSpeed) * 4.5;
+        
+        // Dynamic orbiting radius
+        const swirlRadius = 2.5 + Math.sin(i * 0.02 + t) * 1.5;
+        const swirlAngle = x * 0.25 + t * spiralSpeed + ph;
+        
+        tx = x + Math.cos(t * 0.5 + ph) * 0.8;
+        ty = mainWave + Math.cos(swirlAngle) * swirlRadius;
+        tz = Math.sin(swirlAngle) * swirlRadius;
       } else {
-        // IDLE: Wave lower with cursor flux
         tx = waveArr[i3] + Math.sin(t * 0.2 + ph) * 1.0;
         ty = waveArr[i3 + 1] + Math.cos(t * 0.25 + ph) * 1.0;
         tz = waveArr[i3 + 2] + Math.sin(t * 0.15 + ph) * 1.0;
       }
 
-      // Apply cursor influence to all states
       const dx = mx - tx, dy = my - ty;
       const distSq = dx * dx + dy * dy;
-      if (distSq < 250) { // Increased influence area
+      if (distSq < 250) { 
         const dist = Math.sqrt(distSq);
-        const force = (1 - dist / 15.8) * 1.2; // Strengthened attraction
+        const force = (1 - dist / 15.8) * 1.2; 
         tx += dx * force;
         ty += dy * force;
       }
 
-      px += (tx - px) * lerp; py += (ty - py) * lerp; pz += (tz - pz) * lerp;
-      // Apply a direct vertical offset based on scroll to make particles 'rise' slightly as you go down
-      const scrollY = scroll * 10.0;
-      py += scrollY; 
-      posArr[i3] = px; posArr[i3 + 2] = pz; posArr[i3 + 1] = py;
-      colArr[i3] += (targetColor[0] - colArr[i3]) * 0.04; colArr[i3 + 1] += (targetColor[1] - colArr[i3 + 1]) * 0.04; colArr[i3 + 2] += (targetColor[2] - colArr[i3 + 2]) * 0.04;
+      // Add scroll offset perfectly mathematically to the target so transitioning interpolation is natively stable
+      ty += scroll * 10.0;
+
+      px += (tx - px) * lerpSpeed; py += (ty - py) * lerpSpeed; pz += (tz - pz) * lerpSpeed;
+      
+      positions[i3] = px; positions[i3 + 2] = pz; positions[i3 + 1] = py;
+      colors[i3] += (targetColor[0] - colors[i3]) * 0.04; 
+      colors[i3 + 1] += (targetColor[1] - colors[i3 + 1]) * 0.04; 
+      colors[i3 + 2] += (targetColor[2] - colors[i3 + 2]) * 0.04;
     }
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
     pointsRef.current.geometry.attributes.color.needsUpdate = true;
   });
 
   return (
-    <points ref={pointsRef}>
+    <points ref={pointsRef} frustumCulled={false}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={COUNT} array={posArr} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={COUNT} array={colArr} itemSize={3} />
+        <bufferAttribute attach="attributes-position" count={COUNT} array={posArr} itemSize={3} usage={THREE.DynamicDrawUsage} />
+        <bufferAttribute attach="attributes-color" count={COUNT} array={colArr} itemSize={3} usage={THREE.DynamicDrawUsage} />
       </bufferGeometry>
       <pointsMaterial size={0.08} vertexColors transparent opacity={0.9} blending={THREE.AdditiveBlending} depthWrite={false} />
     </points>

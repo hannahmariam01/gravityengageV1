@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { Box, Zap, Globe, MousePointer2, Aperture } from 'lucide-react';
@@ -130,6 +130,13 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
   const [cursorPos, setCursorPos] = useState({ x: -999, y: -999 });
   const sectionRef = useRef();
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
   const bgState = activeLens || hoveredLens || 'idle';
 
   const handleMouseMove = useCallback((e) => {
@@ -193,17 +200,19 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
       />
 
       {/* ── Three.js Canvas ── */}
-      <div className="lens-canvas">
-        <Canvas
-          camera={{ position: [0, 0, 22], fov: 38 }}
-          gl={{ antialias: false, alpha: true }}
-          style={{ background: 'transparent' }}
-        >
-          <ParticleField
-            activeLens={activeLens || hoveredLens}
-            scrollRef={scrollRef}
-          />
-        </Canvas>
+      <div className="lens-canvas" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+        {mounted && (
+          <Canvas
+            camera={{ position: [0, 0, 22], fov: 38 }}
+            gl={{ antialias: false, alpha: true }}
+            style={{ background: 'transparent' }}
+          >
+            <ParticleField
+              activeLens={activeLens || hoveredLens}
+              scrollRef={scrollRef}
+            />
+          </Canvas>
+        )}
       </div>
 
       {/* ── IDLE & HOVERED: central prompt ── */}
@@ -214,17 +223,17 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
             className="central-prompt"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)', transition: { duration: 0.2 } }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.h1 
               className="prompt-headline"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               {hoveredLens === null ? (
-                <>Welcome to Engage</>
+                <span style={{ fontSize: '1.2em' }}>Welcome to Engage</span>
               ) : (
                 <>
                   We bridge the friction between<br />
