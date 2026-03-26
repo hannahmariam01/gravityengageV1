@@ -97,44 +97,45 @@ export default function Workpage() {
   const [logoClicks, setLogoClicks] = useState(0);
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("work_projects_v6");
+    const saved = localStorage.getItem("work_projects");
     return saved ? JSON.parse(saved) : [
       {
-        name: "Health Landscape Visualisation",
-        subtitle: "",
-        route: null,
-        video: "/doh 2.mp4",
-      },
-      {
-        name: "ADPM UI Revamp",
-        subtitle: "",
-        route: "/ad-cognitive",
-        video: "/ADPM 2.mp4",
+        name: "AD cognitive",
+        subtitle: "smart city",
+        route: "/adpm-revamp",
+        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
       },
       {
         name: "Eden Monaro",
         subtitle: "",
         route: "/eden-monaro",
-        video: "/EDEN MONARO.mp4",
+        video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
         blur: true,
+      },
+      {
+        name: "DOH Visualisation",
+        subtitle: "",
+        route: "/doh-visualisation",
+        video: "/doh.mp4",
+        scale: 1.35,
       },
       {
         name: "ECAS Transformation",
         subtitle: "",
-        route: "/ecas-transformation",
-        video: "/ECAS.mp4",
+        route: null,
+        video: "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
       },
       {
         name: "VFS Global:",
         subtitle: "VFS Insight",
         route: null,
-        video: "/VFS Insight - Hype reel.mp4",
+        video: "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
       },
       {
         name: "Excellence Awards",
         subtitle: "",
         route: null,
-        video: "/ADEO_ExcellenceAward_v07.mp4",
+        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
       },
     ];
   });
@@ -166,7 +167,7 @@ export default function Workpage() {
     const newProjects = [...projects];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setProjects(newProjects);
-    localStorage.setItem("work_projects_v6", JSON.stringify(newProjects));
+    localStorage.setItem("work_projects", JSON.stringify(newProjects));
   };
 
   const clearAllFilters = () => {
@@ -346,13 +347,13 @@ export default function Workpage() {
           }}
         >
           <img
-            src="/New logo.svg"
+            src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
             alt="Gravity Engage"
-            style={{ height: "28px", cursor: "pointer" }}
+            style={{ height: "40px", cursor: "pointer" }}
             onClick={handleLogoClick}
           />
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -360,8 +361,8 @@ export default function Workpage() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
-                  } else if (item === "EXPERIMENTS") {
-                    navigate("/experiments");
+                  } else if (item === "PLAYGROUND") {
+                    navigate("/playground");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }
@@ -833,7 +834,7 @@ export default function Workpage() {
               if (isDataVis || isVisualDesign) {
                 if (
                   project.name !== "Eden Monaro" &&
-                  project.name !== "Health Landscape Visualisation"
+                  project.name !== "DOH Visualisation"
                 ) {
                   return null;
                 }
@@ -843,7 +844,7 @@ export default function Workpage() {
               const isGov = selectedIndustries.includes("Government");
 
               if (isHealth || isGov) {
-                const isValidHealth = isHealth && project.name === "Health Landscape Visualisation";
+                const isValidHealth = isHealth && project.name === "DOH Visualisation";
                 const isValidGov = isGov && project.name === "Eden Monaro";
                 if (!isValidHealth && !isValidGov) {
                   return null;
@@ -855,7 +856,7 @@ export default function Workpage() {
                 style={{
                   width: "100%",
                   height: 0,
-                  paddingBottom: "56.25%",
+                  paddingBottom: "66.67%",
                   position: "relative",
                 }}
               >
@@ -880,7 +881,7 @@ export default function Workpage() {
                     alignItems: "center",
                     justifyContent: "center",
                     background: "rgba(10, 5, 20, 0.6)",
-                    backdropFilter: "blur(12px)",
+                    backdropFilter: "blur(10px)",
                     cursor: project.route ? "pointer" : "default",
                     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                     overflow: "hidden",
@@ -888,7 +889,6 @@ export default function Workpage() {
                       hoveredProject === idx
                         ? "0 25px 50px rgba(137, 207, 240, 0.4), 0 0 60px rgba(139, 92, 246, 0.3)"
                         : "0 10px 30px rgba(0, 0, 0, 0.3)",
-                    opacity: 1,
                   }}
                 >
                   {isAdmin && (
@@ -931,7 +931,7 @@ export default function Workpage() {
                       transform: hoveredProject === idx 
                         ? (project.scale ? `scale(${project.scale + 0.05})` : "scale(1.05)") 
                         : (project.scale ? `scale(${project.scale})` : "scale(1)"),
-                      filter: "blur(1px)",
+                      filter: project.blur ? "blur(2px)" : "none",
                     }}
                   />
 
@@ -941,7 +941,7 @@ export default function Workpage() {
                       position: "absolute",
                       inset: 0,
                       background:
-                        "linear-gradient(135deg, rgba(10, 5, 20, 0.2), rgba(25, 10, 50, 0.3))",
+                        "linear-gradient(135deg, rgba(10, 5, 20, 0.7), rgba(25, 10, 50, 0.8))",
                       transition: "opacity 0.4s ease",
                     }}
                   />
@@ -970,8 +970,8 @@ export default function Workpage() {
                     <div
                       style={{
                         fontSize: "12px",
-                        fontWeight: 700,
-                        color: "#4f46e5",
+                        fontWeight: 500,
+                        color: "#89cff0",
                         letterSpacing: "0.2em",
                         marginBottom: "1rem",
                         textTransform: "uppercase",
