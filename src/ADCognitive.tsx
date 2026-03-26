@@ -150,6 +150,18 @@ export default function ADCognitive() {
 
   const currentStageData = stages[currentStage];
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Playback was interrupted or blocked
+        });
+      }
+    }
+  }, []);
+
   return (
     <>
       <style>{`
@@ -806,7 +818,6 @@ export default function ADCognitive() {
                   <video
                     ref={videoRef}
                     src={screenRecordingUrl}
-                    autoPlay
                     loop
                     muted
                     playsInline
