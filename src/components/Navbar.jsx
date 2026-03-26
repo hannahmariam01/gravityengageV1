@@ -34,7 +34,7 @@ const Navbar = ({ activeLens, setActiveLens }) => {
       <div className="navbar-links">
         <a href="/" className="navbar-link" onClick={(e) => handleNavClick(e, '/')}>HOME</a>
         <a href="/work" className="navbar-link" onClick={(e) => handleNavClick(e, '/work')}>WORK</a>
-        <a href="/playground" className="navbar-link" onClick={(e) => handleNavClick(e, '/playground')}>PLAYGROUND</a>
+        <a href="/experiments" className="navbar-link" onClick={(e) => handleNavClick(e, '/experiments')}>EXPERIMENTS</a>
         <a href="/about" className="navbar-link" onClick={(e) => handleNavClick(e, '/about')}>ABOUT</a>
       </div>
     </nav>

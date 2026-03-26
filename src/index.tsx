@@ -7,7 +7,7 @@ import App from "./App";
 import Workpage from "./Workpage";
 import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
-import PlaygroundPage from "./PlaygroundPage";
+import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
 import { AdminProvider } from "./AdminContext";
 
@@ -25,7 +25,7 @@ root.render(
           <Route path="/ad-cognitive" element={<ADCognitive />} />
           <Route path="/eden-monaro" element={<EdenMonaro />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/experiments" element={<ExperimentsPage />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>

@@ -308,7 +308,7 @@ export default function ADCognitive() {
           />
 
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -316,8 +316,8 @@ export default function ADCognitive() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
-                  } else if (item === "PLAYGROUND") {
-                    navigate("/playground");
+                  } else if (item === "EXPERIMENTS") {
+                    navigate("/experiments");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }

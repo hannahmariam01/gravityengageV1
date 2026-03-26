@@ -242,7 +242,7 @@ export default function AboutPage() {
             onClick={() => navigate("/")}
           />
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -250,8 +250,8 @@ export default function AboutPage() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
-                  } else if (item === "PLAYGROUND") {
-                    navigate("/playground");
+                  } else if (item === "EXPERIMENTS") {
+                    navigate("/experiments");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }
