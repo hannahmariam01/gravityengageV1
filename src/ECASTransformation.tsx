@@ -149,35 +149,43 @@ export default function ECASTransformation() {
           style={{
             position: "relative",
             width: "100%",
-            height: "80vh",
+            height: "55vh",
             display: "flex",
             alignItems: "center",
             boxSizing: "border-box",
             background: "#ffffff",
             overflow: "hidden",
+            borderBottom: "1px solid rgba(0,0,0,0.05)",
           }}
         >
-          {/* Background Decorative Gradient */}
+          {/* Background Branding for Title Area */}
           <div
             style={{
               position: "absolute",
-              inset: 0,
-              background: "linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%)",
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: "50%",
+              backgroundImage: "url('/ECAS BG.jpg')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               zIndex: 0,
+              opacity: 1,
             }}
           />
           
           <div style={{ flex: 1, zIndex: 1, padding: "0 5%" }}>
             <h1
               style={{
-                fontSize: "clamp(48px, 6vw, 84px)",
-                fontWeight: 500,
-                color: "#5c52d2",
+                fontSize: "clamp(32px, 4vw, 56px)",
+                fontWeight: 600,
+                color: "#4f46e5",
                 lineHeight: 1.1,
                 margin: 0,
-                letterSpacing: "-0.02em",
+                letterSpacing: "-0.01em",
                 opacity: 0,
                 animation: "fadeIn 1s ease-out forwards",
+                textShadow: "0 2px 10px rgba(255,255,255,0.8)",
               }}
             >
               Executive Council<br />
