@@ -532,9 +532,6 @@ export default function AboutPage() {
                 </div>
               </div>
 
-<<<<<<< HEAD
-
-=======
               {/* Our Approach Section */}
               <div
                 style={{
@@ -635,8 +632,6 @@ export default function AboutPage() {
                   ))}
                 </div>
               </div>
-
->>>>>>> 0484dd3 (ADPM card)
             </div>
           </div>
           {/* Footer Section */}
