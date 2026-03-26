@@ -131,7 +131,7 @@ export default function Index() {
       name: "ECAS Transformation",
       subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
-      video: "/ECAS.mov",
+      video: "/ECAS.mp4",
     },
     {
       name: "VFS Global:",

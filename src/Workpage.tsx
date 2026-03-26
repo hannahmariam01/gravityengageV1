@@ -97,7 +97,7 @@ export default function Workpage() {
   const [logoClicks, setLogoClicks] = useState(0);
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("work_projects_v4");
+    const saved = localStorage.getItem("work_projects_v5");
     return saved ? JSON.parse(saved) : [
       {
         name: "Health Landscape Visualisation",
@@ -122,7 +122,7 @@ export default function Workpage() {
         name: "ECAS Transformation",
         subtitle: "",
         route: null,
-        video: "/ECAS.mov",
+        video: "/ECAS.mp4",
       },
       {
         name: "VFS Global:",
@@ -166,7 +166,7 @@ export default function Workpage() {
     const newProjects = [...projects];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setProjects(newProjects);
-    localStorage.setItem("work_projects_v4", JSON.stringify(newProjects));
+    localStorage.setItem("work_projects_v5", JSON.stringify(newProjects));
   };
 
   const clearAllFilters = () => {
