@@ -70,11 +70,13 @@ export default function ExperimentsPage() {
             title: "Rapid co-creation as a design process",
             description: "Design by building—validate ideas through real prototypes.",
             image: "/rapid co creation.png",
+            link: "/rapid-co-creation"
         },
         {
             title: "AI Presentation Designer",
             description: "AI turns content into on-brand presentations.",
             image: "/AAI PRESENTATION DESIGNER.png",
+            link: "/ai-presentation-designer"
         },
         {
             title: "Gravity Game Space",
@@ -390,6 +392,9 @@ export default function ExperimentsPage() {
                                                 cursor: "pointer",
                                                 overflow: "hidden",
                                                 boxShadow: "0 30px 60px rgba(0, 0, 0, 0.6)",
+                                            }}
+                                            onClick={() => {
+                                                if (exp.link) navigate(exp.link);
                                             }}
                                             onMouseEnter={(e) => {
                                                 e.currentTarget.style.transform = "translateY(-15px) scale(1.03)";

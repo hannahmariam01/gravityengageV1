@@ -10,6 +10,8 @@ import AboutPage from "./AboutPage";
 import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
 import DohVisualisation from "./DohVisualisation";
+import RapidCoCreation from "./RapidCoCreation";
+import AIPresentationDesigner from "./AIPresentationDesigner";
 import ADPMRevamp from "./ADPMRevamp";
 import { AdminProvider } from "./AdminContext";
 
@@ -30,6 +32,8 @@ root.render(
           <Route path="/adpm-revamp" element={<ADPMRevamp />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/experiments" element={<ExperimentsPage />} />
+          <Route path="/rapid-co-creation" element={<RapidCoCreation />} />
+          <Route path="/ai-presentation-designer" element={<AIPresentationDesigner />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>
