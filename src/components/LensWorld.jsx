@@ -236,9 +236,9 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
                 <><span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8 }}>The problem</span>Ideas break down between human complexity and technical execution.</>
               ) : (
                 <>
-                  We bridge the friction between<br />
-                  <span className="accent-text">complex human needs</span> and<br />
-                  high-fidelity technology
+                  <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8 }}>What we do</span>
+                  We turn complexity into products, systems,<br />
+                  and experiences that work.
                 </>
               )}
             </motion.h1>
