@@ -114,12 +114,11 @@ export default function Index() {
         "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
     },
     {
-      name: "Australian Health",
-      subtitle: "landscape",
-      description:
-        "Visualizing complex healthcare data to drive better outcomes",
-      video:
-        "https://videos.pexels.com/video-files/3130284/3130284-uhd_2560_1440_30fps.mp4",
+      name: "Eden Monaro",
+      subtitle: "",
+      description: "A cinematic UI showcase of a project displayed on seedance",
+      video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
+      blur: true,
     },
     {
       name: "APSC future of work",
@@ -129,15 +128,15 @@ export default function Index() {
         "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4",
     },
     {
-      name: "Australian",
-      subtitle: "Campaign",
+      name: "ECAS Transformation",
+      subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
       video:
         "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
     },
     {
-      name: "VFS",
-      subtitle: "",
+      name: "VFS Global:",
+      subtitle: "VFS Insight",
       description: "Building next-generation digital experiences",
       video:
         "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
@@ -1463,7 +1462,7 @@ export default function Index() {
               {
                 title: "Accelerated Innovation &",
                 subtitle: "Prototyping",
-                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive prototypes • technical roadmaps",
+                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive Prototypes • Technical Roadmaps",
                 icon: (
                   <img src="/accelerated.svg" alt="Accelerated Innovation" style={{ width: 48, height: 48 }} />
                 ),
@@ -1471,7 +1470,7 @@ export default function Index() {
               {
                 title: "Digital Product &",
                 subtitle: "System Design",
-                description: "User research, experience and interface design and thorough development handoff to bring concepts to reality.\n\nOutcomes\n• User flow maps • Interactive prototypes • Scalable design systems • UI kits",
+                description: "User research, experience and interface design and thorough development handoff to bring concepts to reality.\n\nOutcomes\n• User Flow Maps • Interactive Prototypes • Scalable Design Systems",
                 icon: (
                   <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 48, height: 48 }} />
                 ),
@@ -1479,7 +1478,7 @@ export default function Index() {
               {
                 title: "Immersive Narratives &",
                 subtitle: "Experiences",
-                description: "We design spatial and interactive experiences with clear intent — using storytelling, motion, and environment design to guide users and support product understanding.\n\nOutcomes\n• 3D environments • immersive narratives • spatial visual assets",
+                description: "We design spatial and interactive experiences to tell compelling stories and support product understanding.\n\nOutcomes\n• 3D Environments • Immersive Narratives • Spatial Visual Assets",
                 icon: (
                   <img src="/immersive.svg" alt="Immersive Narratives" style={{ width: 48, height: 48 }} />
                 ),
@@ -1487,7 +1486,7 @@ export default function Index() {
               {
                 title: "Ecosystem Visualization &",
                 subtitle: "Digital Systems",
-                description: "We map data, workflows, and system relationships into clear visual structures, making dependencies, gaps, and opportunities easier to identify.\n\nOutcomes\n• Interactive infographics • visual dashboards",
+                description: "Mapping data, workflows, and system relationships into clear visual structures, making dependencies, gaps, and opportunities easier to identify.\n\nOutcomes\n• Interactive Infographics • Visual Dashboards",
                 icon: (
                   <img src="/ecosystem.svg" alt="Ecosystem" style={{ width: 48, height: 48 }} />
                 ),
@@ -1580,7 +1579,8 @@ export default function Index() {
                         <>
                           <p
                             style={{
-                              fontSize: "16px",
+                              fontSize: "15px",
+                              lineHeight: "1.5",
                               fontWeight: 300,
                               color: "rgba(255, 255, 255, 0.7)",
                               margin: 0,
@@ -1592,18 +1592,19 @@ export default function Index() {
                           </p>
                           {outcomesList.length > 0 && (
                             <div>
-                              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                              <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
                                 {outcomesList.map((outcome, i) => (
                                   <span
                                     key={i}
                                     style={{
-                                      backgroundColor: "rgba(137, 207, 240, 0.15)",
-                                      border: "1px solid rgba(137, 207, 240, 0.3)",
+                                      backgroundColor: "rgba(137, 207, 240, 0.08)",
+                                      border: "1px solid rgba(137, 207, 240, 0.2)",
                                       color: "#89cff0",
-                                      padding: "0.35rem 0.85rem",
+                                      padding: "0.2rem 0.6rem",
                                       borderRadius: "9999px",
-                                      fontSize: "13px",
+                                      fontSize: "11.5px",
                                       fontWeight: 400,
+                                      whiteSpace: "nowrap",
                                     }}
                                   >
                                     {outcome.replace(/,$/, '')}
