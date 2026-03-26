@@ -12,6 +12,7 @@ import EdenMonaro from "./EdenMonaro";
 import DohVisualisation from "./DohVisualisation";
 import RapidCoCreation from "./RapidCoCreation";
 import AIPresentationDesigner from "./AIPresentationDesigner";
+import GravityGameSpace from "./GravityGameSpace";
 import ADPMRevamp from "./ADPMRevamp";
 import { AdminProvider } from "./AdminContext";
 
@@ -34,6 +35,7 @@ root.render(
           <Route path="/experiments" element={<ExperimentsPage />} />
           <Route path="/rapid-co-creation" element={<RapidCoCreation />} />
           <Route path="/ai-presentation-designer" element={<AIPresentationDesigner />} />
+          <Route path="/gravity-game-space" element={<GravityGameSpace />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>

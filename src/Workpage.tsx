@@ -100,8 +100,8 @@ export default function Workpage() {
     const saved = localStorage.getItem("work_projects");
     return saved ? JSON.parse(saved) : [
       {
-        name: "AD cognitive",
-        subtitle: "smart city",
+        name: "Abu Dhabi Performance Management System UI Revamp",
+        subtitle: "Abu Dhabi Executive Office",
         route: "/adpm-revamp",
         video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
       },

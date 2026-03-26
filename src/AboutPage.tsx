@@ -532,7 +532,111 @@ export default function AboutPage() {
                 </div>
               </div>
 
+<<<<<<< HEAD
 
+=======
+              {/* Our Approach Section */}
+              <div
+                style={{
+                  marginBottom: "8rem",
+                  animation: "fadeInUp 0.8s ease-out 0.8s backwards",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "2rem",
+                    marginBottom: "4rem",
+                  }}
+                >
+                  <h2
+                    style={{
+                      fontSize: "48px",
+                      fontWeight: 400,
+                      color: "#ffffff",
+                      margin: 0,
+                      textShadow: "0 0 25px rgba(137, 207, 240, 0.3)",
+                    }}
+                  >
+                    Our Approach
+                  </h2>
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "1px",
+                      background:
+                        "linear-gradient(90deg, rgba(137, 207, 240, 0.6), transparent)",
+                    }}
+                  />
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+                    gap: "4rem 8rem",
+                  }}
+                >
+                  {[
+                    {
+                      title: "Who we are",
+                      content:
+                        "We turn complex ideas into high-fidelity, testable products, systems, and experiences.",
+                    },
+                    {
+                      title: "What we do",
+                      content:
+                        "From early insight to execution, we design across products, systems, and immersive environments so ideas don’t stay abstract, they become real.",
+                    },
+                    {
+                      title: "How we work",
+                      content:
+                        "We move fast from concept to tangible outputs. Prototypes, system maps, and narratives you can test, refine, and align around. Often in days, not months.",
+                    },
+                    {
+                      title: "What sets us apart",
+                      content:
+                        "We bridge the friction between complex human needs and high-fidelity technology, helping teams validate, communicate, and build with clarity.",
+                    },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        animation: `fadeInUp 0.6s ease-out ${
+                          0.2 + idx * 0.1
+                        }s backwards`,
+                      }}
+                    >
+                      <h3
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#89cff0",
+                          marginBottom: "1.5rem",
+                          fontFamily: "'Outfit', sans-serif",
+                          letterSpacing: "0.05em",
+                        }}
+                      >
+                        {item.title}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: "20px",
+                          lineHeight: "1.8",
+                          color: "rgba(255, 255, 255, 0.8)",
+                          margin: 0,
+                          fontWeight: 300,
+                        }}
+                      >
+                        {item.content}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+>>>>>>> 0484dd3 (ADPM card)
             </div>
           </div>
           {/* Footer Section */}
