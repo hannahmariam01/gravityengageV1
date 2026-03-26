@@ -532,7 +532,10 @@ export default function AboutPage() {
                 </div>
               </div>
 
-              {/* R&D Section */}
+<<<<<<< HEAD
+
+=======
+              {/* Our Approach Section */}
               <div
                 style={{
                   marginBottom: "8rem",
@@ -544,7 +547,7 @@ export default function AboutPage() {
                     display: "flex",
                     alignItems: "center",
                     gap: "2rem",
-                    marginBottom: "3rem",
+                    marginBottom: "4rem",
                   }}
                 >
                   <h2
@@ -556,7 +559,7 @@ export default function AboutPage() {
                       textShadow: "0 0 25px rgba(137, 207, 240, 0.3)",
                     }}
                   >
-                    R&D
+                    Our Approach
                   </h2>
                   <div
                     style={{
@@ -568,105 +571,72 @@ export default function AboutPage() {
                   />
                 </div>
 
-                <div style={{ maxWidth: "900px", marginBottom: "4rem" }}>
-                  <h3
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: 600,
-                      color: "#89cff0",
-                      marginBottom: "1.5rem",
-                    }}
-                  >
-                    Our internship program
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "18px",
-                      lineHeight: "1.8",
-                      color: "rgba(255, 255, 255, 0.8)",
-                      fontWeight: 300,
-                    }}
-                  >
-                    We believe innovation is a discipline, not a happy accident.
-                    Our internship program is an intensive R&D lab where diverse
-                    talent—from front-end engineers to UX architects—converge to
-                    untie the knots of complex, emerging tech briefs. Operating
-                    in high-velocity sprints, our interns don't just "assist";
-                    they build the prototypes that define our studio’s edge.
-                  </p>
-                </div>
-
-                <div style={{ marginBottom: "4rem" }}>
-                  <h3
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: 500,
-                      color: "rgba(255, 255, 255, 0.9)",
-                      marginBottom: "3rem",
-                    }}
-                  >
-                    Outcomes of the Internship program
-                  </h3>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "3rem",
-                    }}
-                  >
-                    {/* Outcome 1 */}
-                    <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
-                      <img
-                        src="/accelerated.svg"
-                        alt="Generative Brand Engine"
-                        style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
-                      />
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+                    gap: "4rem 8rem",
+                  }}
+                >
+                  {[
+                    {
+                      title: "Who we are",
+                      content:
+                        "We turn complex ideas into high-fidelity, testable products, systems, and experiences.",
+                    },
+                    {
+                      title: "What we do",
+                      content:
+                        "From early insight to execution, we design across products, systems, and immersive environments so ideas don’t stay abstract, they become real.",
+                    },
+                    {
+                      title: "How we work",
+                      content:
+                        "We move fast from concept to tangible outputs. Prototypes, system maps, and narratives you can test, refine, and align around. Often in days, not months.",
+                    },
+                    {
+                      title: "What sets us apart",
+                      content:
+                        "We bridge the friction between complex human needs and high-fidelity technology, helping teams validate, communicate, and build with clarity.",
+                    },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        animation: `fadeInUp 0.6s ease-out ${
+                          0.2 + idx * 0.1
+                        }s backwards`,
+                      }}
+                    >
+                      <h3
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#89cff0",
+                          marginBottom: "1.5rem",
+                          fontFamily: "'Outfit', sans-serif",
+                          letterSpacing: "0.05em",
+                        }}
+                      >
+                        {item.title}
+                      </h3>
                       <p
                         style={{
                           fontSize: "20px",
-                          lineHeight: "1.6",
-                          color: "rgba(255, 255, 255, 0.9)",
-                          maxWidth: "600px",
+                          lineHeight: "1.8",
+                          color: "rgba(255, 255, 255, 0.8)",
+                          margin: 0,
                           fontWeight: 300,
                         }}
                       >
-                        <strong style={{ color: "#ffffff", fontWeight: 600 }}>
-                          Generative Brand Engine:
-                        </strong>{" "}
-                        An AI-driven tool that dynamically re-formats complex
-                        presentations into custom, brand-compliant themes.
+                        {item.content}
                       </p>
                     </div>
-
-
-                    {/* Outcome 3 */}
-                    <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
-                      <img
-                        src="/ecosystem.svg"
-                        alt="Interactive Strategy Orchestration"
-                        style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
-                      />
-                      <p
-                        style={{
-                          fontSize: "20px",
-                          lineHeight: "1.6",
-                          color: "rgba(255, 255, 255, 0.9)",
-                          maxWidth: "600px",
-                          fontWeight: 300,
-                        }}
-                      >
-                        <strong style={{ color: "#ffffff", fontWeight: 600 }}>
-                          Interactive Strategy Orchestration:
-                        </strong>{" "}
-                        An immersive digital experience that translates
-                        high-level business strategy into a navigable,
-                        interactive ecosystem.
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
+
+>>>>>>> 0484dd3 (ADPM card)
             </div>
           </div>
           {/* Footer Section */}

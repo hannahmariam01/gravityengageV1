@@ -9,7 +9,11 @@ import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
 import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
-import ECASTransformation from "./ECASTransformation";
+import DohVisualisation from "./DohVisualisation";
+import RapidCoCreation from "./RapidCoCreation";
+import AIPresentationDesigner from "./AIPresentationDesigner";
+import GravityGameSpace from "./GravityGameSpace";
+import ADPMRevamp from "./ADPMRevamp";
 import { AdminProvider } from "./AdminContext";
 
 const root = ReactDOM.createRoot(
@@ -25,9 +29,13 @@ root.render(
           <Route path="/work" element={<Workpage />} />
           <Route path="/ad-cognitive" element={<ADCognitive />} />
           <Route path="/eden-monaro" element={<EdenMonaro />} />
-          <Route path="/ecas-transformation" element={<ECASTransformation />} />
+          <Route path="/doh-visualisation" element={<DohVisualisation />} />
+          <Route path="/adpm-revamp" element={<ADPMRevamp />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/experiments" element={<ExperimentsPage />} />
+          <Route path="/rapid-co-creation" element={<RapidCoCreation />} />
+          <Route path="/ai-presentation-designer" element={<AIPresentationDesigner />} />
+          <Route path="/gravity-game-space" element={<GravityGameSpace />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>
