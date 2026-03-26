@@ -233,7 +233,11 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
               transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               {hoveredLens === null ? (
-                <>Welcome to<br /><span style={{ fontSize: '2.2em', fontWeight: 400, fontStyle: 'italic' }}>Engage</span></>
+                <>
+                  Ideas break down between<br />
+                  human complexity and<br />
+                  <span style={{ fontSize: '1.2em', fontWeight: 400, fontStyle: 'italic' }}>technical execution..</span>
+                </>
               ) : (
                 <>
                   We bridge the friction between<br />
@@ -257,6 +261,41 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
           <NegativeSpaceInfo key={activeLens} lens={activeLens} />
         )}
       </AnimatePresence>
+
+      {/* ── DOT NAVIGATION ── */}
+      <div 
+        style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: '15px',
+          zIndex: 1000,
+          pointerEvents: 'all'
+        }}
+      >
+        {LENSES.map((lens) => (
+          <button
+            key={lens.id}
+            onClick={() => handleClick(lens.id)}
+            style={{
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              border: '1px solid rgba(255, 255, 255, 0.4)',
+              backgroundColor: activeLens === lens.id ? `rgb(${lens.rgb})` : (hoveredLens === lens.id ? 'rgba(255, 255, 255, 0.4)' : 'transparent'),
+              cursor: 'none', // Use custom cursor
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              boxShadow: activeLens === lens.id ? `0 0 15px rgb(${lens.rgb})` : 'none',
+              padding: 0
+            }}
+            onMouseEnter={() => handleHover(lens.id)}
+            onMouseLeave={handleLeave}
+            title={lens.label}
+          />
+        ))}
+      </div>
 
     </section>
   );
