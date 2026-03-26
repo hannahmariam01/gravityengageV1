@@ -27,7 +27,7 @@ root.render(
           <Route path="/eden-monaro" element={<EdenMonaro />} />
           <Route path="/ecas-transformation" element={<ECASTransformation />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/experiments" element={<PlaygroundPage />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>

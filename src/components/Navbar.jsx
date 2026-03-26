@@ -20,10 +20,10 @@ const Navbar = ({ activeLens, setActiveLens }) => {
       {/* Logo */}
       <a href="/" className="navbar-logo" onClick={(e) => handleNavClick(e, '/')}>
         <img
-          src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
+          src="/New logo.svg"
           alt="Gravity Engage"
           style={{
-            height: "40px",
+            height: "28px",
             width: "auto",
             transition: "transform 0.3s ease",
           }}
@@ -34,7 +34,7 @@ const Navbar = ({ activeLens, setActiveLens }) => {
       <div className="navbar-links">
         <a href="/" className="navbar-link" onClick={(e) => handleNavClick(e, '/')}>HOME</a>
         <a href="/work" className="navbar-link" onClick={(e) => handleNavClick(e, '/work')}>WORK</a>
-        <a href="/playground" className="navbar-link" onClick={(e) => handleNavClick(e, '/playground')}>PLAYGROUND</a>
+        <a href="/experiments" className="navbar-link" onClick={(e) => handleNavClick(e, '/experiments')}>EXPERIMENTS</a>
         <a href="/about" className="navbar-link" onClick={(e) => handleNavClick(e, '/about')}>ABOUT</a>
       </div>
     </nav>

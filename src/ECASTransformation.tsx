@@ -66,7 +66,7 @@ export default function ECASTransformation() {
           margin: 0;
           padding: 0;
           font-family: 'Poppins', sans-serif;
-          background: #ffffff;
+          background: radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%);
         }
 
         @keyframes fadeIn {
@@ -74,32 +74,69 @@ export default function ECASTransformation() {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.1); opacity: 1; }
         }
       `}</style>
 
       <div
         style={{
-          position: "relative",
-          width: "100%",
-          minHeight: "100vh",
-          background: "#fff",
-          color: "#1a1a1a",
-          overflowX: "hidden",
+          position: "fixed",
+          inset: 0,
+          background: "radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%)",
+          zIndex: 0,
+          overflow: "hidden",
         }}
       >
-        {/* Background Canvas */}
         <canvas
           ref={canvasRef}
           style={{
-            position: "fixed",
+            position: "absolute",
             inset: 0,
             pointerEvents: "none",
+            opacity: 0.7,
             zIndex: 0,
           }}
         />
+        <div
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "8%",
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(137, 207, 240, 0.4), transparent 60%)",
+            filter: "blur(90px)",
+            animation: "pulse 10s ease-in-out infinite",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "15%",
+            right: "10%",
+            width: "600px",
+            height: "600px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(139, 92, 246, 0.4), transparent 60%)",
+            filter: "blur(100px)",
+            animation: "pulse 12s ease-in-out infinite",
+            animationDelay: "3s",
+          }}
+        />
+      </div>
+
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
 
         {/* Back Button */}
         <button
@@ -151,30 +188,26 @@ export default function ECASTransformation() {
             width: "100%",
             height: "55vh",
             display: "flex",
-            alignItems: "center",
+            alignItems: "stretch",
             boxSizing: "border-box",
-            background: "#ffffff",
+            background: "transparent",
             overflow: "hidden",
-            borderBottom: "1px solid rgba(0,0,0,0.05)",
           }}
         >
-          {/* Background Branding for Title Area */}
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: "50%",
-              backgroundImage: "url('/ECAS BG.jpg')",
+          <div 
+            style={{ 
+              flex: 0.8, 
+              width: "40%",
+              zIndex: 1, 
+              padding: "0 3rem",
+              display: "flex",
+              alignItems: "center",
+              backgroundImage: "url('/final ECAS BG 1.png')",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              zIndex: 0,
-              opacity: 1,
+              position: "relative",
             }}
-          />
-          
-          <div style={{ flex: 1, zIndex: 1, padding: "0 5%" }}>
+          >
             <h1
               style={{
                 fontSize: "clamp(32px, 4vw, 56px)",
@@ -185,7 +218,7 @@ export default function ECASTransformation() {
                 letterSpacing: "-0.01em",
                 opacity: 0,
                 animation: "fadeIn 1s ease-out forwards",
-                textShadow: "0 2px 10px rgba(255,255,255,0.8)",
+                textShadow: "0 2px 20px rgba(99, 102, 241, 0.5)",
               }}
             >
               Executive Council<br />
@@ -196,7 +229,8 @@ export default function ECASTransformation() {
 
           <div 
             style={{ 
-              flex: 1, 
+              flex: 1.2, 
+              width: "60%",
               height: "100%",
               zIndex: 1, 
               position: "relative",
@@ -211,12 +245,12 @@ export default function ECASTransformation() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "#f8f9ff",
+                background: "transparent",
               }}
             >
               <video
                 ref={videoRef}
-                src="/ECAS.mp4"
+                src="/ECAS.mov"
                 autoPlay
                 loop
                 muted
@@ -224,7 +258,7 @@ export default function ECASTransformation() {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
+                  objectFit: "contain",
                   display: "block",
                 }}
               />
@@ -236,7 +270,7 @@ export default function ECASTransformation() {
         <div
           style={{
             width: "100%",
-            background: "#000000",
+            background: "transparent",
             color: "#fff",
             padding: "6rem 8%",
             boxSizing: "border-box",

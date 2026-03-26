@@ -346,13 +346,13 @@ export default function Workpage() {
           }}
         >
           <img
-            src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
+            src="/New logo.svg"
             alt="Gravity Engage"
-            style={{ height: "40px", cursor: "pointer" }}
+            style={{ height: "28px", cursor: "pointer" }}
             onClick={handleLogoClick}
           />
           <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
+            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
               <button
                 key={item}
                 onClick={() => {
@@ -360,8 +360,8 @@ export default function Workpage() {
                     navigate("/");
                   } else if (item === "WORK") {
                     navigate("/work");
-                  } else if (item === "PLAYGROUND") {
-                    navigate("/playground");
+                  } else if (item === "EXPERIMENTS") {
+                    navigate("/experiments");
                   } else if (item === "ABOUT") {
                     navigate("/about");
                   }
@@ -880,7 +880,7 @@ export default function Workpage() {
                     alignItems: "center",
                     justifyContent: "center",
                     background: "rgba(10, 5, 20, 0.6)",
-                    backdropFilter: "blur(4px)",
+                    backdropFilter: "blur(12px)",
                     cursor: project.route ? "pointer" : "default",
                     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                     overflow: "hidden",
@@ -931,7 +931,7 @@ export default function Workpage() {
                       transform: hoveredProject === idx 
                         ? (project.scale ? `scale(${project.scale + 0.05})` : "scale(1.05)") 
                         : (project.scale ? `scale(${project.scale})` : "scale(1)"),
-                      filter: project.blur ? "blur(0.8px)" : "none",
+                      filter: "blur(1px)",
                     }}
                   />
 
@@ -970,8 +970,8 @@ export default function Workpage() {
                     <div
                       style={{
                         fontSize: "12px",
-                        fontWeight: 500,
-                        color: "#89cff0",
+                        fontWeight: 700,
+                        color: "#4f46e5",
                         letterSpacing: "0.2em",
                         marginBottom: "1rem",
                         textTransform: "uppercase",
