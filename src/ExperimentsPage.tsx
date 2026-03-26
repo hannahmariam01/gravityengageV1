@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function PlaygroundPage() {
+export default function ExperimentsPage() {
     const navigate = useNavigate();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [activeTab, setActiveTab] = useState<"experiments" | "blogs">("experiments");
@@ -67,19 +67,19 @@ export default function PlaygroundPage() {
 
     const experiments = [
         {
-            title: "Generative Workflows",
-            description: "Exploring the boundary between human intent and machine generation.",
-            image: "https://raw.githubusercontent.com/hannahmariam01/images/main/02.png",
+            title: "Rapid co-creation as a design process",
+            description: "Design by building—validate ideas through real prototypes.",
+            image: "/rapid co creation.png",
         },
         {
-            title: "Interactive Systems",
-            description: "Prototyping next-generation interfaces for complex data visualization.",
-            image: "https://raw.githubusercontent.com/hannahmariam01/images/main/03.png",
+            title: "AI Presentation Designer",
+            description: "AI turns content into on-brand presentations.",
+            image: "/AAI PRESENTATION DESIGNER.png",
         },
         {
-            title: "Cognitive Architectures",
-            description: "Designing the mental models for the cities of tomorrow.",
-            image: "https://raw.githubusercontent.com/hannahmariam01/images/main/01.png",
+            title: "Gravity Game Space",
+            description: "3D spaces make business systems intuitive.",
+            image: "/GRAVITY GAME SPACE.png",
         }
     ];
 
@@ -138,6 +138,67 @@ export default function PlaygroundPage() {
             border-radius: 3px;
             box-shadow: 0 0 10px #89cff0;
             transition: all 0.3s ease;
+        }
+
+        /* NEW BEAM AND PARTICLE STYLES */
+        .beam-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .beam-container.top { 
+            top: -120px; 
+            height: 120px;
+            align-items: flex-end;
+        }
+        .beam-container.bottom { 
+            bottom: -120px; 
+            height: 120px;
+            align-items: flex-start;
+        }
+        .beam-glow {
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(137, 207, 240, 0), rgba(137, 207, 240, 1) 50%, rgba(255, 255, 255, 1) 80%, rgba(137, 207, 240, 0));
+            box-shadow: 0 0 15px rgba(137, 207, 240, 0.8), 0 0 30px rgba(139, 92, 246, 0.5);
+            filter: blur(1.5px);
+            position: relative;
+        }
+        .beam-glow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(137, 207, 240, 0) 70%);
+            filter: blur(5px);
+        }
+        .mini-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px #89cff0, 0 0 20px #89cff0;
+            animation: miniFloat infinite ease-in-out;
+            opacity: 0;
+        }
+        @keyframes miniFloat {
+            0% { transform: translate(0, 0) scale(0); opacity: 0; }
+            30% { opacity: 1; transform: translate(var(--dx), var(--dy)) scale(1); }
+            100% { transform: translate(var(--dx2), var(--dy2)) scale(0); opacity: 0; }
+        }
+        .particle-wrap {
+            position: absolute;
+            inset: 0;
         }
       `}</style>
 
@@ -285,51 +346,155 @@ export default function PlaygroundPage() {
 
                             <div
                                 style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))",
-                                    gap: "3rem",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    gap: "6rem",
+                                    flexWrap: "wrap",
+                                    paddingTop: "6rem",
                                     animation: "fadeInUp 0.8s ease-out 0.6s backwards",
                                 }}
                             >
-                                {activeTab === "experiments" ? experiments.map((exp, idx) => (
-                                    <div
-                                        key={idx}
-                                        style={{
-                                            background: "rgba(255, 255, 255, 0.03)",
-                                            border: "1px solid rgba(137, 207, 240, 0.2)",
-                                            borderRadius: "24px",
-                                            padding: "2rem",
-                                            transition: "all 0.4s ease",
-                                            cursor: "pointer",
-                                            backdropFilter: "blur(10px)",
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.currentTarget.style.transform = "translateY(-10px)";
-                                            e.currentTarget.style.borderColor = "rgba(137, 207, 240, 0.6)";
-                                            e.currentTarget.style.boxShadow = "0 20px 40px rgba(137, 207, 240, 0.2)";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.currentTarget.style.transform = "translateY(0)";
-                                            e.currentTarget.style.borderColor = "rgba(137, 207, 240, 0.2)";
-                                            e.currentTarget.style.boxShadow = "none";
-                                        }}
-                                    >
-                                        <div style={{
-                                            width: "100%",
-                                            height: "200px",
-                                            borderRadius: "16px",
-                                            overflow: "hidden",
-                                            marginBottom: "1.5rem"
-                                        }}>
-                                            <img src={exp.image} alt={exp.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                                {activeTab === "experiments" && experiments.map((exp, idx) => (
+                                    <div key={idx} style={{ position: "relative", width: "450px", marginBottom: "8rem" }}>
+                                        {/* Top Beam */}
+                                        <div className="beam-container top">
+                                            <div className="particle-wrap">
+                                                {[...Array(15)].map((_, i) => (
+                                                    <div key={i} className="mini-particle" style={{
+                                                        '--dx': `${(Math.random() - 0.5) * 40}px`,
+                                                        '--dy': `${(Math.random() - 0.5) * 40}px`,
+                                                        '--dx2': `${(Math.random() - 0.5) * 80}px`,
+                                                        '--dy2': `${-60 - Math.random() * 40}px`,
+                                                        left: '50%',
+                                                        bottom: '0',
+                                                        animationDelay: `${Math.random() * 3}s`,
+                                                        animationDuration: `${2 + Math.random() * 2}s`
+                                                    } as any}></div>
+                                                ))}
+                                            </div>
+                                            <div className="beam-glow"></div>
                                         </div>
-                                        <h3 style={{ color: "#fff", fontSize: "22px", marginBottom: "0.5rem" }}>{exp.title}</h3>
-                                        <p style={{ color: "rgba(255, 255, 255, 0.6)", lineHeight: "1.6" }}>{exp.description}</p>
+
+                                        {/* Main Glass Card */}
+                                        <div
+                                            style={{
+                                                position: "relative",
+                                                zIndex: 10,
+                                                background: "rgba(10, 5, 25, 0.4)",
+                                                backdropFilter: "blur(40px)",
+                                                WebkitBackdropFilter: "blur(40px)",
+                                                border: "1px solid rgba(137, 207, 240, 0.4)",
+                                                borderRadius: "40px",
+                                                padding: "3rem",
+                                                transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+                                                cursor: "pointer",
+                                                overflow: "hidden",
+                                                boxShadow: "0 30px 60px rgba(0, 0, 0, 0.6)",
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                e.currentTarget.style.transform = "translateY(-15px) scale(1.03)";
+                                                e.currentTarget.style.borderColor = "rgba(137, 207, 240, 0.9)";
+                                                e.currentTarget.style.boxShadow = "0 40px 100px rgba(137, 207, 240, 0.25)";
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                                                e.currentTarget.style.borderColor = "rgba(137, 207, 240, 0.4)";
+                                                e.currentTarget.style.boxShadow = "0 30px 60px rgba(0, 0, 0, 0.6)";
+                                            }}
+                                        >
+                                            {/* Subtitle/Index */}
+                                            <div style={{
+                                                fontSize: "12px",
+                                                fontWeight: 600,
+                                                color: "rgba(137, 207, 240, 0.7)",
+                                                letterSpacing: "4px",
+                                                marginBottom: "1.5rem",
+                                                fontFamily: "'Outfit', sans-serif"
+                                            }}>
+                                                0{idx + 1}
+                                            </div>
+
+                                            {/* Image Showcase */}
+                                            <div style={{
+                                                width: "100%",
+                                                borderRadius: "24px",
+                                                overflow: "hidden",
+                                                marginBottom: "2.5rem",
+                                                border: "1px solid rgba(255, 255, 255, 0.1)",
+                                                position: "relative",
+                                                background: "rgba(0, 0, 0, 0.2)"
+                                            }}>
+                                                <img src={exp.image} alt={exp.title} style={{ width: "100%", height: "auto", display: "block", objectFit: "contain", transition: "transform 1s ease" }} className="card-image-hover" />
+                                                <div style={{
+                                                    position: "absolute",
+                                                    inset: 0,
+                                                    background: "linear-gradient(to bottom, transparent 60%, rgba(10, 5, 25, 0.4))",
+                                                    pointerEvents: "none"
+                                                }}></div>
+                                            </div>
+
+                                            <h3 style={{
+                                                color: "#fff",
+                                                fontSize: "32px",
+                                                fontWeight: 400,
+                                                marginBottom: "1rem",
+                                                letterSpacing: "-0.5px",
+                                                fontFamily: "'Outfit', sans-serif"
+                                            }}>
+                                                {exp.title}
+                                            </h3>
+                                            
+                                            <p style={{
+                                                color: "rgba(255, 255, 255, 0.6)",
+                                                lineHeight: "1.8",
+                                                fontSize: "16px",
+                                                fontWeight: 300,
+                                                marginBottom: "1rem"
+                                            }}>
+                                                {exp.description}
+                                            </p>
+
+                                            {/* Top Right Flame Icon */}
+                                            <div style={{
+                                                position: "absolute",
+                                                top: "3rem",
+                                                right: "3rem",
+                                                opacity: 0.5,
+                                                filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))"
+                                            }}>
+                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5">
+                                                    <path d="M12 2c0 0-4 4-4 8a4 4 0 0 0 8 0c0-4-4-8-4-8z" />
+                                                    <path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12z" opacity="0.3" />
+                                                </svg>
+                                            </div>
+                                        </div>
+
+                                        {/* Bottom Beam */}
+                                        <div className="beam-container bottom">
+                                            <div className="particle-wrap">
+                                                {[...Array(15)].map((_, i) => (
+                                                    <div key={i} className="mini-particle" style={{
+                                                        '--dx': `${(Math.random() - 0.5) * 40}px`,
+                                                        '--dy': `${(Math.random() - 0.5) * 40}px`,
+                                                        '--dx2': `${(Math.random() - 0.5) * 80}px`,
+                                                        '--dy2': `${60 + Math.random() * 40}px`,
+                                                        left: '50%',
+                                                        top: '0',
+                                                        animationDelay: `${Math.random() * 3}s`,
+                                                        animationDuration: `${2 + Math.random() * 2}s`
+                                                    } as any}></div>
+                                                ))}
+                                            </div>
+                                            <div className="beam-glow"></div>
+                                        </div>
                                     </div>
-                                )) : blogs.map((blog, idx) => (
+                                ))}
+
+                                {activeTab === "blogs" && blogs.map((blog, idx) => (
                                     <div
                                         key={idx}
                                         style={{
+                                            width: "400px",
                                             background: "rgba(255, 255, 255, 0.03)",
                                             border: "1px solid rgba(139, 92, 246, 0.2)",
                                             borderRadius: "24px",

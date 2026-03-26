@@ -7,7 +7,7 @@ import App from "./App";
 import Workpage from "./Workpage";
 import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
-import PlaygroundPage from "./PlaygroundPage";
+import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
 import ECASTransformation from "./ECASTransformation";
 import { AdminProvider } from "./AdminContext";
@@ -27,7 +27,7 @@ root.render(
           <Route path="/eden-monaro" element={<EdenMonaro />} />
           <Route path="/ecas-transformation" element={<ECASTransformation />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/experiments" element={<PlaygroundPage />} />
+          <Route path="/experiments" element={<ExperimentsPage />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>
