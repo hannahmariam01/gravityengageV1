@@ -4,7 +4,31 @@ import { useNavigate } from "react-router-dom";
 export default function AboutPage() {
   const navigate = useNavigate();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
   const [activeYear, setActiveYear] = useState(null);
+  const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSubmitting(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setFormSubmitted(true);
+      setFormData({ name: "", email: "", phone: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -641,6 +665,664 @@ export default function AboutPage() {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Footer Section */}
+          <div
+            style={{
+              position: "relative",
+              zIndex: 400,
+              background: "rgba(8, 4, 18, 1)",
+            }}
+          >
+            <div
+              ref={contactRef}
+              id="contact"
+              style={{
+                maxWidth: "1400px",
+                margin: "0 auto",
+                padding: "4rem 6rem",
+                borderTop: "1px solid rgba(137, 207, 240, 0.2)",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "6rem",
+                  marginBottom: "4rem",
+                }}
+              >
+                {/* Left Column - Get In Touch */}
+                <div>
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 500,
+                      color: "#89cff0",
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    Keep Close
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: "48px",
+                      fontWeight: 700,
+                      color: "#ffffff",
+                      marginBottom: "2rem",
+                      lineHeight: "1.2",
+                    }}
+                  >
+                    Get In Touch
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: "15px",
+                      fontWeight: 300,
+                      color: "rgba(255, 255, 255, 0.6)",
+                      lineHeight: "1.8",
+                      marginBottom: "4rem",
+                    }}
+                  >
+                    Let's create something extraordinary together. Have a project in
+                    mind? We'd love to discuss how we can bring your vision to life
+                    through innovative design and technology.
+                  </p>
+
+                  {/* Contact Info Grid */}
+                  <div
+                    style={{ display: "grid", gap: "2rem", marginBottom: "4rem" }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1.5rem",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <div style={{ color: "#89cff0", marginTop: "0.25rem" }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <circle
+                            cx="12"
+                            cy="10"
+                            r="3"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: "0 0 0.25rem 0",
+                          }}
+                        >
+                          Cloud Spaces، Dubai Fountain Views - 121 Sheikh Mohammed
+                          bin Rashid Bldg
+                        </p>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: 0,
+                          }}
+                        >
+                          above Social District Burj Khalifa Downtown Dubai - Dubai
+                          - United Arab Emirates
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1.5rem",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <div style={{ color: "#89cff0", marginTop: "0.25rem" }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: 0,
+                          }}
+                        >
+                          +61 2 6179 3739
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1.5rem",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <div style={{ color: "#89cff0", marginTop: "0.25rem" }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <polyline
+                            points="22,6 12,13 2,6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: 0,
+                          }}
+                        >
+                          contact@gravityone.ai
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1.5rem",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      <div style={{ color: "#89cff0", marginTop: "0.25rem" }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          />
+                          <polyline
+                            points="12 6 12 12 16 14"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: "0 0 0.25rem 0",
+                          }}
+                        >
+                          Mon - Fri: 9 am – 6 pm
+                        </p>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "rgba(255, 255, 255, 0.8)",
+                            margin: 0,
+                          }}
+                        >
+                          Sat - Sun: Closed
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Social Media */}
+                  <div>
+                    <h4
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        color: "rgba(255, 255, 255, 0.8)",
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                        marginBottom: "1.5rem",
+                      }}
+                    >
+                      Follow Us
+                    </h4>
+                    <button
+                      onClick={() =>
+                        window.open(
+                          "https://www.linkedin.com/company/gravityoneai/",
+                          "_blank"
+                        )
+                      }
+                      onMouseEnter={(e) => {
+                        setIsHoveringNav(true);
+                        e.currentTarget.style.color = "#89cff0";
+                        e.currentTarget.style.transform = "translateY(-3px)";
+                      }}
+                      onMouseLeave={(e) => {
+                        setIsHoveringNav(false);
+                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
+                        e.currentTarget.style.transform = "translateY(0)";
+                      }}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "rgba(255, 255, 255, 0.6)",
+                        fontSize: "20px",
+                        transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+                        padding: 0,
+                      }}
+                    >
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Column - Form */}
+                <div
+                  style={{
+                    background: "rgba(255, 255, 255, 0.02)",
+                    padding: "3rem",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(137, 207, 240, 0.1)",
+                  }}
+                >
+                  <h4
+                    style={{
+                      fontSize: "32px",
+                      fontWeight: 600,
+                      color: "#ffffff",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    Your Details
+                  </h4>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 300,
+                      color: "rgba(255, 255, 255, 0.6)",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    Let us know how to get back to you.
+                  </p>
+
+                  {formSubmitted ? (
+                    <div
+                      style={{
+                        padding: "3rem",
+                        background: "rgba(137, 207, 240, 0.1)",
+                        border: "2px solid #89cff0",
+                        borderRadius: "12px",
+                        textAlign: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          margin: "0 auto 1.5rem",
+                          borderRadius: "50%",
+                          background: "rgba(137, 207, 240, 0.2)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M20 6L9 17L4 12"
+                            stroke="#89cff0"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <h4
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: 600,
+                          color: "#ffffff",
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        Message Sent!
+                      </h4>
+                      <p
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: 300,
+                          color: "rgba(255, 255, 255, 0.7)",
+                        }}
+                      >
+                        We'll get back to you soon.
+                      </p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleFormSubmit}>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: "1.5rem",
+                          marginBottom: "1.5rem",
+                        }}
+                      >
+                        <div>
+                          <label
+                            style={{
+                              display: "block",
+                              fontSize: "11px",
+                              fontWeight: 600,
+                              color: "rgba(255, 255, 255, 0.7)",
+                              letterSpacing: "0.1em",
+                              marginBottom: "0.5rem",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            Name *
+                          </label>
+                          <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            required
+                            onMouseEnter={() => setIsHoveringNav(true)}
+                            onMouseLeave={() => setIsHoveringNav(false)}
+                            style={{
+                              width: "100%",
+                              padding: "0.875rem",
+                              background: "rgba(255, 255, 255, 0.03)",
+                              border: "1px solid rgba(137, 207, 240, 0.2)",
+                              borderRadius: "6px",
+                              color: "#ffffff",
+                              fontSize: "14px",
+                              fontFamily: "Poppins, sans-serif",
+                              outline: "none",
+                              transition: "all 0.3s ease",
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = "#89cff0";
+                              e.target.style.background =
+                                "rgba(255, 255, 255, 0.05)";
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor =
+                                "rgba(137, 207, 240, 0.2)";
+                              e.target.style.background =
+                                "rgba(255, 255, 255, 0.03)";
+                            }}
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            style={{
+                              display: "block",
+                              fontSize: "11px",
+                              fontWeight: 600,
+                              color: "rgba(255, 255, 255, 0.7)",
+                              letterSpacing: "0.1em",
+                              marginBottom: "0.5rem",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            Email Address *
+                          </label>
+                          <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                            onMouseEnter={() => setIsHoveringNav(true)}
+                            onMouseLeave={() => setIsHoveringNav(false)}
+                            style={{
+                              width: "100%",
+                              padding: "0.875rem",
+                              background: "rgba(255, 255, 255, 0.03)",
+                              border: "1px solid rgba(137, 207, 240, 0.2)",
+                              borderRadius: "6px",
+                              color: "#ffffff",
+                              fontSize: "14px",
+                              fontFamily: "Poppins, sans-serif",
+                              outline: "none",
+                              transition: "all 0.3s ease",
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = "#89cff0";
+                              e.target.style.background =
+                                "rgba(255, 255, 255, 0.05)";
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor =
+                                "rgba(137, 207, 240, 0.2)";
+                              e.target.style.background =
+                                "rgba(255, 255, 255, 0.03)";
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div style={{ marginBottom: "1.5rem" }}>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            color: "rgba(255, 255, 255, 0.7)",
+                            letterSpacing: "0.1em",
+                            marginBottom: "0.5rem",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Subject *
+                        </label>
+                        <input
+                          type="text"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                          onMouseEnter={() => setIsHoveringNav(true)}
+                          onMouseLeave={() => setIsHoveringNav(false)}
+                          style={{
+                            width: "100%",
+                            padding: "0.875rem",
+                            background: "rgba(255, 255, 255, 0.03)",
+                            border: "1px solid rgba(137, 207, 240, 0.2)",
+                            borderRadius: "6px",
+                            color: "#ffffff",
+                            fontSize: "14px",
+                            fontFamily: "Poppins, sans-serif",
+                            outline: "none",
+                            transition: "all 0.3s ease",
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = "#89cff0";
+                            e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = "rgba(137, 207, 240, 0.2)";
+                            e.target.style.background = "rgba(255, 255, 255, 0.03)";
+                          }}
+                        />
+                      </div>
+
+                      <div style={{ marginBottom: "2rem" }}>
+                        <label
+                          style={{
+                            display: "block",
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            color: "rgba(255, 255, 255, 0.7)",
+                            letterSpacing: "0.1em",
+                            marginBottom: "0.5rem",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Comments / Questions *
+                        </label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          required
+                          rows={5}
+                          onMouseEnter={() => setIsHoveringNav(true)}
+                          onMouseLeave={() => setIsHoveringNav(false)}
+                          style={{
+                            width: "100%",
+                            padding: "0.875rem",
+                            background: "rgba(255, 255, 255, 0.03)",
+                            border: "1px solid rgba(137, 207, 240, 0.2)",
+                            borderRadius: "6px",
+                            color: "#ffffff",
+                            fontSize: "14px",
+                            fontFamily: "Poppins, sans-serif",
+                            outline: "none",
+                            transition: "all 0.3s ease",
+                            resize: "vertical",
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = "#89cff0";
+                            e.target.style.background = "rgba(255, 255, 255, 0.05)";
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = "rgba(137, 207, 240, 0.2)";
+                            e.target.style.background = "rgba(255, 255, 255, 0.03)";
+                          }}
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={formSubmitting}
+                        onMouseEnter={(e) => {
+                          if (!formSubmitting) {
+                            setIsHoveringNav(true);
+                            e.currentTarget.style.background = "#a0d5f0";
+                            e.currentTarget.style.transform = "translateY(-2px)";
+                            e.currentTarget.style.boxShadow =
+                              "0 10px 30px rgba(137, 207, 240, 0.4)";
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!formSubmitting) {
+                            setIsHoveringNav(false);
+                            e.currentTarget.style.background = "#89cff0";
+                            e.currentTarget.style.transform = "translateY(0)";
+                            e.currentTarget.style.boxShadow = "none";
+                          }
+                        }}
+                        style={{
+                          width: "auto",
+                          padding: "1rem 3rem",
+                          background: formSubmitting
+                            ? "rgba(137, 207, 240, 0.5)"
+                            : "#89cff0",
+                          border: "none",
+                          color: "#000000",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          letterSpacing: "0.15em",
+                          borderRadius: "6px",
+                          textTransform: "uppercase",
+                          transition: "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+                          opacity: formSubmitting ? 0.7 : 1,
+                        }}
+                      >
+                        {formSubmitting ? "Sending..." : "Contact Us"}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  paddingTop: "4rem",
+                  borderTop: "1px solid rgba(137, 207, 240, 0.1)",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 300,
+                    color: "rgba(255, 255, 255, 0.5)",
+                    margin: 0,
+                  }}
+                >
+                  © 2025 Gravity Engage. All rights reserved.
+                </p>
+                <div style={{ display: "flex", gap: "2rem" }}>
+                  {["Privacy", "Terms", "Cookies"].map((item) => (
+                    <button
+                      key={item}
+                      onMouseEnter={(e) => {
+                        setIsHoveringNav(true);
+                        e.currentTarget.style.color = "#89cff0";
+                      }}
+                      onMouseLeave={(e) => {
+                        setIsHoveringNav(false);
+                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.5)";
+                      }}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "rgba(255, 255, 255, 0.5)",
+                        fontSize: "14px",
+                        fontWeight: 300,
+                        transition: "color 0.3s ease",
+                      }}
+                    >
+                      {item}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>

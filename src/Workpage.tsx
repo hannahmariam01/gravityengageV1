@@ -116,7 +116,8 @@ export default function Workpage() {
         name: "DOH Visualisation",
         subtitle: "",
         route: null,
-        video: "/DOH project card.mp4",
+        video: "/doh.mp4",
+        scale: 1.35,
       },
       {
         name: "ECAS Transformation",
@@ -131,8 +132,8 @@ export default function Workpage() {
         video: "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
       },
       {
-        name: "Excellence",
-        subtitle: "Awards",
+        name: "Excellence Awards",
+        subtitle: "",
         route: null,
         video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
       },
@@ -826,13 +827,36 @@ export default function Workpage() {
               marginTop: "2rem",
             }}
           >
-            {projects.map((project: any, idx: number) => (
+            {projects.map((project: any, idx: number) => {
+              const isDataVis = selectedSkills.includes("Data visualisation");
+              const isVisualDesign = selectedSkills.includes("Visual design");
+
+              if (isDataVis || isVisualDesign) {
+                if (
+                  project.name !== "Eden Monaro" &&
+                  project.name !== "DOH Visualisation"
+                ) {
+                  return null;
+                }
+              }
+
+              const isHealth = selectedIndustries.includes("Health");
+              const isGov = selectedIndustries.includes("Government");
+
+              if (isHealth || isGov) {
+                const isValidHealth = isHealth && project.name === "DOH Visualisation";
+                const isValidGov = isGov && project.name === "Eden Monaro";
+                if (!isValidHealth && !isValidGov) {
+                  return null;
+                }
+              }
+              return (
               <div
                 key={idx}
                 style={{
                   width: "100%",
                   height: 0,
-                  paddingBottom: "100%",
+                  paddingBottom: "66.67%",
                   position: "relative",
                 }}
               >
@@ -904,8 +928,9 @@ export default function Workpage() {
                       height: "100%",
                       objectFit: "cover",
                       transition: "transform 0.4s ease",
-                      transform:
-                        hoveredProject === idx ? "scale(1.05)" : "scale(1)",
+                      transform: hoveredProject === idx 
+                        ? (project.scale ? `scale(${project.scale + 0.05})` : "scale(1.05)") 
+                        : (project.scale ? `scale(${project.scale})` : "scale(1)"),
                       filter: project.blur ? "blur(2px)" : "none",
                     }}
                   />
@@ -1030,7 +1055,8 @@ export default function Workpage() {
                   )}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

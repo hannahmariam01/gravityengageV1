@@ -260,7 +260,7 @@ export default function PlaygroundPage() {
                             </div>
 
                             <div style={{
-                                display: "flex",
+                                display: "none",
                                 justifyContent: "center",
                                 gap: "2rem",
                                 marginBottom: "4rem",
@@ -276,6 +276,7 @@ export default function PlaygroundPage() {
                                 <button
                                     className={`tab-button ${activeTab === "blogs" ? "active" : ""}`}
                                     onClick={() => setActiveTab("blogs")}
+                                    style={{ display: "none" }}
                                 >
                                     Blogs
                                     {activeTab === "blogs" && <div className="tab-indicator" />}

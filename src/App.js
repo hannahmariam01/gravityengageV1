@@ -5,7 +5,7 @@ import VelocityEngine from "./VelocityEngine";
 import LensWorld from "./components/LensWorld";
 import Navbar from "./components/Navbar";
 
-const ProjectVideo = ({ src, isActive }) => {
+const ProjectVideo = ({ src, isActive, scale }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -43,6 +43,7 @@ const ProjectVideo = ({ src, isActive }) => {
         objectFit: "cover",
         opacity: 1,
         transition: "opacity 0.6s ease",
+        transform: scale ? `scale(${scale})` : "scale(1)",
       }}
     />
   );
@@ -121,11 +122,11 @@ export default function Index() {
       blur: true,
     },
     {
-      name: "APSC future of work",
-      subtitle: "platform",
-      description: "Reimagining the workplace experience for the modern era",
-      video:
-        "https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_25fps.mp4",
+      name: "DOH Visualisation",
+      subtitle: "",
+      description: "Transforming complex datasets into clear, actionable visual narratives",
+      video: "/doh.mp4",
+      scale: 1.35,
     },
     {
       name: "ECAS Transformation",
@@ -1979,7 +1980,7 @@ export default function Index() {
                               : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
                         }}
                       >
-                        <ProjectVideo src={project.video} isActive={offset === 0} />
+                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} />
                         <div
                           style={{
                             position: "absolute",
