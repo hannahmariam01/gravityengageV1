@@ -5,7 +5,7 @@ import VelocityEngine from "./VelocityEngine";
 import LensWorld from "./components/LensWorld";
 import Navbar from "./components/Navbar";
 
-const ProjectVideo = ({ src, isActive, scale }) => {
+const ProjectVideo = ({ src, isActive, scale, blur }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const ProjectVideo = ({ src, isActive, scale }) => {
         opacity: 1,
         transition: "opacity 0.6s ease",
         transform: scale ? `scale(${scale})` : "scale(1)",
+        filter: blur ? "blur(0.4px)" : "none",
       }}
     />
   );
@@ -1969,14 +1970,14 @@ export default function Index() {
                             : "rgba(137, 207, 240, 0.5)"
                             }`,
                           background: "rgba(15, 5, 30, 0.8)",
-                          backdropFilter: "blur(15px)",
+                          backdropFilter: "blur(1px)",
                           boxShadow:
                             hoveredProject === idx
                               ? "0 30px 80px rgba(137, 207, 240, 0.6), 0 0 100px rgba(139, 92, 246, 0.5)"
                               : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
                         }}
                       >
-                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} />
+                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} blur={project.blur} />
                         <div
                           style={{
                             position: "absolute",

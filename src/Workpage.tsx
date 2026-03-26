@@ -880,7 +880,7 @@ export default function Workpage() {
                     alignItems: "center",
                     justifyContent: "center",
                     background: "rgba(10, 5, 20, 0.6)",
-                    backdropFilter: "blur(10px)",
+                    backdropFilter: "blur(4px)",
                     cursor: project.route ? "pointer" : "default",
                     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                     overflow: "hidden",
@@ -888,7 +888,7 @@ export default function Workpage() {
                       hoveredProject === idx
                         ? "0 25px 50px rgba(137, 207, 240, 0.4), 0 0 60px rgba(139, 92, 246, 0.3)"
                         : "0 10px 30px rgba(0, 0, 0, 0.3)",
-                    opacity: 0.8,
+                    opacity: 1,
                   }}
                 >
                   {isAdmin && (
@@ -931,7 +931,7 @@ export default function Workpage() {
                       transform: hoveredProject === idx 
                         ? (project.scale ? `scale(${project.scale + 0.05})` : "scale(1.05)") 
                         : (project.scale ? `scale(${project.scale})` : "scale(1)"),
-                      filter: project.blur ? "blur(2px)" : "none",
+                      filter: project.blur ? "blur(0.8px)" : "none",
                     }}
                   />
 
@@ -941,7 +941,7 @@ export default function Workpage() {
                       position: "absolute",
                       inset: 0,
                       background:
-                        "linear-gradient(135deg, rgba(10, 5, 20, 0.7), rgba(25, 10, 50, 0.8))",
+                        "linear-gradient(135deg, rgba(10, 5, 20, 0.2), rgba(25, 10, 50, 0.3))",
                       transition: "opacity 0.4s ease",
                     }}
                   />
