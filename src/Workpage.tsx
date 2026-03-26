@@ -97,45 +97,45 @@ export default function Workpage() {
   const [logoClicks, setLogoClicks] = useState(0);
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("work_projects");
+    const saved = localStorage.getItem("work_projects_v4");
     return saved ? JSON.parse(saved) : [
       {
-        name: "AD cognitive",
-        subtitle: "smart city",
+        name: "Health Landscape Visualisation",
+        subtitle: "",
+        route: null,
+        video: "/doh 2.mp4",
+        scale: 1.35,
+      },
+      {
+        name: "ADPM UI Revamp",
+        subtitle: "",
         route: "/ad-cognitive",
-        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+        video: "/ADPM 2.mp4",
       },
       {
         name: "Eden Monaro",
         subtitle: "",
         route: "/eden-monaro",
-        video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
+        video: "/EDEN MONARO.mp4",
         blur: true,
-      },
-      {
-        name: "DOH Visualisation",
-        subtitle: "",
-        route: null,
-        video: "/doh.mp4",
-        scale: 1.35,
       },
       {
         name: "ECAS Transformation",
         subtitle: "",
         route: null,
-        video: "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+        video: "/ECAS.mov",
       },
       {
         name: "VFS Global:",
         subtitle: "VFS Insight",
         route: null,
-        video: "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+        video: "/VFS Insight - Hype reel.mp4",
       },
       {
         name: "Excellence Awards",
         subtitle: "",
         route: null,
-        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+        video: "/ADEO_ExcellenceAward_v07.mp4",
       },
     ];
   });
@@ -167,7 +167,7 @@ export default function Workpage() {
     const newProjects = [...projects];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setProjects(newProjects);
-    localStorage.setItem("work_projects", JSON.stringify(newProjects));
+    localStorage.setItem("work_projects_v4", JSON.stringify(newProjects));
   };
 
   const clearAllFilters = () => {
@@ -834,7 +834,7 @@ export default function Workpage() {
               if (isDataVis || isVisualDesign) {
                 if (
                   project.name !== "Eden Monaro" &&
-                  project.name !== "DOH Visualisation"
+                  project.name !== "Health Landscape Visualisation"
                 ) {
                   return null;
                 }
@@ -844,7 +844,7 @@ export default function Workpage() {
               const isGov = selectedIndustries.includes("Government");
 
               if (isHealth || isGov) {
-                const isValidHealth = isHealth && project.name === "DOH Visualisation";
+                const isValidHealth = isHealth && project.name === "Health Landscape Visualisation";
                 const isValidGov = isGov && project.name === "Eden Monaro";
                 if (!isValidHealth && !isValidGov) {
                   return null;

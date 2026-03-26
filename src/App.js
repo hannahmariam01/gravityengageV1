@@ -107,40 +107,37 @@ export default function Index() {
   const screen2BgCanvasRef = useRef(null);
   const projects = [
     {
-      name: "AD cognitive",
-      subtitle: "smart city",
+      name: "ADPM UI Revamp",
+      subtitle: "",
       description:
         "Transforming urban landscapes through intelligent design and data-driven solutions",
-      video:
-        "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+      video: "/ADPM 2.mp4",
     },
     {
       name: "Eden Monaro",
       subtitle: "",
       description: "A cinematic UI showcase of a project displayed on seedance",
-      video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
+      video: "/EDEN MONARO.mp4",
       blur: true,
     },
     {
-      name: "DOH Visualisation",
+      name: "Health Landscape Visualisation",
       subtitle: "",
       description: "Transforming complex datasets into clear, actionable visual narratives",
-      video: "/doh.mp4",
+      video: "/doh 2.mp4",
       scale: 1.35,
     },
     {
       name: "ECAS Transformation",
       subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
-      video:
-        "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+      video: "/ECAS.mov",
     },
     {
       name: "VFS Global:",
       subtitle: "VFS Insight",
       description: "Building next-generation digital experiences",
-      video:
-        "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+      video: "/VFS Insight - Hype reel.mp4",
     },
   ];
 
