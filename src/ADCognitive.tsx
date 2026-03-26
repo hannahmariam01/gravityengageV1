@@ -150,6 +150,18 @@ export default function ADCognitive() {
 
   const currentStageData = stages[currentStage];
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Playback was interrupted or blocked
+        });
+      }
+    }
+  }, []);
+
   return (
     <>
       <style>{`
@@ -301,10 +313,10 @@ export default function ADCognitive() {
           }}
         >
           <img
-            src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
+            src="/New logo.svg"
             alt="Gravity Engage"
             onClick={() => navigate("/")}
-            style={{ height: "40px", cursor: "pointer" }}
+            style={{ height: "28px", cursor: "pointer" }}
           />
 
           <div style={{ display: "flex", gap: "3rem" }}>
@@ -806,7 +818,6 @@ export default function ADCognitive() {
                   <video
                     ref={videoRef}
                     src={screenRecordingUrl}
-                    autoPlay
                     loop
                     muted
                     playsInline

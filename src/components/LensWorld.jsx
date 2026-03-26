@@ -233,7 +233,7 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
               transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               {hoveredLens === null ? (
-                <span style={{ fontSize: '1.2em' }}>Welcome to Engage</span>
+                <><span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8 }}>The problem</span>Ideas break down between human complexity and technical execution.</>
               ) : (
                 <>
                   We bridge the friction between<br />

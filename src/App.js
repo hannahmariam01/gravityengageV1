@@ -5,7 +5,7 @@ import VelocityEngine from "./VelocityEngine";
 import LensWorld from "./components/LensWorld";
 import Navbar from "./components/Navbar";
 
-const ProjectVideo = ({ src, isActive, scale }) => {
+const ProjectVideo = ({ src, isActive, scale, blur }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const ProjectVideo = ({ src, isActive, scale }) => {
         opacity: 1,
         transition: "opacity 0.6s ease",
         transform: scale ? `scale(${scale})` : "scale(1)",
+        filter: blur ? "blur(0.4px)" : "none",
       }}
     />
   );
@@ -107,40 +108,40 @@ export default function Index() {
   const screen2BgCanvasRef = useRef(null);
   const projects = [
     {
-      name: "AD cognitive",
-      subtitle: "smart city",
-      description:
-        "Transforming urban landscapes through intelligent design and data-driven solutions",
-      video:
-        "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+      name: "ADPM UI Revamp",
+      subtitle: "",
+      description: "Transforming urban landscapes through intelligent design and data-driven solutions",
+      video: "/ADPM 2.mp4",
+      route: "/ad-cognitive",
     },
     {
       name: "Eden Monaro",
       subtitle: "",
       description: "A cinematic UI showcase of a project displayed on seedance",
-      video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
+      video: "/EDEN MONARO.mp4",
       blur: true,
+      route: "/eden-monaro",
     },
     {
-      name: "DOH Visualisation",
+      name: "Health Landscape Visualisation",
       subtitle: "",
       description: "Transforming complex datasets into clear, actionable visual narratives",
-      video: "/doh.mp4",
-      scale: 1.35,
+      video: "/doh 2.mp4",
+      route: null,
     },
     {
       name: "ECAS Transformation",
       subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
-      video:
-        "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+      video: "/ECAS.mp4",
+      route: "/ecas-transformation",
     },
     {
       name: "VFS Global:",
       subtitle: "VFS Insight",
       description: "Building next-generation digital experiences",
-      video:
-        "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+      video: "/VFS Insight - Hype reel.mp4",
+      route: null,
     },
   ];
 
@@ -1973,14 +1974,14 @@ export default function Index() {
                             : "rgba(137, 207, 240, 0.5)"
                             }`,
                           background: "rgba(15, 5, 30, 0.8)",
-                          backdropFilter: "blur(15px)",
+                          backdropFilter: "blur(1px)",
                           boxShadow:
                             hoveredProject === idx
                               ? "0 30px 80px rgba(137, 207, 240, 0.6), 0 0 100px rgba(139, 92, 246, 0.5)"
                               : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
                         }}
                       >
-                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} />
+                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} blur={project.blur} />
                         <div
                           style={{
                             position: "absolute",
@@ -2079,8 +2080,8 @@ export default function Index() {
                           >
                             <button
                               onClick={() => {
-                                if (idx === 0) {
-                                  navigate("/ad-cognitive");
+                                if (project.route) {
+                                  navigate(project.route);
                                 }
                               }}
                               onMouseEnter={(e) => {

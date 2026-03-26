@@ -20,10 +20,10 @@ const Navbar = ({ activeLens, setActiveLens }) => {
       {/* Logo */}
       <a href="/" className="navbar-logo" onClick={(e) => handleNavClick(e, '/')}>
         <img
-          src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
+          src="/New logo.svg"
           alt="Gravity Engage"
           style={{
-            height: "40px",
+            height: "28px",
             width: "auto",
             transition: "transform 0.3s ease",
           }}
