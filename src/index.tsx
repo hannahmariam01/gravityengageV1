@@ -7,7 +7,7 @@ import App from "./App";
 import Workpage from "./Workpage";
 import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
-import PlaygroundPage from "./PlaygroundPage";
+import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
 import DohVisualisation from "./DohVisualisation";
 import ADPMRevamp from "./ADPMRevamp";
@@ -29,7 +29,7 @@ root.render(
           <Route path="/doh-visualisation" element={<DohVisualisation />} />
           <Route path="/adpm-revamp" element={<ADPMRevamp />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/playground" element={<PlaygroundPage />} />
+          <Route path="/experiments" element={<ExperimentsPage />} />
         </Routes>
       </AdminProvider>
     </BrowserRouter>
