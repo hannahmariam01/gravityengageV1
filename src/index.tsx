@@ -9,7 +9,8 @@ import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
 import ExperimentsPage from "./ExperimentsPage";
 import EdenMonaro from "./EdenMonaro";
-import ECASTransformation from "./ECASTransformation";
+import DohVisualisation from "./DohVisualisation";
+import ADPMRevamp from "./ADPMRevamp";
 import { AdminProvider } from "./AdminContext";
 
 const root = ReactDOM.createRoot(
@@ -25,7 +26,8 @@ root.render(
           <Route path="/work" element={<Workpage />} />
           <Route path="/ad-cognitive" element={<ADCognitive />} />
           <Route path="/eden-monaro" element={<EdenMonaro />} />
-          <Route path="/ecas-transformation" element={<ECASTransformation />} />
+          <Route path="/doh-visualisation" element={<DohVisualisation />} />
+          <Route path="/adpm-revamp" element={<ADPMRevamp />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/experiments" element={<ExperimentsPage />} />
         </Routes>
