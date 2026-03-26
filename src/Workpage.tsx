@@ -104,7 +104,6 @@ export default function Workpage() {
         subtitle: "",
         route: null,
         video: "/doh 2.mp4",
-        scale: 1.35,
       },
       {
         name: "ADPM UI Revamp",
@@ -856,7 +855,7 @@ export default function Workpage() {
                 style={{
                   width: "100%",
                   height: 0,
-                  paddingBottom: "66.67%",
+                  paddingBottom: "56.25%",
                   position: "relative",
                 }}
               >
@@ -889,6 +888,7 @@ export default function Workpage() {
                       hoveredProject === idx
                         ? "0 25px 50px rgba(137, 207, 240, 0.4), 0 0 60px rgba(139, 92, 246, 0.3)"
                         : "0 10px 30px rgba(0, 0, 0, 0.3)",
+                    opacity: 0.8,
                   }}
                 >
                   {isAdmin && (

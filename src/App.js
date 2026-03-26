@@ -125,7 +125,6 @@ export default function Index() {
       subtitle: "",
       description: "Transforming complex datasets into clear, actionable visual narratives",
       video: "/doh 2.mp4",
-      scale: 1.35,
     },
     {
       name: "ECAS Transformation",
