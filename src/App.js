@@ -1373,256 +1373,97 @@ export default function Index() {
             }}
           />
 
-          {/* Main heading */}
+          {/* Clients Matrix Component */}
           <div
             id="offerings"
             style={{
-
               width: "100%",
-              marginBottom: "8rem",
-              paddingLeft: 0,
-              position: "relative",
+              maxWidth: "1400px",
+              margin: "0 auto",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
               zIndex: 5,
+              opacity: screen2Progress > 0.1 ? 1 : 0,
+              transform: `translateY(${screen2Progress > 0.1 ? 0 : 40}px)`,
+              transition: "opacity 1s ease, transform 1s ease",
             }}
           >
-            <h2
-              style={{
-                fontSize: "35px",
-                fontWeight: 300,
-                lineHeight: "1.4",
-                color: "#ffffff",
-                margin: 0,
-                position: "relative",
-                textAlign: "left",
-                maxWidth: "1100px",
-                width: "100%",
-              }}
-            >
-              {(() => {
-                const fullText =
-                  "Our goal is to build breakthrough products, communicate complex information and drive changes through design";
-                const words = fullText.split(" ");
-                const totalWords = words.length;
-                const wordsToShow = Math.floor(screen2Progress * totalWords);
+            {/* Stats Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3rem', marginBottom: '3rem' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '56px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>120+</div>
+                <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', letterSpacing: '1px', textTransform: 'uppercase' }}>CLIENTS SERVED</div>
+              </div>
+              <div style={{ width: '2px', height: '60px', backgroundColor: '#3b00ff' }} />
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '56px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>2 Regions</div>
+                <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', letterSpacing: '1px', textTransform: 'uppercase' }}>UAE & AUS</div>
+              </div>
+            </div>
 
-                return words.map((word, index) => {
-                  if (index < wordsToShow) {
-                    const isBold =
-                      word === "Our" || word === "goal" || word === "design";
-                    return (
-                      <span
-                        key={index}
-                        style={{ fontWeight: isBold ? 700 : 300 }}
-                      >
-                        {word}{" "}
-                      </span>
-                    );
-                  } else if (index === wordsToShow) {
-                    const progress = screen2Progress * totalWords - wordsToShow;
-                    const charsToShow = Math.floor(word.length * progress);
-                    const isBold =
-                      word === "Our" || word === "goal" || word === "design";
-                    return (
-                      <span
-                        key={index}
-                        style={{ fontWeight: isBold ? 700 : 300 }}
-                      >
-                        {word.substring(0, charsToShow)}
-                        <span style={{ opacity: 0.2 }}>
-                          {word.substring(charsToShow)}
-                        </span>{" "}
-                      </span>
-                    );
-                  } else {
-                    return (
-                      <span
-                        key={index}
-                        style={{ opacity: 0.2, fontWeight: 300 }}
-                      >
-                        {word}{" "}
-                      </span>
-                    );
+            {/* Scrolling Clients Band Container */}
+            <div style={{ 
+              width: '100%', 
+              overflow: 'hidden', 
+              background: '#b0b0b8', 
+              borderRadius: '24px', 
+              position: 'relative',
+              height: '180px',
+              display: 'flex',
+              alignItems: 'center',
+              boxShadow: 'inset 0 0 10px rgba(0,0,0,0.1)'
+            }}>
+              <style>
+                {`
+                  @keyframes scrollLeftInfinitely {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
                   }
-                });
-              })()}
-            </h2>
-          </div>
-
-          {/* Grid with cards */}
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "1200px",
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "4rem 6rem",
-              position: "relative",
-              zIndex: 5,
-            }}
-          >
-            {[
-              {
-                title: "Accelerated Innovation &",
-                subtitle: "Prototyping",
-                description: "Using AI-driven workflows to move from concept to high-fidelity prototypes in days.\n\nOutcomes\n• Interactive Prototypes • Technical Roadmaps",
-                icon: (
-                  <img src="/accelerated.svg" alt="Accelerated Innovation" style={{ width: 48, height: 48 }} />
-                ),
-              },
-              {
-                title: "Digital Product &",
-                subtitle: "System Design",
-                description: "User research, experience and interface design and thorough development handoff to bring concepts to reality.\n\nOutcomes\n• User Flow Maps • Interactive Prototypes • Scalable Design Systems",
-                icon: (
-                  <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 48, height: 48 }} />
-                ),
-              },
-              {
-                title: "Immersive Narratives &",
-                subtitle: "Experiences",
-                description: "We design spatial and interactive experiences to tell compelling stories and support product understanding.\n\nOutcomes\n• 3D Environments • Immersive Narratives • Spatial Visual Assets",
-                icon: (
-                  <img src="/immersive.svg" alt="Immersive Narratives" style={{ width: 48, height: 48 }} />
-                ),
-              },
-              {
-                title: "Ecosystem Visualization &",
-                subtitle: "Digital Systems",
-                description: "Mapping data, workflows, and system relationships into clear visual structures, making dependencies, gaps, and opportunities easier to identify.\n\nOutcomes\n• Interactive Infographics • Visual Dashboards",
-                icon: (
-                  <img src="/ecosystem.svg" alt="Ecosystem" style={{ width: 48, height: 48 }} />
-                ),
-              },
-            ].map((item, idx) => {
-              let threshold;
-              if (idx === 0) {
-                threshold = 0.2;
-              } else if (idx === 1) {
-                threshold = 0.45;
-              } else {
-                threshold = 0.7;
-              }
-
-              const shouldAnimate = screen2Progress > threshold;
-              const isLeftColumn = idx % 2 === 0;
-
-              return (
-                <div
-                  key={idx}
-                  style={{
-                    display: "flex",
-                    gap: "1.5rem",
-                    alignItems: "flex-start",
-                    opacity: shouldAnimate ? 1 : 0,
-                    transform: shouldAnimate
-                      ? "translateX(0)"
-                      : isLeftColumn
-                        ? "translateX(-100px)"
-                        : "translateX(100px)",
-                    filter: `blur(${shouldAnimate ? 0 : 12}px)`,
-                    transition: `all 1.4s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.1
-                      }s, background-color 0.3s ease, padding 0.3s ease, border-radius 0.3s ease`,
-                    backgroundColor: "transparent",
-                    padding: "0",
-                    borderRadius: "16px",
-                    cursor: "default",
-                  }}
-                >
-                  <div
-                    style={{
-                      marginTop: "0.5rem",
-                      filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {item.icon}
+                  .client-track-loop {
+                    display: flex;
+                    width: max-content;
+                    animation: scrollLeftInfinitely 45s linear infinite;
+                  }
+                  .client-logo-box {
+                    width: 200px;
+                    height: 100px;
+                    margin: 0 1.5rem;
+                    background-color: rgba(255, 255, 255, 0.4);
+                    border: 1px dashed rgba(0, 0, 0, 0.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #555555;
+                    font-weight: 500;
+                    font-size: 13px;
+                    border-radius: 12px;
+                    text-align: center;
+                    padding: 0 10px;
+                  }
+                `}
+              </style>
+              <div className="client-track-loop">
+                {/* Loop twice for seamless scrolling with placeholders */}
+                {[...Array(2)].map((_, loopIdx) => (
+                  <div key={loopIdx} style={{ display: 'flex' }}>
+                    {[
+                      'NEOM', 'Dubai Holding', 'Saudi Tourism Authority', 'National Projects', 
+                      'Victoria State Government', 'AFP', 'Australian National University', 
+                      'Singapore Tourism Board', 'Department of Health (AUS)', 
+                      'Department of Health (UAE)', 'ASIC', 'Dubai Brand', 
+                      'Resilience NSW', 'Executive Office', 'Unitywater', 
+                      'Elisium', 'UN Tourism'
+                    ].map((name, i) => (
+                      <div key={`${loopIdx}-${i}`} className="client-logo-box">
+                        {name}<br/>(Logo Placeholder)
+                      </div>
+                    ))}
                   </div>
-                  <div
-                    style={{
-                      borderLeft: "2px solid rgba(137, 207, 240, 0.5)",
-                      paddingLeft: "2rem",
-                      width: "100%",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "28px",
-                        fontWeight: 600,
-                        color: "#ffffff",
-                        marginBottom: item.subtitle ? "0.25rem" : "0.5rem",
-                        lineHeight: "1.2",
-                      }}
-                    >
-                      {item.title}
-                    </h3>
-                    {item.subtitle && (
-                      <h3
-                        style={{
-                          fontSize: "28px",
-                          fontWeight: 600,
-                          color: "#ffffff",
-                          marginBottom: "0.5rem",
-                          lineHeight: "1.2",
-                        }}
-                      >
-                        {item.subtitle}
-                      </h3>
-                    )}
-                    {(() => {
-                      const descParts = item.description.split("\n\nOutcomes\n");
-                      const mainDesc = descParts[0];
-                      const outcomesString = descParts[1];
-                      let outcomesList = [];
-                      if (outcomesString) {
-                         outcomesList = outcomesString.split("•").map(s => s.trim()).filter(Boolean);
-                      }
-                      
-                      return (
-                        <>
-                          <p
-                            style={{
-                              fontSize: "15px",
-                              lineHeight: "1.5",
-                              fontWeight: 300,
-                              color: "rgba(255, 255, 255, 0.7)",
-                              margin: 0,
-                              whiteSpace: "pre-line",
-                              marginBottom: outcomesList.length > 0 ? "1.5rem" : 0,
-                            }}
-                          >
-                            {mainDesc}
-                          </p>
-                          {outcomesList.length > 0 && (
-                            <div>
-                              <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
-                                {outcomesList.map((outcome, i) => (
-                                  <span
-                                    key={i}
-                                    style={{
-                                      backgroundColor: "rgba(137, 207, 240, 0.08)",
-                                      border: "1px solid rgba(137, 207, 240, 0.2)",
-                                      color: "#89cff0",
-                                      padding: "0.2rem 0.6rem",
-                                      borderRadius: "9999px",
-                                      fontSize: "11.5px",
-                                      fontWeight: 400,
-                                      whiteSpace: "nowrap",
-                                    }}
-                                  >
-                                    {outcome.replace(/,$/, '')}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      );
-                    })()}
-
-                  </div>
-                </div>
-              );
-            })}
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -131,6 +131,15 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
   const sectionRef = useRef();
 
   const [mounted, setMounted] = useState(false);
+  const [promptState, setPromptState] = useState(0);
+
+  useEffect(() => {
+    if (activeLens) return;
+    const interval = setInterval(() => {
+      setPromptState(p => (p + 1) % 3);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [activeLens]);
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 200);
@@ -208,7 +217,7 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
             style={{ background: 'transparent' }}
           >
             <ParticleField
-              activeLens={activeLens || hoveredLens}
+              activeLens={activeLens || hoveredLens || (promptState === 1 ? 'build' : promptState === 2 ? 'industry' : null)}
               scrollRef={scrollRef}
             />
           </Canvas>
@@ -217,34 +226,145 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
 
       {/* ── IDLE & HOVERED: central prompt ── */}
       <AnimatePresence mode="wait">
-        {!activeLens && (
+        {!activeLens && promptState !== 2 && (
           <motion.div
-            key={hoveredLens === null ? 'welcome' : 'full'}
+            key="central-loop"
             className="central-prompt"
             initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95, filter: 'blur(5px)', transition: { duration: 0.2 } }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <motion.h1 
+            <motion.div 
               className="prompt-headline"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ width: "100%" }}
             >
-              {hoveredLens === null ? (
-                <><span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8 }}>The problem</span>Ideas break down between human complexity and technical execution.</>
-              ) : (
-                <>
-                  <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8 }}>What we do</span>
-                  We turn complexity into products, systems,<br />
-                  and experiences that work.
-                </>
-              )}
-            </motion.h1>
+              <AnimatePresence mode="wait">
+                {promptState === 0 && (
+                  <motion.div key="st0" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
+                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>The problem</span>Ideas break down between human complexity and technical execution.
+                  </motion.div>
+                )}
+                {promptState === 1 && (
+                  <motion.div key="st1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
+                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>What we do</span>
+                    We turn complexity into products, systems,<br />
+                    and experiences that work.
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {!activeLens && promptState === 2 && (
+          <motion.div
+            key="st2-fullscreen"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            style={{ position: 'absolute', inset: 0, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "6rem 6rem 6rem 12rem", zIndex: 10, pointerEvents: 'none' }}
+          >
+            <h2 style={{ fontSize: "35px", fontWeight: 300, lineHeight: "1.4", color: "#ffffff", margin: "0 0 4rem 0", textAlign: "left", maxWidth: "1100px", width: "100%", pointerEvents: 'auto' }}>
+              How we bridge the gap
+            </h2>
+            <div style={{ width: "100%", maxWidth: "1200px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem 6rem", textAlign: "left", fontFamily: "'Poppins', sans-serif", pointerEvents: 'auto' }}>
+
+              {/* Item 1 */}
+              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
+                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
+                  <img src="/accelerated.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+                </div>
+                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Accelerated Innovation &</h3>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Prototyping</h3>
+                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>Using AI-driven workflows to move from concept to high-fidelity prototypes in days.</p>
+                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Interactive Prototypes</span>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Technical Roadmaps</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Item 2 */}
+              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
+                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
+                  <img src="/digital%20product.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+                </div>
+                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Digital Product &</h3>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>System Design</h3>
+                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>User research, experience and interface design and thorough development handoff to bring concepts to reality.</p>
+                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>User Flow Maps</span>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Scalable Design Systems</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Item 3 */}
+              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
+                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
+                  <img src="/immersive.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+                </div>
+                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Immersive Narratives &</h3>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Experiences</h3>
+                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>We design spatial and interactive experiences to tell compelling stories and support product understanding.</p>
+                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>3D Environments</span>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Spatial Visual Assets</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Item 4 */}
+              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
+                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
+                  <img src="/ecosystem.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+                </div>
+                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Ecosystem Visualization &</h3>
+                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Digital Systems</h3>
+                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>Mapping data, workflows, and system relationships into clear visual structures, making gaps easier to identify.</p>
+                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Interactive Infographics</span>
+                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Visual Dashboards</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── BOTTOM DOT NAVIGATION ── */}
+      {!activeLens && (
+        <div style={{ position: 'absolute', bottom: '3rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '1.5rem', zIndex: 100, pointerEvents: 'auto' }}>
+          <button onClick={() => setPromptState(p => p === 0 ? 2 : p - 1)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', display: 'flex', padding: '0.5rem' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          </button>
+          
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            {[0, 1, 2].map(idx => (
+              <button 
+                key={idx} 
+                onClick={() => setPromptState(idx)} 
+                style={{ width: 10, height: 10, borderRadius: '50%', background: promptState === idx ? '#fff' : 'rgba(255,255,255,0.3)', border: 'none', padding: 0, cursor: 'pointer', transition: 'background 0.3s ease' }} 
+              />
+            ))}
+          </div>
+
+          <button onClick={() => setPromptState(p => (p + 1) % 3)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', display: 'flex', padding: '0.5rem' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          </button>
+        </div>
+      )}
 
       {/* ── ACTIVE: Crystal orb (video inside sphere) ── */}
       <AnimatePresence mode="wait">
