@@ -241,7 +241,7 @@ export default function ExperimentsPage() {
                     <img
                         src="/New logo.svg"
                         alt="Gravity Engage"
-                        style={{ height: "28px", cursor: "pointer" }}
+                        style={{ height: "32px", cursor: "pointer", opacity: 0.8 }}
                         onClick={() => navigate("/")}
                     />
                     <div style={{ display: "flex", gap: "3rem" }}>
@@ -454,18 +454,19 @@ export default function ExperimentsPage() {
                                                 {exp.description}
                                             </p>
 
-                                            {/* Top Right Flame Icon */}
+                                            {/* Top Right Experiment Icon */}
                                             <div style={{
                                                 position: "absolute",
                                                 top: "3rem",
                                                 right: "3rem",
-                                                opacity: 0.5,
+                                                opacity: 0.4,
                                                 filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))"
                                             }}>
-                                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.5">
-                                                    <path d="M12 2c0 0-4 4-4 8a4 4 0 0 0 8 0c0-4-4-8-4-8z" />
-                                                    <path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12z" opacity="0.3" />
-                                                </svg>
+                                                <img 
+                                                    src="/experiment icon.svg" 
+                                                    alt="Experiment" 
+                                                    style={{ width: "32px", height: "auto" }} 
+                                                />
                                             </div>
                                         </div>
 
@@ -528,6 +529,146 @@ export default function ExperimentsPage() {
                                         <p style={{ color: "rgba(255, 255, 255, 0.6)", lineHeight: "1.6" }}>{blog.excerpt}</p>
                                     </div>
                                 ))}
+                            </div>
+
+                            {/* R&D Section */}
+                            <div
+                                style={{
+                                    marginTop: "8rem",
+                                    marginBottom: "8rem",
+                                    animation: "fadeInUp 0.8s ease-out 0.8s backwards",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "2rem",
+                                        marginBottom: "3rem",
+                                    }}
+                                >
+                                    <h2
+                                        style={{
+                                            fontSize: "48px",
+                                            fontWeight: 400,
+                                            color: "#ffffff",
+                                            margin: 0,
+                                            textShadow: "0 0 25px rgba(137, 207, 240, 0.3)",
+                                            fontFamily: "'Outfit', sans-serif"
+                                        }}
+                                    >
+                                        R&D
+                                    </h2>
+                                    <div
+                                        style={{
+                                            flex: 1,
+                                            height: "1px",
+                                            background:
+                                                "linear-gradient(90deg, rgba(137, 207, 240, 0.6), transparent)",
+                                        }}
+                                    />
+                                </div>
+
+                                <div style={{ maxWidth: "900px", marginBottom: "4rem" }}>
+                                    <h3
+                                        style={{
+                                            fontSize: "24px",
+                                            fontWeight: 600,
+                                            color: "#89cff0",
+                                            marginBottom: "1.5rem",
+                                            fontFamily: "'Outfit', sans-serif"
+                                        }}
+                                    >
+                                        Our internship program
+                                    </h3>
+                                    <p
+                                        style={{
+                                            fontSize: "18px",
+                                            lineHeight: "1.8",
+                                            color: "rgba(255, 255, 255, 0.8)",
+                                            fontWeight: 300,
+                                        }}
+                                    >
+                                        We believe innovation is a discipline, not a happy accident.
+                                        Our internship program is an intensive R&D lab where diverse
+                                        talent—from front-end engineers to UX architects—converge to
+                                        untie the knots of complex, emerging tech briefs. Operating
+                                        in high-velocity sprints, our interns don't just "assist";
+                                        they build the prototypes that define our studio’s edge.
+                                    </p>
+                                </div>
+
+                                <div style={{ marginBottom: "4rem" }}>
+                                    <h3
+                                        style={{
+                                            fontSize: "20px",
+                                            fontWeight: 500,
+                                            color: "rgba(255, 255, 255, 0.9)",
+                                            marginBottom: "3rem",
+                                            fontFamily: "'Outfit', sans-serif"
+                                        }}
+                                    >
+                                        Outcomes of the Internship program
+                                    </h3>
+
+                                    <div
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "3rem",
+                                        }}
+                                    >
+                                        {/* Outcome 1 */}
+                                        <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+                                            <img
+                                                src="/accelerated.svg"
+                                                alt="Generative Brand Engine"
+                                                style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
+                                            />
+                                            <p
+                                                style={{
+                                                    fontSize: "20px",
+                                                    lineHeight: "1.6",
+                                                    color: "rgba(255, 255, 255, 0.9)",
+                                                    maxWidth: "600px",
+                                                    fontWeight: 300,
+                                                }}
+                                            >
+                                                <strong style={{ color: "#ffffff", fontWeight: 600 }}>
+                                                    Generative Brand Engine:
+                                                </strong>{" "}
+                                                An AI-driven tool that dynamically re-formats complex
+                                                presentations into custom, brand-compliant themes.
+                                            </p>
+                                        </div>
+
+
+                                        {/* Outcome 3 */}
+                                        <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+                                            <img
+                                                src="/ecosystem.svg"
+                                                alt="Interactive Strategy Orchestration"
+                                                style={{ width: "64px", height: "64px", flexShrink: 0, marginTop: "4px" }}
+                                            />
+                                            <p
+                                                style={{
+                                                    fontSize: "20px",
+                                                    lineHeight: "1.6",
+                                                    color: "rgba(255, 255, 255, 0.9)",
+                                                    maxWidth: "600px",
+                                                    fontWeight: 300,
+                                                }}
+                                            >
+                                                <strong style={{ color: "#ffffff", fontWeight: 600 }}>
+                                                    Interactive Strategy Orchestration:
+                                                </strong>{" "}
+                                                An immersive digital experience that translates
+                                                high-level business strategy into a navigable,
+                                                interactive ecosystem.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
