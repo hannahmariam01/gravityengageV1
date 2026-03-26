@@ -83,7 +83,6 @@ export default function EdenMonaro() {
           padding: 0;
           font-family: 'Poppins', sans-serif;
           background: radial-gradient(ellipse at top, #1a0a2e 0%, #000000 50%, #000000 100%);
-          overflow: hidden;
         }
 
         @keyframes fadeInDown {
@@ -177,7 +176,6 @@ export default function EdenMonaro() {
           position: "relative",
           zIndex: 1,
           width: "100%",
-          height: "100vh",
           display: "flex",
           flexDirection: "column",
         }}
@@ -278,14 +276,12 @@ export default function EdenMonaro() {
         <div
           style={{
             width: "100%",
-            height: "45vh",
             background: "transparent",
             color: "#fff",
-            padding: "2rem 4rem",
+            padding: "2rem 4rem 6rem 4rem",
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "column",
-            overflowY: "auto",
           }}
         >
           <h1

@@ -9,6 +9,7 @@ import ADCognitive from "./ADCognitive";
 import AboutPage from "./AboutPage";
 import PlaygroundPage from "./PlaygroundPage";
 import EdenMonaro from "./EdenMonaro";
+import ECASTransformation from "./ECASTransformation";
 import { AdminProvider } from "./AdminContext";
 
 const root = ReactDOM.createRoot(
@@ -24,6 +25,7 @@ root.render(
           <Route path="/work" element={<Workpage />} />
           <Route path="/ad-cognitive" element={<ADCognitive />} />
           <Route path="/eden-monaro" element={<EdenMonaro />} />
+          <Route path="/ecas-transformation" element={<ECASTransformation />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
         </Routes>

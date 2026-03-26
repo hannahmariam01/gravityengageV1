@@ -110,9 +110,9 @@ export default function Index() {
     {
       name: "ADPM UI Revamp",
       subtitle: "",
-      description:
-        "Transforming urban landscapes through intelligent design and data-driven solutions",
+      description: "Transforming urban landscapes through intelligent design and data-driven solutions",
       video: "/ADPM 2.mp4",
+      route: "/ad-cognitive",
     },
     {
       name: "Eden Monaro",
@@ -120,24 +120,28 @@ export default function Index() {
       description: "A cinematic UI showcase of a project displayed on seedance",
       video: "/EDEN MONARO.mp4",
       blur: true,
+      route: "/eden-monaro",
     },
     {
       name: "Health Landscape Visualisation",
       subtitle: "",
       description: "Transforming complex datasets into clear, actionable visual narratives",
       video: "/doh 2.mp4",
+      route: null,
     },
     {
       name: "ECAS Transformation",
       subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
       video: "/ECAS.mp4",
+      route: "/ecas-transformation",
     },
     {
       name: "VFS Global:",
       subtitle: "VFS Insight",
       description: "Building next-generation digital experiences",
       video: "/VFS Insight - Hype reel.mp4",
+      route: null,
     },
   ];
 
@@ -2076,8 +2080,8 @@ export default function Index() {
                           >
                             <button
                               onClick={() => {
-                                if (idx === 0) {
-                                  navigate("/ad-cognitive");
+                                if (project.route) {
+                                  navigate(project.route);
                                 }
                               }}
                               onMouseEnter={(e) => {
