@@ -752,35 +752,34 @@ export default function Index() {
   }, [activeProjectIndex, projects.length]);
 
   const handleProjectWheel = (e) => {
-    if (!projectCarouselRef.current || !screen3Ref.current) return;
+    if (!projectCarouselRef.current || !screen3Ref.current || activeLens) return;
     
     const sectionTop = screen3Ref.current.offsetTop;
     const sectionHeight = screen3Ref.current.offsetHeight;
     const windowHeight = window.innerHeight;
     const scrollY = window.scrollY;
     
-    // Check if the section is currently active for scroll-jacking
-    // We lock when the user has scrolled into the section but not past it.
-    const isSectionActive = scrollY >= sectionTop && scrollY < (sectionTop + sectionHeight - windowHeight);
+    // We lock when the user has scrolled into the section but not past its sticky range
+    const isSectionActive = scrollY >= sectionTop - 50 && scrollY < (sectionTop + sectionHeight - windowHeight - 50);
     
     if (!isSectionActive) return;
 
     const delta = e.deltaY;
-    if (Math.abs(delta) < 8) return;
+    if (Math.abs(delta) < 10) return;
 
     if (projectWheelLockRef.current) {
       e.preventDefault();
       return;
     }
 
-    const lerpSpeed = activeLens ? 0.025 : 0.008;
-    
     const direction = delta > 0 ? 1 : -1;
     
-    // Boundary checks for passing scroll back to page (using Ref to avoid stale closure)
+    // Check boundaries: if scroll-down at last project, allow page to continue.
+    // However, we want to stay locked for a bit at the end to make it feel intentional.
     if (direction === 1 && activeProjectIndexRef.current === projects.length - 1) {
       return;
     }
+    // If scroll-up at first project, allow page to continue up.
     if (direction === -1 && activeProjectIndexRef.current === 0) {
       return;
     }
@@ -792,7 +791,7 @@ export default function Index() {
     
     setTimeout(() => {
       projectWheelLockRef.current = false;
-    }, 650);
+    }, 800);
   };
 
   useEffect(() => {
@@ -1196,6 +1195,21 @@ export default function Index() {
           padding: "6rem 6rem 5rem",
         }}
       >
+        {/* Top gradient line */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "90%",
+            height: "3px",
+            background:
+              "linear-gradient(90deg, rgba(137, 207, 240, 0.8), rgba(139, 92, 246, 0.8))",
+            boxShadow: "0 0 30px rgba(137, 207, 240, 0.4)",
+            zIndex: 11,
+          }}
+        />
         <div
           style={{
             width: "100%",
@@ -1536,25 +1550,6 @@ export default function Index() {
             }}
           />
 
-          {/* Top gradient line */}
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: screen2Progress > 0.1 ? "90%" : "0%",
-              height: "3px",
-              background:
-                "linear-gradient(90deg, rgba(137, 207, 240, 0.8), rgba(139, 92, 246, 0.8))",
-              transition: "width 1.5s cubic-bezier(0.4, 0, 0.2, 1)",
-              boxShadow:
-                screen2Progress > 0.1
-                  ? "0 0 30px rgba(137, 207, 240, 0.8)"
-                  : "none",
-              zIndex: 11,
-            }}
-          />
 
           {/* Clients Matrix Component */}
           <div
@@ -1641,7 +1636,7 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: "140vh", // Reduced from 200vh to minimize gap at bottom
+          height: "400vh", // Increased height to provide more scrolling room for lock
           background: "rgba(8, 4, 18, 1)",
         }}
       >
@@ -1673,15 +1668,12 @@ export default function Index() {
           <div
             style={{
               padding: "3rem 6rem 1rem",
-              opacity: screen3Progress > 0.2 ? 1 : 0,
-              transform: `translateY(${screen3Progress > 0.2 ? 0 : 50}px)`,
-              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
+              opacity: screen3Progress > 0.05 ? 1 : 0,
+              transform: `translateY(${screen3Progress > 0.05 ? 0 : 30}px)`,
+              transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              position: "relative", // Changed from absolute to relative to avoid overlap
               zIndex: 10,
-              pointerEvents: "none",
+              pointerEvents: "auto",
               background: "transparent",
             }}
           >
@@ -1730,7 +1722,6 @@ export default function Index() {
             </p>
           </div>
 
-          {/* Projects Carousel */}
           <div
             ref={projectCarouselRef}
             style={{
@@ -1738,11 +1729,11 @@ export default function Index() {
               position: "relative",
               display: "flex",
               justifyContent: "center",
-              alignItems: "flex-start",
-              opacity: screen3Progress > 0.3 ? 1 : 0,
+              alignItems: "center", // Center vertically in space
+              opacity: screen3Progress > 0.1 ? 1 : 0,
               transition: "opacity 0.6s ease",
               overflow: "visible",
-              paddingTop: "12rem",
+              paddingTop: "0rem", // Remove large padding since header is now relative
             }}
           >
             {/* Side Slider */}
