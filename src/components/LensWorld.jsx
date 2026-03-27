@@ -226,7 +226,7 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
 
       {/* ── IDLE & HOVERED: central prompt ── */}
       <AnimatePresence mode="wait">
-        {!activeLens && promptState !== 2 && (
+        {!activeLens && (
           <motion.div
             key="central-loop"
             className="central-prompt"
@@ -245,14 +245,20 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
               <AnimatePresence mode="wait">
                 {promptState === 0 && (
                   <motion.div key="st0" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
-                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>The problem</span>Ideas break down between human complexity and technical execution.
+                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>Where ideas break down</span>Ideas lose clarity between human insight and technical execution.
                   </motion.div>
                 )}
                 {promptState === 1 && (
                   <motion.div key="st1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
-                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>What we do</span>
-                    We turn complexity into products, systems,<br />
-                    and experiences that work.
+                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>What we do differently</span>
+                    We turn complexity into clear, scalable products, systems,<br />
+                    and experiences.
+                  </motion.div>
+                )}
+                {promptState === 2 && (
+                  <motion.div key="st2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.5 }} style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 300 }}>
+                    <span style={{ fontSize: '0.35em', display: 'block', marginBottom: '10px', fontWeight: 400, opacity: 0.8, fontFamily: "'Poppins', sans-serif", letterSpacing: '0.15em' }}>How we make it real</span>
+                    Rapid co-creation, prototyping, and design that align teams and technology.
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -260,89 +266,13 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
           </motion.div>
         )}
 
-        {!activeLens && promptState === 2 && (
-          <motion.div
-            key="st2-fullscreen"
-            className="st2-fullscreen-container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="st2-header">
-              How we bridge the gap
-            </h2>
-            
-            <div className="offerings-container">
-              {/* Card 1 */}
-              <div className="offering-card">
-                <div className="offering-icon-wrapper">
-                  <img src="/accelerated.svg" alt="Accelerated" style={{ width: 32, height: 32 }} />
-                </div>
-                <div className="offering-content">
-                  <h3 className="offering-heading">Accelerated Innovation <br/>& Prototyping</h3>
-                  <p className="offering-byline">Using AI-driven workflows to move from concept to high-fidelity prototypes in days.</p>
-                  <div className="offering-pills">
-                    <span className="offering-pill">Interactive Prototypes</span>
-                    <span className="offering-pill">Technical Roadmaps</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="offering-card">
-                <div className="offering-icon-wrapper">
-                  <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 32, height: 32 }} />
-                </div>
-                <div className="offering-content">
-                  <h3 className="offering-heading">Digital Product & <br/>System Design</h3>
-                  <p className="offering-byline">User research, experience design and development handoff to bring concepts to reality.</p>
-                  <div className="offering-pills">
-                    <span className="offering-pill">User Flow Maps</span>
-                    <span className="offering-pill">Scalable Systems</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="offering-card">
-                <div className="offering-icon-wrapper">
-                  <img src="/immersive.svg" alt="Immersive" style={{ width: 32, height: 32 }} />
-                </div>
-                <div className="offering-content">
-                  <h3 className="offering-heading">Immersive Narratives <br/>& Experiences</h3>
-                  <p className="offering-byline">We design spatial experiences to tell compelling stories and support product understanding.</p>
-                  <div className="offering-pills">
-                    <span className="offering-pill">3D Environments</span>
-                    <span className="offering-pill">Spatial Assets</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 4 */}
-              <div className="offering-card">
-                <div className="offering-icon-wrapper">
-                  <img src="/ecosystem.svg" alt="Ecosystem" style={{ width: 32, height: 32 }} />
-                </div>
-                <div className="offering-content">
-                  <h3 className="offering-heading">Ecosystem Viz & <br/>Digital Systems</h3>
-                  <p className="offering-byline">Mapping data and workflows into clear visual structures to identify gaps and opportunities.</p>
-                  <div className="offering-pills">
-                    <span className="offering-pill">Interactive Infographics</span>
-                    <span className="offering-pill">Visual Dashboards</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
       </AnimatePresence>
 
       {/* ── BOTTOM DOT NAVIGATION ── */}
       {!activeLens && (
-        <div style={{ position: 'absolute', bottom: '3rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '1.5rem', zIndex: 100, pointerEvents: 'auto' }}>
-          <button onClick={() => setPromptState(p => p === 0 ? 2 : p - 1)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', display: 'flex', padding: '0.5rem' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+        <div style={{ position: 'absolute', bottom: '3rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '2rem', zIndex: 100, pointerEvents: 'auto' }}>
+          <button onClick={() => setPromptState(p => p === 0 ? 2 : p - 1)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'flex', padding: '0.5rem', transition: 'color 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
           
           <div style={{ display: 'flex', gap: '1rem' }}>
@@ -350,13 +280,25 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
               <button 
                 key={idx} 
                 onClick={() => setPromptState(idx)} 
-                style={{ width: 10, height: 10, borderRadius: '50%', background: promptState === idx ? '#fff' : 'rgba(255,255,255,0.3)', border: 'none', padding: 0, cursor: 'pointer', transition: 'background 0.3s ease' }} 
+                style={{ 
+                  width: 6, 
+                  height: 6, 
+                  borderRadius: '50%', 
+                  background: promptState === idx 
+                    ? 'linear-gradient(135deg, #89cff0 0%, #3b82f6 100%)' 
+                    : 'rgba(255,255,255,0.25)', 
+                  border: 'none', 
+                  padding: 0, 
+                  cursor: 'pointer', 
+                  transition: 'all 0.3s ease',
+                  boxShadow: promptState === idx ? '0 0 10px rgba(59, 130, 246, 0.5)' : 'none'
+                }} 
               />
             ))}
           </div>
 
-          <button onClick={() => setPromptState(p => (p + 1) % 3)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', cursor: 'pointer', display: 'flex', padding: '0.5rem' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          <button onClick={() => setPromptState(p => (p + 1) % 3)} style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'flex', padding: '0.5rem', transition: 'color 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
         </div>
       )}

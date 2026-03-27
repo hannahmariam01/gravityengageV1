@@ -1187,6 +1187,160 @@ export default function Index() {
 
       </div>
 
+      {/* ── MORE ON OUR OFFERINGS ── */}
+      <section
+        style={{
+          position: "relative",
+          zIndex: 150,
+          background: "#080412",
+          padding: "6rem 6rem 5rem",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "1400px",
+            margin: "0 auto",
+          }}
+        >
+          {/* Header row — mirrors "Our clients" style */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "2rem",
+              marginBottom: "3.5rem",
+              width: "100%",
+              padding: "0 2rem",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "48px",
+                fontWeight: 300,
+                color: "#ffffff",
+                margin: 0,
+                whiteSpace: "nowrap",
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              More on our offerings
+            </h2>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(90deg, rgba(137, 207, 240, 0.6), transparent)",
+              }}
+            />
+          </div>
+
+          <div
+            className="offerings-container"
+            style={{ marginTop: 0, padding: "0 2rem" }}
+          >
+            {/* Card 1 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/accelerated.svg"
+                  alt="Accelerated"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Accelerated Innovation <br />& Prototyping
+                </h3>
+                <p className="offering-byline">
+                  Using AI-driven workflows to move from concept to
+                  high-fidelity prototypes in days.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">Interactive Prototypes</span>
+                  <span className="offering-pill">Technical Roadmaps</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/digital product.svg"
+                  alt="Digital Product"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Digital Product & <br />System Design
+                </h3>
+                <p className="offering-byline">
+                  User research, experience design and development handoff to
+                  bring concepts to reality.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">User Flow Maps</span>
+                  <span className="offering-pill">Scalable Systems</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/immersive.svg"
+                  alt="Immersive"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Immersive Narratives <br />& Experiences
+                </h3>
+                <p className="offering-byline">
+                  We design spatial experiences to tell compelling stories and
+                  support product understanding.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">3D Environments</span>
+                  <span className="offering-pill">Spatial Assets</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/ecosystem.svg"
+                  alt="Ecosystem"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Ecosystem Viz & <br />Digital Systems
+                </h3>
+                <p className="offering-byline">
+                  Mapping data and workflows into clear visual structures to
+                  identify gaps and opportunities.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">
+                    Interactive Infographics
+                  </span>
+                  <span className="offering-pill">Visual Dashboards</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div ref={screen2Ref} style={{ position: "relative", zIndex: 200 }}>
         <div
           style={{
@@ -1452,64 +1606,29 @@ export default function Index() {
               />
             </div>
 
-            {/* Logos Grid Container */}
-            <div style={{ 
-              width: '100%', 
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              gap: '3rem 2rem',
-              padding: '0 2rem 4rem 2rem',
-            }}>
-              {clientLogos.map((logo, i) => (
-                <div key={i} 
-                  onMouseEnter={() => setIsHoveringNav(true)}
-                  onMouseLeave={() => setIsHoveringNav(false)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '1.2rem',
-                    width: '180px',
-                  }}>
-                  <div style={{
-                    width: '115px',
-                    height: '115px',
-                    borderRadius: '50%',
-                    backgroundColor: '#ffffff',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
-                    backdropFilter: 'blur(5px)',
-                    overflow: 'hidden',
-                  }}>
-                    <img 
-                      src={logo.src} 
-                      alt={logo.name}
-                      style={{
-                        width: '70%',
-                        height: '70%',
-                        objectFit: 'contain',
-                      }}
-                    />
+            {/* Logos Carousel Slider */}
+            <div className="client-carousel-container">
+              <div className="client-carousel-track">
+                {[...clientLogos, ...clientLogos].map((logo, i) => (
+                  <div 
+                    key={i} 
+                    className="client-logo-item"
+                    onMouseEnter={() => setIsHoveringNav(true)}
+                    onMouseLeave={() => setIsHoveringNav(false)}
+                  >
+                    <div className="client-logo-circle">
+                      <img 
+                        src={logo.src} 
+                        alt={logo.name}
+                        className="client-logo-img"
+                      />
+                    </div>
+                    <div className="client-name-label">
+                      {logo.name}
+                    </div>
                   </div>
-                  {/* Client Name */}
-                  <div style={{
-                    color: '#ffffff',
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    textAlign: 'center',
-                    maxWidth: '160px',
-                    lineHeight: '1.4',
-                    opacity: 0.9,
-                  }}>
-                    {logo.name}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
