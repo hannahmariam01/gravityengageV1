@@ -316,7 +316,7 @@ export default function ADCognitive() {
             src="/New logo.svg"
             alt="Gravity Engage"
             onClick={() => navigate("/")}
-            style={{ height: "28px", cursor: "pointer" }}
+            style={{ height: "16px", cursor: "pointer", opacity: 0.8 }}
           />
 
           <div style={{ display: "flex", gap: "3rem" }}>

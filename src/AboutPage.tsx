@@ -238,7 +238,7 @@ export default function AboutPage() {
           <img
             src="/New logo.svg"
             alt="Gravity Engage"
-            style={{ height: "28px", cursor: "pointer" }}
+            style={{ height: "16px", cursor: "pointer", opacity: 0.8 }}
             onClick={() => navigate("/")}
           />
           <div style={{ display: "flex", gap: "3rem" }}>

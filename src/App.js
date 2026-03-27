@@ -79,6 +79,7 @@ export default function Index() {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const projectCarouselRef = useRef(null);
   const projectWheelLockRef = useRef(false);
+  const activeProjectIndexRef = useRef(0);
   const [orbPosition, setOrbPosition] = useState({
     x: typeof window !== "undefined" ? window.innerWidth * 0.9 : 800,
     y: typeof window !== "undefined" ? window.innerHeight * 0.25 : 200,
@@ -106,6 +107,37 @@ export default function Index() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const screen2BgCanvasRef = useRef(null);
+  const [clientPage, setClientPage] = useState(0);
+  activeProjectIndexRef.current = activeProjectIndex;
+  const clientLogos = [
+    { name: 'NEOM', src: '/Client logos/Neom.png' },
+    { name: 'Dubai Holding', src: '/Client logos/dubai holding.png' },
+    { name: 'Saudi Tourism Authority', src: '/Client logos/soudi tourism.png' },
+    { name: 'National Projects', src: '/Client logos/NPO.jpg' },
+    { name: 'Victoria State Government', src: '/Client logos/VICTORIA.png' },
+    { name: 'AFP', src: '/Client logos/AFP.png' },
+    { name: 'Australian National University', src: '/Client logos/ANU.png' },
+    { name: 'Singapore Tourism Board', src: '/Client logos/SINGAPORE TOURISM.png' },
+    { name: 'Department of Health (AUS)', src: '/Client logos/DOH AUS.jpg' },
+    { name: 'Department of Health (UAE)', src: '/Client logos/DOH ABU DHABI.png' },
+    { name: 'ASIC', src: '/Client logos/ASIC.png' },
+    { name: 'Dubai Brand', src: '/Client logos/DUBAI.png' },
+    { name: 'Resilience NSW', src: '/Client logos/NSW.png' },
+    { name: 'Executive Office', src: '/Client logos/Execitive office.png' },
+    { name: 'Unitywater', src: '/Client logos/unity water.png' },
+    { name: 'Elisium', src: '/Client logos/elisium.png' },
+    { name: 'UN Tourism', src: '/Client logos/un tourism.png' },
+    { name: 'Dubai Holding Real Estate', src: '/Client logos/dubai holding real estate.png' },
+  ];
+  const totalClientPages = Math.ceil(clientLogos.length / 4);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setClientPage((prev) => (prev + 1) % totalClientPages);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [totalClientPages]);
+
   const projects = [
     {
       name: "ADPM UI Revamp",
@@ -123,13 +155,6 @@ export default function Index() {
       route: "/eden-monaro",
     },
     {
-      name: "Health Landscape Visualisation",
-      subtitle: "",
-      description: "Transforming complex datasets into clear, actionable visual narratives",
-      video: "/doh 2.mp4",
-      route: null,
-    },
-    {
       name: "ECAS Transformation",
       subtitle: "",
       description: "Creating impactful narratives that resonate with audiences",
@@ -137,10 +162,10 @@ export default function Index() {
       route: "/ecas-transformation",
     },
     {
-      name: "VFS Global:",
-      subtitle: "VFS Insight",
-      description: "Building next-generation digital experiences",
-      video: "/VFS Insight - Hype reel.mp4",
+      name: "Health Landscape Visualisation",
+      subtitle: "",
+      description: "Transforming complex datasets into clear, actionable visual narratives",
+      video: "/doh 2.mp4",
       route: null,
     },
   ];
@@ -736,10 +761,18 @@ export default function Index() {
   }, [activeProjectIndex, projects.length]);
 
   const handleProjectWheel = (e) => {
-    if (!projectCarouselRef.current) return;
-    const rect = projectCarouselRef.current.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
+    if (!projectCarouselRef.current || !screen3Ref.current) return;
+    
+    const sectionTop = screen3Ref.current.offsetTop;
+    const sectionHeight = screen3Ref.current.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
+    
+    // Check if the section is currently active for scroll-jacking
+    // We lock when the user has scrolled into the section but not past it.
+    const isSectionActive = scrollY >= sectionTop && scrollY < (sectionTop + sectionHeight - windowHeight);
+    
+    if (!isSectionActive) return;
 
     const delta = e.deltaY;
     if (Math.abs(delta) < 8) return;
@@ -750,19 +783,23 @@ export default function Index() {
     }
 
     const direction = delta > 0 ? 1 : -1;
-    const nextIndex = Math.min(
-      Math.max(activeProjectIndex + direction, 0),
-      projects.length - 1
-    );
-
-    if (nextIndex !== activeProjectIndex) {
-      e.preventDefault();
-      projectWheelLockRef.current = true;
-      setActiveProjectIndex(nextIndex);
-      setTimeout(() => {
-        projectWheelLockRef.current = false;
-      }, 650);
+    
+    // Boundary checks for passing scroll back to page (using Ref to avoid stale closure)
+    if (direction === 1 && activeProjectIndexRef.current === projects.length - 1) {
+      return;
     }
+    if (direction === -1 && activeProjectIndexRef.current === 0) {
+      return;
+    }
+
+    // Capture the scroll event and advance carousel
+    e.preventDefault();
+    projectWheelLockRef.current = true;
+    setActiveProjectIndex(prev => Math.min(Math.max(prev + direction, 0), projects.length - 1));
+    
+    setTimeout(() => {
+      projectWheelLockRef.current = false;
+    }, 650);
   };
 
   useEffect(() => {
@@ -770,7 +807,7 @@ export default function Index() {
     const wheelListener = (e) => handleProjectWheel(e);
     window.addEventListener("wheel", wheelListener, { passive: false });
     return () => window.removeEventListener("wheel", wheelListener);
-  }, [showLanding, activeProjectIndex]);
+  }, [showLanding]);
 
   const { isAdmin, login, logout } = useAdmin();
   const [logoClicks, setLogoClicks] = useState(0);
@@ -1160,12 +1197,11 @@ export default function Index() {
       <div ref={screen2Ref} style={{ position: "relative", zIndex: 200 }}>
         <div
           style={{
-            minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: "6rem 6rem 6rem 12rem", // Increased left padding from 9rem to 12rem
+            alignItems: "center", // Center the inner content container (1400px)
+            justifyContent: "flex-start", // Start from top to control spacing
+            padding: "3rem 6rem 0rem 6rem", // Top: 3rem (48px), Left/Right: 6rem
             position: "relative",
             background: "#080412",
             overflow: "hidden",
@@ -1388,81 +1424,142 @@ export default function Index() {
               opacity: screen2Progress > 0.1 ? 1 : 0,
               transform: `translateY(${screen2Progress > 0.1 ? 0 : 40}px)`,
               transition: "opacity 1s ease, transform 1s ease",
+              paddingBottom: "0rem",
             }}
           >
-            {/* Stats Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3rem', marginBottom: '3rem' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '56px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>120+</div>
-                <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', letterSpacing: '1px', textTransform: 'uppercase' }}>CLIENTS SERVED</div>
-              </div>
-              <div style={{ width: '2px', height: '60px', backgroundColor: '#3b00ff' }} />
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '56px', fontWeight: 800, color: '#fff', lineHeight: 1.1 }}>2 Regions</div>
-                <div style={{ fontSize: '13px', fontWeight: 500, color: 'rgba(255,255,255,0.7)', letterSpacing: '1px', textTransform: 'uppercase' }}>UAE & AUS</div>
-              </div>
+            {/* Header - Matching Featured Projects Style */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "2rem",
+                marginBottom: "4rem",
+                width: "100%",
+                padding: "0 2rem",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "48px",
+                  fontWeight: 300,
+                  color: "#ffffff",
+                  margin: 0,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Our clients
+              </h2>
+              <div
+                style={{
+                  flex: 1,
+                  height: "1px",
+                  background:
+                    "linear-gradient(90deg, rgba(137, 207, 240, 0.6), transparent)",
+                }}
+              />
             </div>
 
-            {/* Scrolling Clients Band Container */}
+            {/* Carousel Container */}
             <div style={{ 
               width: '100%', 
               overflow: 'hidden', 
-              background: '#b0b0b8', 
-              borderRadius: '24px', 
               position: 'relative',
-              height: '180px',
+              height: '240px',
               display: 'flex',
               alignItems: 'center',
-              boxShadow: 'inset 0 0 10px rgba(0,0,0,0.1)'
             }}>
-              <style>
-                {`
-                  @keyframes scrollLeftInfinitely {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
-                  }
-                  .client-track-loop {
-                    display: flex;
-                    width: max-content;
-                    animation: scrollLeftInfinitely 45s linear infinite;
-                  }
-                  .client-logo-box {
-                    width: 200px;
-                    height: 100px;
-                    margin: 0 1.5rem;
-                    background-color: rgba(255, 255, 255, 0.4);
-                    border: 1px dashed rgba(0, 0, 0, 0.2);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #555555;
-                    font-weight: 500;
-                    font-size: 13px;
-                    border-radius: 12px;
-                    text-align: center;
-                    padding: 0 10px;
-                  }
-                `}
-              </style>
-              <div className="client-track-loop">
-                {/* Loop twice for seamless scrolling with placeholders */}
-                {[...Array(2)].map((_, loopIdx) => (
-                  <div key={loopIdx} style={{ display: 'flex' }}>
-                    {[
-                      'NEOM', 'Dubai Holding', 'Saudi Tourism Authority', 'National Projects', 
-                      'Victoria State Government', 'AFP', 'Australian National University', 
-                      'Singapore Tourism Board', 'Department of Health (AUS)', 
-                      'Department of Health (UAE)', 'ASIC', 'Dubai Brand', 
-                      'Resilience NSW', 'Executive Office', 'Unitywater', 
-                      'Elisium', 'UN Tourism'
-                    ].map((name, i) => (
-                      <div key={`${loopIdx}-${i}`} className="client-logo-box">
-                        {name}<br/>(Logo Placeholder)
+              <div style={{
+                display: 'flex',
+                width: '100%',
+                transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                transform: `translateX(-${clientPage * 100}%)`,
+              }}>
+                {[...Array(totalClientPages)].map((_, pageIdx) => (
+                  <div key={pageIdx} style={{
+                    minWidth: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'flex-start',
+                    padding: '0 2rem',
+                  }}>
+                    {clientLogos.slice(pageIdx * 4, pageIdx * 4 + 4).map((logo, i) => (
+                      <div key={i} style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        gap: '1.5rem',
+                        width: '200px',
+                      }}>
+                        {/* Circular Logo Container */}
+                        <div style={{
+                          width: '120px',
+                          height: '120px',
+                          borderRadius: '50%',
+                          backgroundColor: '#ffffff', // Required white background
+                          border: '1px solid rgba(255, 255, 255, 0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
+                          backdropFilter: 'blur(5px)',
+                          overflow: 'hidden', // Ensure image doesn't bleed out
+                        }}>
+                          <img 
+                            src={logo.src} 
+                            alt={logo.name}
+                            style={{
+                              width: '70%',
+                              height: '70%',
+                              objectFit: 'contain',
+                            }}
+                          />
+                        </div>
+                        {/* Client Name */}
+                        <div style={{
+                          color: '#ffffff',
+                          fontSize: '14px',
+                          fontWeight: 400,
+                          textAlign: 'center',
+                          maxWidth: '180px',
+                          lineHeight: '1.4',
+                          opacity: 0.9,
+                        }}>
+                          {logo.name}
+                        </div>
                       </div>
                     ))}
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Carousel Navigation Dots */}
+            <div style={{
+              display: 'flex',
+              gap: '0.8rem',
+              marginTop: '40px', // Space between logo names and dots
+              paddingBottom: '40px', // Extra padding belowDots
+              zIndex: 10,
+            }}>
+              {[...Array(totalClientPages)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setClientPage(idx)}
+                  onMouseEnter={() => setIsHoveringNav(true)}
+                  onMouseLeave={() => setIsHoveringNav(false)}
+                  style={{
+                    width: idx === clientPage ? '10px' : '6px',
+                    height: idx === clientPage ? '10px' : '6px',
+                    borderRadius: '50%',
+                    background: idx === clientPage ? '#89cff0' : 'rgba(137, 207, 240, 0.3)',
+                    border: idx === clientPage ? '2px solid #ffffff' : 'none',
+                    transition: 'all 0.3s ease',
+                    boxShadow: idx === clientPage ? '0 0 15px rgba(137, 207, 240, 0.8)' : 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -1475,8 +1572,8 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: "150vh", // Fixed height instead of calculated
-          background: "rgba(8, 4, 18, 1)", // Keep the background color
+          height: `calc(100vh + 3rem)`, // 48px gap
+          background: "rgba(8, 4, 18, 1)",
         }}
       >
         <canvas
@@ -1506,7 +1603,7 @@ export default function Index() {
           {/* Header */}
           <div
             style={{
-              padding: "4rem 6rem 1rem",
+              padding: "3rem 6rem 1rem",
               opacity: screen3Progress > 0.2 ? 1 : 0,
               transform: `translateY(${screen3Progress > 0.2 ? 0 : 50}px)`,
               transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1567,7 +1664,6 @@ export default function Index() {
           {/* Projects Carousel */}
           <div
             ref={projectCarouselRef}
-            onWheel={handleProjectWheel}
             style={{
               flex: 1,
               position: "relative",
@@ -1577,7 +1673,7 @@ export default function Index() {
               opacity: screen3Progress > 0.3 ? 1 : 0,
               transition: "opacity 0.6s ease",
               overflow: "visible",
-              paddingTop: "30rem",
+              paddingTop: "18rem",
             }}
           >
             {/* Side Slider */}
@@ -2005,7 +2101,7 @@ export default function Index() {
           style={{
             maxWidth: "1400px",
             margin: "0 auto",
-            padding: "4rem 6rem",
+            padding: "0 6rem 3rem 6rem", // Top set to 0 to respect the 48px gap from projects
             borderTop: "1px solid rgba(137, 207, 240, 0.2)",
           }}
         >

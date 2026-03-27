@@ -263,81 +263,76 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
         {!activeLens && promptState === 2 && (
           <motion.div
             key="st2-fullscreen"
+            className="st2-fullscreen-container"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            style={{ position: 'absolute', inset: 0, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", padding: "6rem 6rem 6rem 12rem", zIndex: 10, pointerEvents: 'none' }}
           >
-            <h2 style={{ fontSize: "35px", fontWeight: 300, lineHeight: "1.4", color: "#ffffff", margin: "0 0 4rem 0", textAlign: "left", maxWidth: "1100px", width: "100%", pointerEvents: 'auto' }}>
+            <h2 className="st2-header">
               How we bridge the gap
             </h2>
-            <div style={{ width: "100%", maxWidth: "1200px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem 6rem", textAlign: "left", fontFamily: "'Poppins', sans-serif", pointerEvents: 'auto' }}>
-
-              {/* Item 1 */}
-              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
-                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
-                  <img src="/accelerated.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+            
+            <div className="offerings-container">
+              {/* Card 1 */}
+              <div className="offering-card">
+                <div className="offering-icon-wrapper">
+                  <img src="/accelerated.svg" alt="Accelerated" style={{ width: 32, height: 32 }} />
                 </div>
-                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Accelerated Innovation &</h3>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Prototyping</h3>
-                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>Using AI-driven workflows to move from concept to high-fidelity prototypes in days.</p>
-                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Interactive Prototypes</span>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Technical Roadmaps</span>
+                <div className="offering-content">
+                  <h3 className="offering-heading">Accelerated Innovation <br/>& Prototyping</h3>
+                  <p className="offering-byline">Using AI-driven workflows to move from concept to high-fidelity prototypes in days.</p>
+                  <div className="offering-pills">
+                    <span className="offering-pill">Interactive Prototypes</span>
+                    <span className="offering-pill">Technical Roadmaps</span>
                   </div>
                 </div>
               </div>
 
-              {/* Item 2 */}
-              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
-                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
-                  <img src="/digital%20product.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+              {/* Card 2 */}
+              <div className="offering-card">
+                <div className="offering-icon-wrapper">
+                  <img src="/digital%20product.svg" alt="Digital Product" style={{ width: 32, height: 32 }} />
                 </div>
-                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Digital Product &</h3>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>System Design</h3>
-                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>User research, experience and interface design and thorough development handoff to bring concepts to reality.</p>
-                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>User Flow Maps</span>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Scalable Design Systems</span>
+                <div className="offering-content">
+                  <h3 className="offering-heading">Digital Product & <br/>System Design</h3>
+                  <p className="offering-byline">User research, experience design and development handoff to bring concepts to reality.</p>
+                  <div className="offering-pills">
+                    <span className="offering-pill">User Flow Maps</span>
+                    <span className="offering-pill">Scalable Systems</span>
                   </div>
                 </div>
               </div>
 
-              {/* Item 3 */}
-              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
-                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
-                  <img src="/immersive.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+              {/* Card 3 */}
+              <div className="offering-card">
+                <div className="offering-icon-wrapper">
+                  <img src="/immersive.svg" alt="Immersive" style={{ width: 32, height: 32 }} />
                 </div>
-                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Immersive Narratives &</h3>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Experiences</h3>
-                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>We design spatial and interactive experiences to tell compelling stories and support product understanding.</p>
-                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>3D Environments</span>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Spatial Visual Assets</span>
+                <div className="offering-content">
+                  <h3 className="offering-heading">Immersive Narratives <br/>& Experiences</h3>
+                  <p className="offering-byline">We design spatial experiences to tell compelling stories and support product understanding.</p>
+                  <div className="offering-pills">
+                    <span className="offering-pill">3D Environments</span>
+                    <span className="offering-pill">Spatial Assets</span>
                   </div>
                 </div>
               </div>
 
-              {/* Item 4 */}
-              <div style={{ display: "flex", gap: "1.5rem", alignItems: "flex-start" }}>
-                <div style={{ marginTop: "0.5rem", filter: "drop-shadow(0 0 10px rgba(137, 207, 240, 0.4))", flexShrink: 0 }}>
-                  <img src="/ecosystem.svg" alt="Icon" style={{ width: 48, height: 48 }} />
+              {/* Card 4 */}
+              <div className="offering-card">
+                <div className="offering-icon-wrapper">
+                  <img src="/ecosystem.svg" alt="Ecosystem" style={{ width: 32, height: 32 }} />
                 </div>
-                <div style={{ borderLeft: "2px solid rgba(137, 207, 240, 0.5)", paddingLeft: "2rem", width: "100%" }}>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.25rem", lineHeight: "1.2", marginTop: 0 }}>Ecosystem Visualization &</h3>
-                  <h3 style={{ fontSize: "28px", fontWeight: 600, color: "#ffffff", marginBottom: "0.5rem", lineHeight: "1.2", marginTop: 0 }}>Digital Systems</h3>
-                  <p style={{ fontSize: "15px", lineHeight: "1.5", fontWeight: 300, color: "rgba(255, 255, 255, 0.7)", margin: 0, marginBottom: "1.5rem" }}>Mapping data, workflows, and system relationships into clear visual structures, making gaps easier to identify.</p>
-                  <div style={{ display: "flex", flexWrap: "nowrap", gap: "0.4rem", width: "100%" }}>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Interactive Infographics</span>
-                    <span style={{ backgroundColor: "rgba(137, 207, 240, 0.08)", border: "1px solid rgba(137, 207, 240, 0.2)", color: "#89cff0", padding: "0.2rem 0.6rem", borderRadius: "9999px", fontSize: "11.5px", fontWeight: 400, whiteSpace: "nowrap" }}>Visual Dashboards</span>
+                <div className="offering-content">
+                  <h3 className="offering-heading">Ecosystem Viz & <br/>Digital Systems</h3>
+                  <p className="offering-byline">Mapping data and workflows into clear visual structures to identify gaps and opportunities.</p>
+                  <div className="offering-pills">
+                    <span className="offering-pill">Interactive Infographics</span>
+                    <span className="offering-pill">Visual Dashboards</span>
                   </div>
                 </div>
               </div>
-
             </div>
           </motion.div>
         )}
