@@ -1141,8 +1141,131 @@ export default function Index() {
           zIndex: 150,
           background: "#080412",
           padding: "6rem 6rem 5rem",
+          overflow: "hidden",
         }}
       >
+        {/* Animated gradient orbs */}
+        <div
+          style={{
+            position: "absolute",
+            top: "10%",
+            left: "-5%",
+            width: "600px",
+            height: "600px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(137, 207, 240, 0.1) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 70%)",
+            filter: "blur(80px)",
+            opacity: 0.8,
+            animation: "float 15s ease-in-out infinite",
+            zIndex: 3,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "5%",
+            right: "-5%",
+            width: "500px",
+            height: "500px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 70%)",
+            filter: "blur(80px)",
+            opacity: 0.8,
+            animation: "float 18s ease-in-out infinite reverse",
+            zIndex: 3,
+          }}
+        />
+
+        {/* Animated particles */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={`off-part-${i}`}
+            style={{
+              position: "absolute",
+              width: Math.random() * 3 + 1.5 + "px",
+              height: Math.random() * 3 + 1.5 + "px",
+              background:
+                i % 3 === 0 ? "#89cff0" : i % 3 === 1 ? "#8b5cf6" : "#ec4899",
+              borderRadius: "50%",
+              left: Math.random() * 100 + "%",
+              top: Math.random() * 100 + "%",
+              opacity: 0.15,
+              animation: `gentlePulse ${12 + Math.random() * 10}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 8}s`,
+              boxShadow: `0 0 ${6 + Math.random() * 4}px ${i % 3 === 0
+                ? "rgba(137, 207, 240, 0.15)"
+                : i % 3 === 1
+                  ? "rgba(139, 92, 246, 0.15)"
+                  : "rgba(236, 72, 153, 0.15)"
+                }`,
+              zIndex: 3,
+            }}
+          />
+        ))}
+
+        {/* Diagonal lines accent */}
+        <div
+          style={{
+            position: "absolute",
+            top: "20%",
+            right: "-10%",
+            width: "500px",
+            height: "2px",
+            background:
+              "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent)",
+            transform: "rotate(45deg)",
+            opacity: 0.6,
+            zIndex: 3,
+            boxShadow: "0 0 20px rgba(139, 92, 246, 0.3)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "20%",
+            left: "-10%",
+            width: "400px",
+            height: "2px",
+            background:
+              "linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent)",
+            transform: "rotate(45deg)",
+            opacity: 0.6,
+            zIndex: 3,
+            boxShadow: "0 0 20px rgba(139, 92, 246, 0.3)",
+          }}
+        />
+
+        {/* Floating geometric shapes */}
+        <div
+          style={{
+            position: "absolute",
+            top: "15%",
+            left: "10%",
+            width: "60px",
+            height: "60px",
+            border: "1px solid rgba(137, 207, 240, 0.2)",
+            borderRadius: "10px",
+            opacity: 0.4,
+            transform: "rotate(25deg)",
+            zIndex: 3,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "15%",
+            right: "15%",
+            width: "50px",
+            height: "50px",
+            border: "1px solid rgba(236, 72, 153, 0.2)",
+            borderRadius: "50%",
+            opacity: 0.4,
+            zIndex: 3,
+          }}
+        />
+
         {/* Top gradient line */}
         <div
           style={{
