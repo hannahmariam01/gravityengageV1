@@ -2051,7 +2051,7 @@ export default function Index() {
           style={{
             maxWidth: "1400px",
             margin: "0 auto",
-            padding: "0 6rem 3rem 6rem", // Top set to 0 to respect the 48px gap from projects
+            padding: "6rem 6rem 3rem 6rem", // Added top padding to fix spacing issue
             borderTop: "1px solid rgba(137, 207, 240, 0.2)",
           }}
         >
