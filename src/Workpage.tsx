@@ -97,45 +97,45 @@ export default function Workpage() {
   const [logoClicks, setLogoClicks] = useState(0);
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("work_projects");
+    const saved = localStorage.getItem("work_projects_v4");
     return saved ? JSON.parse(saved) : [
       {
-        name: "Abu Dhabi Performance Management System UI Revamp",
-        subtitle: "Abu Dhabi Executive Office",
-        route: "/adpm-revamp",
-        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
-      },
-      {
-        name: "Eden Monaro",
-        subtitle: "",
-        route: "/eden-monaro",
-        video: "/freepik_a-cinematic-ui-showcase-of-a-project-displayed-on-_seedance_720p_4-3_24fps_16788.mp4",
-        blur: true,
-      },
-      {
-        name: "DOH Visualisation",
+        name: "DOH -\nHealth landscape visualisation",
         subtitle: "",
         route: "/doh-visualisation",
-        video: "/doh.mp4",
+        video: "/DOH TILE.mp4",
         scale: 1.35,
       },
       {
-        name: "ECAS Transformation",
-        subtitle: "",
-        route: null,
-        video: "https://videos.pexels.com/video-files/3129671/3129671-uhd_2560_1440_30fps.mp4",
+        name: "Abu Dhabi Performance\nManagement System UI Revamp",
+        subtitle: "Abu Dhabi Executive Office",
+        route: "/adpm-revamp",
+        video: "/Adpm tile.mp4",
       },
       {
-        name: "VFS Global:",
+        name: "Eden Monaro interactive Visualisation",
+        subtitle: "",
+        route: "/eden-monaro",
+        video: "/eden monaro tile.mp4",
+        blur: true,
+      },
+      {
+        name: "Executive Council Affairs System platform transformation",
+        subtitle: "",
+        route: null,
+        video: "/ecas tile.mp4",
+      },
+      {
+        name: "Immersion centre at VFS Global",
         subtitle: "VFS Insight",
         route: null,
-        video: "https://videos.pexels.com/video-files/3130182/3130182-uhd_2560_1440_30fps.mp4",
+        video: "/VFS TILE.mp4",
       },
       {
-        name: "Excellence Awards",
+        name: "Excellence awards",
         subtitle: "",
         route: null,
-        video: "https://videos.pexels.com/video-files/2169880/2169880-uhd_2560_1440_30fps.mp4",
+        video: "/EXCELLENCE TILE.mp4",
       },
     ];
   });
@@ -167,7 +167,7 @@ export default function Workpage() {
     const newProjects = [...projects];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setProjects(newProjects);
-    localStorage.setItem("work_projects", JSON.stringify(newProjects));
+    localStorage.setItem("work_projects_v4", JSON.stringify(newProjects));
   };
 
   const clearAllFilters = () => {
@@ -833,8 +833,8 @@ export default function Workpage() {
 
               if (isDataVis || isVisualDesign) {
                 if (
-                  project.name !== "Eden Monaro" &&
-                  project.name !== "DOH Visualisation"
+                  !project.name.toLowerCase().includes("eden monaro") &&
+                  !project.name.toLowerCase().includes("doh")
                 ) {
                   return null;
                 }
@@ -844,8 +844,8 @@ export default function Workpage() {
               const isGov = selectedIndustries.includes("Government");
 
               if (isHealth || isGov) {
-                const isValidHealth = isHealth && project.name === "DOH Visualisation";
-                const isValidGov = isGov && project.name === "Eden Monaro";
+                const isValidHealth = isHealth && project.name.toLowerCase().includes("doh");
+                const isValidGov = isGov && project.name.toLowerCase().includes("eden monaro");
                 if (!isValidHealth && !isValidGov) {
                   return null;
                 }
@@ -987,21 +987,12 @@ export default function Workpage() {
                         marginBottom: "0.5rem",
                         lineHeight: "1.2",
                         textShadow: "0 2px 10px rgba(0, 0, 0, 0.8)",
+                        whiteSpace: "pre-line",
                       }}
                     >
                       {project.name}
                     </h3>
-                    <p
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 300,
-                        color: "rgba(255, 255, 255, 0.9)",
-                        margin: 0,
-                        textShadow: "0 2px 8px rgba(0, 0, 0, 0.6)",
-                      }}
-                    >
-                      {project.subtitle}
-                    </p>
+
 
                     {!project.route && hoveredProject === idx && (
                       <div
@@ -1037,13 +1028,7 @@ export default function Workpage() {
                         onChange={(e) => updateProject(idx, "name", e.target.value)}
                         style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid #89cff0", padding: "8px", borderRadius: "8px", outline: "none" }}
                       />
-                      <label style={{ color: "#89cff0", fontSize: "10px", fontWeight: 600, textTransform: "uppercase" }}>Subtitle</label>
-                      <input
-                        type="text"
-                        value={project.subtitle}
-                        onChange={(e) => updateProject(idx, "subtitle", e.target.value)}
-                        style={{ background: "rgba(255,255,255,0.1)", color: "#fff", border: "1px solid #89cff0", padding: "8px", borderRadius: "8px", outline: "none" }}
-                      />
+
                       <label style={{ color: "#89cff0", fontSize: "10px", fontWeight: 600, textTransform: "uppercase" }}>Video URL</label>
                       <input
                         type="text"
