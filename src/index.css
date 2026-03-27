@@ -901,6 +901,22 @@ h5 {
   color: rgba(255, 255, 255, 0.90);
 }
 
+.navbar-link.active {
+  color: #89cff0;
+  position: relative;
+}
+
+.navbar-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #89cff0, #8b5cf6);
+  box-shadow: 0 0 10px rgba(137, 207, 240, 0.4);
+}
+
 /* ── WORK SECTION ───────────────────────────── */
 .work-section {
   background: var(--bg-void);
