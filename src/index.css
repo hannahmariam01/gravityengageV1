@@ -1376,3 +1376,110 @@ h5 {
   pointer-events: auto;
   font-family: var(--font-display);
 }
+/* ── CLIENT LOGO CAROUSEL ────────────────── */
+.client-carousel-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 1rem 0 4rem;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.client-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 50s linear infinite;
+}
+
+.client-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.client-logo-item {
+  width: calc(min(1400px, 100vw) / 6);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 1rem;
+}
+
+@media (max-width: 1200px) {
+  .client-logo-item {
+    width: calc(100vw / 4);
+  }
+}
+
+@media (max-width: 768px) {
+  .client-logo-item {
+    width: calc(100vw / 2);
+  }
+}
+
+@media (max-width: 480px) {
+  .client-logo-item {
+    width: 100vw;
+  }
+}
+
+.client-logo-circle {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(137, 207, 240, 0.1);
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+.client-logo-item:hover .client-logo-circle {
+  transform: scale(1.08) translateY(-5px);
+  box-shadow: 0 15px 30px rgba(137, 207, 240, 0.25);
+  border-color: rgba(137, 207, 240, 0.4);
+}
+
+.client-logo-img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.client-logo-item:hover .client-logo-img {
+  transform: scale(1.1);
+}
+
+.client-name-label {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: center;
+  max-width: 160px;
+  line-height: 1.4;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+}
+
+.client-logo-item:hover .client-name-label {
+  opacity: 1;
+  transform: translateY(2px);
+  color: #89cff0;
+}

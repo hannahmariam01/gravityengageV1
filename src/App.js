@@ -752,35 +752,34 @@ export default function Index() {
   }, [activeProjectIndex, projects.length]);
 
   const handleProjectWheel = (e) => {
-    if (!projectCarouselRef.current || !screen3Ref.current) return;
+    if (!projectCarouselRef.current || !screen3Ref.current || activeLens) return;
     
     const sectionTop = screen3Ref.current.offsetTop;
     const sectionHeight = screen3Ref.current.offsetHeight;
     const windowHeight = window.innerHeight;
     const scrollY = window.scrollY;
     
-    // Check if the section is currently active for scroll-jacking
-    // We lock when the user has scrolled into the section but not past it.
-    const isSectionActive = scrollY >= sectionTop && scrollY < (sectionTop + sectionHeight - windowHeight);
+    // We lock when the user has scrolled into the section but not past its sticky range
+    const isSectionActive = scrollY >= sectionTop - 50 && scrollY < (sectionTop + sectionHeight - windowHeight - 50);
     
     if (!isSectionActive) return;
 
     const delta = e.deltaY;
-    if (Math.abs(delta) < 8) return;
+    if (Math.abs(delta) < 10) return;
 
     if (projectWheelLockRef.current) {
       e.preventDefault();
       return;
     }
 
-    const lerpSpeed = activeLens ? 0.025 : 0.008;
-    
     const direction = delta > 0 ? 1 : -1;
     
-    // Boundary checks for passing scroll back to page (using Ref to avoid stale closure)
+    // Check boundaries: if scroll-down at last project, allow page to continue.
+    // However, we want to stay locked for a bit at the end to make it feel intentional.
     if (direction === 1 && activeProjectIndexRef.current === projects.length - 1) {
       return;
     }
+    // If scroll-up at first project, allow page to continue up.
     if (direction === -1 && activeProjectIndexRef.current === 0) {
       return;
     }
@@ -792,7 +791,7 @@ export default function Index() {
     
     setTimeout(() => {
       projectWheelLockRef.current = false;
-    }, 650);
+    }, 800);
   };
 
   useEffect(() => {
@@ -1187,6 +1186,175 @@ export default function Index() {
 
       </div>
 
+      {/* ── MORE ON OUR OFFERINGS ── */}
+      <section
+        style={{
+          position: "relative",
+          zIndex: 150,
+          background: "#080412",
+          padding: "6rem 6rem 5rem",
+        }}
+      >
+        {/* Top gradient line */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "90%",
+            height: "3px",
+            background:
+              "linear-gradient(90deg, rgba(137, 207, 240, 0.8), rgba(139, 92, 246, 0.8))",
+            boxShadow: "0 0 30px rgba(137, 207, 240, 0.4)",
+            zIndex: 11,
+          }}
+        />
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "1400px",
+            margin: "0 auto",
+          }}
+        >
+          {/* Header row — mirrors "Our clients" style */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "2rem",
+              marginBottom: "3.5rem",
+              width: "100%",
+              padding: "0 2rem",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "48px",
+                fontWeight: 300,
+                color: "#ffffff",
+                margin: 0,
+                whiteSpace: "nowrap",
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              More on our offerings
+            </h2>
+            <div
+              style={{
+                flex: 1,
+                height: "1px",
+                background:
+                  "linear-gradient(90deg, rgba(137, 207, 240, 0.6), transparent)",
+              }}
+            />
+          </div>
+
+          <div
+            className="offerings-container"
+            style={{ marginTop: 0, padding: "0 2rem" }}
+          >
+            {/* Card 1 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/accelerated.svg"
+                  alt="Accelerated"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Accelerated Innovation <br />& Prototyping
+                </h3>
+                <p className="offering-byline">
+                  Using AI-driven workflows to move from concept to
+                  high-fidelity prototypes in days.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">Interactive Prototypes</span>
+                  <span className="offering-pill">Technical Roadmaps</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/digital product.svg"
+                  alt="Digital Product"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Digital Product & <br />System Design
+                </h3>
+                <p className="offering-byline">
+                  User research, experience design and development handoff to
+                  bring concepts to reality.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">User Flow Maps</span>
+                  <span className="offering-pill">Scalable Systems</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/immersive.svg"
+                  alt="Immersive"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Immersive Narratives <br />& Experiences
+                </h3>
+                <p className="offering-byline">
+                  We design spatial experiences to tell compelling stories and
+                  support product understanding.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">3D Environments</span>
+                  <span className="offering-pill">Spatial Assets</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="offering-card">
+              <div className="offering-icon-wrapper">
+                <img
+                  src="/ecosystem.svg"
+                  alt="Ecosystem"
+                  style={{ width: 32, height: 32 }}
+                />
+              </div>
+              <div className="offering-content">
+                <h3 className="offering-heading">
+                  Ecosystem Viz & <br />Digital Systems
+                </h3>
+                <p className="offering-byline">
+                  Mapping data and workflows into clear visual structures to
+                  identify gaps and opportunities.
+                </p>
+                <div className="offering-pills">
+                  <span className="offering-pill">
+                    Interactive Infographics
+                  </span>
+                  <span className="offering-pill">Visual Dashboards</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div ref={screen2Ref} style={{ position: "relative", zIndex: 200 }}>
         <div
           style={{
@@ -1382,25 +1550,6 @@ export default function Index() {
             }}
           />
 
-          {/* Top gradient line */}
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: screen2Progress > 0.1 ? "90%" : "0%",
-              height: "3px",
-              background:
-                "linear-gradient(90deg, rgba(137, 207, 240, 0.8), rgba(139, 92, 246, 0.8))",
-              transition: "width 1.5s cubic-bezier(0.4, 0, 0.2, 1)",
-              boxShadow:
-                screen2Progress > 0.1
-                  ? "0 0 30px rgba(137, 207, 240, 0.8)"
-                  : "none",
-              zIndex: 11,
-            }}
-          />
 
           {/* Clients Matrix Component */}
           <div
@@ -1452,64 +1601,29 @@ export default function Index() {
               />
             </div>
 
-            {/* Logos Grid Container */}
-            <div style={{ 
-              width: '100%', 
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              gap: '3rem 2rem',
-              padding: '0 2rem 4rem 2rem',
-            }}>
-              {clientLogos.map((logo, i) => (
-                <div key={i} 
-                  onMouseEnter={() => setIsHoveringNav(true)}
-                  onMouseLeave={() => setIsHoveringNav(false)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '1.2rem',
-                    width: '180px',
-                  }}>
-                  <div style={{
-                    width: '115px',
-                    height: '115px',
-                    borderRadius: '50%',
-                    backgroundColor: '#ffffff',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
-                    backdropFilter: 'blur(5px)',
-                    overflow: 'hidden',
-                  }}>
-                    <img 
-                      src={logo.src} 
-                      alt={logo.name}
-                      style={{
-                        width: '70%',
-                        height: '70%',
-                        objectFit: 'contain',
-                      }}
-                    />
+            {/* Logos Carousel Slider */}
+            <div className="client-carousel-container">
+              <div className="client-carousel-track">
+                {[...clientLogos, ...clientLogos].map((logo, i) => (
+                  <div 
+                    key={i} 
+                    className="client-logo-item"
+                    onMouseEnter={() => setIsHoveringNav(true)}
+                    onMouseLeave={() => setIsHoveringNav(false)}
+                  >
+                    <div className="client-logo-circle">
+                      <img 
+                        src={logo.src} 
+                        alt={logo.name}
+                        className="client-logo-img"
+                      />
+                    </div>
+                    <div className="client-name-label">
+                      {logo.name}
+                    </div>
                   </div>
-                  {/* Client Name */}
-                  <div style={{
-                    color: '#ffffff',
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    textAlign: 'center',
-                    maxWidth: '160px',
-                    lineHeight: '1.4',
-                    opacity: 0.9,
-                  }}>
-                    {logo.name}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1522,7 +1636,7 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: "140vh", // Reduced from 200vh to minimize gap at bottom
+          height: "400vh", // Increased height to provide more scrolling room for lock
           background: "rgba(8, 4, 18, 1)",
         }}
       >
@@ -1554,15 +1668,12 @@ export default function Index() {
           <div
             style={{
               padding: "3rem 6rem 1rem",
-              opacity: screen3Progress > 0.2 ? 1 : 0,
-              transform: `translateY(${screen3Progress > 0.2 ? 0 : 50}px)`,
-              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
+              opacity: screen3Progress > 0.05 ? 1 : 0,
+              transform: `translateY(${screen3Progress > 0.05 ? 0 : 30}px)`,
+              transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1)",
+              position: "relative", // Changed from absolute to relative to avoid overlap
               zIndex: 10,
-              pointerEvents: "none",
+              pointerEvents: "auto",
               background: "transparent",
             }}
           >
@@ -1611,7 +1722,6 @@ export default function Index() {
             </p>
           </div>
 
-          {/* Projects Carousel */}
           <div
             ref={projectCarouselRef}
             style={{
@@ -1619,11 +1729,11 @@ export default function Index() {
               position: "relative",
               display: "flex",
               justifyContent: "center",
-              alignItems: "flex-start",
-              opacity: screen3Progress > 0.3 ? 1 : 0,
+              alignItems: "center", // Center vertically in space
+              opacity: screen3Progress > 0.1 ? 1 : 0,
               transition: "opacity 0.6s ease",
               overflow: "visible",
-              paddingTop: "12rem",
+              paddingTop: "0rem", // Remove large padding since header is now relative
             }}
           >
             {/* Side Slider */}
