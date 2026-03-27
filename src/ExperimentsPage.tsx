@@ -537,8 +537,7 @@ export default function ExperimentsPage() {
                                 ))}
                             </div>
 
-<<<<<<< HEAD
-    {/* R&D Section */ }
+    {/* R&D Section */}
     <div
         style={{
             marginTop: "8rem",
