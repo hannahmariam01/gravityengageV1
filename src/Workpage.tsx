@@ -97,42 +97,42 @@ export default function Workpage() {
   const [logoClicks, setLogoClicks] = useState(0);
 
   const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("work_projects_v4");
+    const saved = localStorage.getItem("work_projects_v5");
     return saved ? JSON.parse(saved) : [
       {
-        name: "DOH -\nHealth landscape visualisation",
+        name: "Health Landscape visualisation",
         subtitle: "",
         route: "/doh-visualisation",
         video: "/DOH TILE.mp4",
         scale: 1.35,
       },
       {
-        name: "Abu Dhabi Performance\nManagement System UI Revamp",
+        name: "Performance management system UI revamp",
         subtitle: "Abu Dhabi Executive Office",
         route: "/adpm-revamp",
         video: "/Adpm tile.mp4",
       },
       {
-        name: "Eden Monaro interactive Visualisation",
+        name: "Eden Monaro visualisation",
         subtitle: "",
         route: "/eden-monaro",
         video: "/eden monaro tile.mp4",
         blur: true,
       },
       {
-        name: "Executive Council Affairs System platform transformation",
+        name: "AI enabled platform transformation",
         subtitle: "",
         route: null,
         video: "/ecas tile.mp4",
       },
       {
-        name: "Immersion centre at VFS Global",
+        name: "Immersive experience centre",
         subtitle: "VFS Insight",
         route: null,
         video: "/VFS TILE.mp4",
       },
       {
-        name: "Excellence awards",
+        name: "Excellence awards experience",
         subtitle: "",
         route: null,
         video: "/EXCELLENCE TILE.mp4",
@@ -167,7 +167,7 @@ export default function Workpage() {
     const newProjects = [...projects];
     newProjects[index] = { ...newProjects[index], [field]: value };
     setProjects(newProjects);
-    localStorage.setItem("work_projects_v4", JSON.stringify(newProjects));
+    localStorage.setItem("work_projects_v5", JSON.stringify(newProjects));
   };
 
   const clearAllFilters = () => {
@@ -482,40 +482,31 @@ export default function Workpage() {
                   key: "offering",
                   label: "By offering",
                   items: [
-                    "Breakthrough products",
-                    "Design as a strategic enabler",
-                    "Data driven visual communication",
-                    "Adoption by design",
+                    "Accelerated Innovation & Prototyping",
+                    "Digital product & System Design",
+                    "Immersive Narratives & Experiences",
+                    "Ecosystem Visualization & Digital Systems",
                   ],
                 },
                 {
                   key: "skill",
                   label: "By skill",
                   items: [
-                    "Rapid prototyping",
-                    "Immersive experiences",
-                    "Dashboard design",
-                    "Data visualisation",
-                    "Storytelling",
                     "UI/UX design",
-                    "Visual design",
-                    "Service design",
+                    "Design system building",
+                    "Interactive infographics",
+                    "Illustration",
+                    "Immersive design",
+                    "Vibe coding",
                   ],
                 },
                 {
                   key: "industry",
                   label: "By industry",
                   items: [
-                    "Real estate",
                     "Health",
                     "Tech",
-                    "Education",
-                    "Investment Management",
-                    "Infrastructure",
                     "Government",
-                    "Law enforcement",
-                    "Transportation",
-                    "Utilities",
                   ],
                 },
               ].map(({ key, label, items }) => {
@@ -828,27 +819,59 @@ export default function Workpage() {
             }}
           >
             {projects.map((project: any, idx: number) => {
-              const isDataVis = selectedSkills.includes("Data visualisation");
-              const isVisualDesign = selectedSkills.includes("Visual design");
-
-              if (isDataVis || isVisualDesign) {
-                if (
-                  !project.name.toLowerCase().includes("eden monaro") &&
-                  !project.name.toLowerCase().includes("doh")
-                ) {
-                  return null;
-                }
+              if (selectedSkills.length > 0) {
+                const skillMap: { [key: string]: number[] } = {
+                  "UI/UX design": [0, 1, 3],
+                  "Design system building": [1],
+                  "Interactive infographics": [0, 2],
+                  "Illustration": [0, 2],
+                  "Immersive design": [4, 5],
+                  "Vibe coding": [3, 5],
+                };
+                
+                const allowedIndices = new Set<number>();
+                selectedSkills.forEach(skill => {
+                  if (skillMap[skill]) {
+                    skillMap[skill].forEach(i => allowedIndices.add(i));
+                  }
+                });
+                
+                if (!allowedIndices.has(idx)) return null;
               }
 
-              const isHealth = selectedIndustries.includes("Health");
-              const isGov = selectedIndustries.includes("Government");
+              if (selectedOfferings.length > 0) {
+                const offeringMap: { [key: string]: number[] } = {
+                  "Accelerated Innovation & Prototyping": [3, 5],
+                  "Digital product & System Design": [0, 1, 3],
+                  "Immersive Narratives & Experiences": [4, 5],
+                  "Ecosystem Visualization & Digital Systems": [0, 2],
+                };
+                
+                const allowedIndices = new Set<number>();
+                selectedOfferings.forEach(offering => {
+                  if (offeringMap[offering]) {
+                    offeringMap[offering].forEach(i => allowedIndices.add(i));
+                  }
+                });
+                
+                if (!allowedIndices.has(idx)) return null;
+              }
 
-              if (isHealth || isGov) {
-                const isValidHealth = isHealth && project.name.toLowerCase().includes("doh");
-                const isValidGov = isGov && project.name.toLowerCase().includes("eden monaro");
-                if (!isValidHealth && !isValidGov) {
-                  return null;
-                }
+              if (selectedIndustries.length > 0) {
+                const industryMap: { [key: string]: number[] } = {
+                  "Health": [0],
+                  "Government": [0, 1, 3, 5],
+                  "Tech": [4, 5],
+                };
+                
+                const allowedIndices = new Set<number>();
+                selectedIndustries.forEach(industry => {
+                  if (industryMap[industry]) {
+                    industryMap[industry].forEach(i => allowedIndices.add(i));
+                  }
+                });
+                
+                if (!allowedIndices.has(idx)) return null;
               }
               return (
               <div
@@ -967,18 +990,34 @@ export default function Workpage() {
                       display: editingProject === idx ? "none" : "block"
                     }}
                   >
-                    <div
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 500,
-                        color: "#89cff0",
-                        letterSpacing: "0.2em",
-                        marginBottom: "1rem",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      PROJECT {String(idx + 1).padStart(2, "0")}
-                    </div>
+                    {[
+                      "Department of Health Australia",
+                      "ADEO",
+                      null,
+                      "ADEO",
+                      "VFS",
+                      "ADEO",
+                    ][idx] && (
+                      <div
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 500,
+                          color: "#89cff0",
+                          letterSpacing: "0.2em",
+                          marginBottom: "1rem",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {[
+                          "Department of Health Australia",
+                          "ADEO",
+                          null,
+                          "ADEO",
+                          "VFS",
+                          "ADEO",
+                        ][idx]}
+                      </div>
+                    )}
                     <h3
                       style={{
                         fontSize: "28px",
