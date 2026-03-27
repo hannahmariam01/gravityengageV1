@@ -79,6 +79,7 @@ export default function Index() {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const projectCarouselRef = useRef(null);
   const projectWheelLockRef = useRef(false);
+  const activeProjectIndexRef = useRef(0);
   const [orbPosition, setOrbPosition] = useState({
     x: typeof window !== "undefined" ? window.innerWidth * 0.9 : 800,
     y: typeof window !== "undefined" ? window.innerHeight * 0.25 : 200,
@@ -107,6 +108,7 @@ export default function Index() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const screen2BgCanvasRef = useRef(null);
   const [clientPage, setClientPage] = useState(0);
+  activeProjectIndexRef.current = activeProjectIndex;
   const clientNames = [
     'NEOM', 'Dubai Holding', 'Saudi Tourism Authority', 'National Projects', 
     'Victoria State Government', 'AFP', 'Australian National University', 
@@ -749,13 +751,14 @@ export default function Index() {
   const handleProjectWheel = (e) => {
     if (!projectCarouselRef.current || !screen3Ref.current) return;
     
-    const rect = screen3Ref.current.getBoundingClientRect();
+    const sectionTop = screen3Ref.current.offsetTop;
+    const sectionHeight = screen3Ref.current.offsetHeight;
     const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
     
     // Check if the section is currently active for scroll-jacking
-    // We lock when the section top is above or at top of viewport, 
-    // and we haven't scrolled past the full height yet.
-    const isSectionActive = rect.top <= 0 && rect.bottom > windowHeight;
+    // We lock when the user has scrolled into the section but not past it.
+    const isSectionActive = scrollY >= sectionTop && scrollY < (sectionTop + sectionHeight - windowHeight);
     
     if (!isSectionActive) return;
 
@@ -769,13 +772,11 @@ export default function Index() {
 
     const direction = delta > 0 ? 1 : -1;
     
-    // Boundary checks for passing scroll back to page
-    if (direction === 1 && activeProjectIndex === projects.length - 1) {
-      // At the end, scrolling down -> let page scroll normally
+    // Boundary checks for passing scroll back to page (using Ref to avoid stale closure)
+    if (direction === 1 && activeProjectIndexRef.current === projects.length - 1) {
       return;
     }
-    if (direction === -1 && activeProjectIndex === 0) {
-      // At the start, scrolling up -> let page scroll normally
+    if (direction === -1 && activeProjectIndexRef.current === 0) {
       return;
     }
 
@@ -794,7 +795,7 @@ export default function Index() {
     const wheelListener = (e) => handleProjectWheel(e);
     window.addEventListener("wheel", wheelListener, { passive: false });
     return () => window.removeEventListener("wheel", wheelListener);
-  }, [showLanding, activeProjectIndex, projects.length]);
+  }, [showLanding]);
 
   const { isAdmin, login, logout } = useAdmin();
   const [logoClicks, setLogoClicks] = useState(0);
@@ -1558,11 +1559,12 @@ export default function Index() {
           {/* Header */}
           <div
             style={{
-              padding: "0 6rem 1rem",
+              padding: "4rem 6rem 1rem",
               opacity: screen3Progress > 0.2 ? 1 : 0,
+              transform: `translateY(${screen3Progress > 0.2 ? 0 : 50}px)`,
               transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
-              position: "sticky",
-              top: "120px", // 60px nav + 60px padding
+              position: "absolute",
+              top: 0,
               left: 0,
               right: 0,
               zIndex: 10,
@@ -1627,7 +1629,7 @@ export default function Index() {
               opacity: screen3Progress > 0.3 ? 1 : 0,
               transition: "opacity 0.6s ease",
               overflow: "visible",
-              paddingTop: "260px",
+              paddingTop: "18rem",
             }}
           >
             {/* Side Slider */}
