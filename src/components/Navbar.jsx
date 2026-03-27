@@ -1,7 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const Navbar = ({ activeLens, setActiveLens }) => {
+const Navbar = ({ activeLens = null, setActiveLens = null }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNavClick = (e, path, targetId) => {
     e.preventDefault();
@@ -13,6 +14,10 @@ const Navbar = ({ activeLens, setActiveLens }) => {
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
     if (setActiveLens) setActiveLens(null);
+  };
+
+  const isPathActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -33,10 +38,34 @@ const Navbar = ({ activeLens, setActiveLens }) => {
 
       {/* Right nav links */}
       <div className="navbar-links">
-        <a href="/" className="navbar-link" onClick={(e) => handleNavClick(e, '/')}>HOME</a>
-        <a href="/work" className="navbar-link" onClick={(e) => handleNavClick(e, '/work')}>WORK</a>
-        <a href="/experiments" className="navbar-link" onClick={(e) => handleNavClick(e, '/experiments')}>EXPERIMENTS</a>
-        <a href="/about" className="navbar-link" onClick={(e) => handleNavClick(e, '/about')}>ABOUT</a>
+        <a 
+          href="/" 
+          className={`navbar-link ${isPathActive('/') ? 'active' : ''}`} 
+          onClick={(e) => handleNavClick(e, '/')}
+        >
+          HOME
+        </a>
+        <a 
+          href="/work" 
+          className={`navbar-link ${isPathActive('/work') ? 'active' : ''}`} 
+          onClick={(e) => handleNavClick(e, '/work')}
+        >
+          WORK
+        </a>
+        <a 
+          href="/experiments" 
+          className={`navbar-link ${isPathActive('/experiments') ? 'active' : ''}`} 
+          onClick={(e) => handleNavClick(e, '/experiments')}
+        >
+          EXPERIMENTS
+        </a>
+        <a 
+          href="/about" 
+          className={`navbar-link ${isPathActive('/about') ? 'active' : ''}`} 
+          onClick={(e) => handleNavClick(e, '/about')}
+        >
+          ABOUT
+        </a>
       </div>
     </nav>
   );

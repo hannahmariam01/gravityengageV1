@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+// @ts-ignore
+import Navbar from "./components/Navbar";
 
 export default function ADCognitive() {
   const navigate = useNavigate();
@@ -295,84 +297,7 @@ export default function ADCognitive() {
         />
 
         {/* Navigation Bar */}
-        <nav
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "1.5rem 3rem",
-            zIndex: 10000,
-            background: "rgba(0, 0, 0, 0.6)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(137, 207, 240, 0.2)",
-            animation: "fadeInDown 0.8s ease-out",
-          }}
-        >
-          <img
-            src="/New logo.svg"
-            alt="Gravity Engage"
-            onClick={() => navigate("/")}
-            style={{ height: "16px", cursor: "pointer", opacity: 0.8 }}
-          />
-
-          <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
-              <button
-                key={item}
-                onClick={() => {
-                  if (item === "HOME") {
-                    navigate("/");
-                  } else if (item === "WORK") {
-                    navigate("/work");
-                  } else if (item === "EXPERIMENTS") {
-                    navigate("/experiments");
-                  } else if (item === "ABOUT") {
-                    navigate("/about");
-                  }
-                }}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  background: "transparent",
-                  border: "none",
-                  color: idx === 1 ? "#89cff0" : "#ffffff", // Changed from idx === 2 to idx === 1
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.1em",
-                  transition: "all 0.3s ease",
-                  padding: "8px 0",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#89cff0";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  if (idx !== 1) e.currentTarget.style.color = "#ffffff"; // Changed from idx !== 2 to idx !== 1
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                {item}
-                {idx === 1 && ( // Changed from idx === 2 to idx === 1
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: -8,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "linear-gradient(90deg, #89cff0, #8b5cf6)",
-                      animation: "glow 2s ease-in-out infinite",
-                    }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-        </nav>
+        <Navbar />
 
         {/* Back Button */}
         <button

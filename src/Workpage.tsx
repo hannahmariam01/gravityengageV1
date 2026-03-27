@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAdmin } from "./AdminContext";
 import VelocityEngine from "./VelocityEngine";
+// @ts-ignore
+import Navbar from "./components/Navbar";
 
 export default function Workpage() {
   const navigate = useNavigate();
@@ -329,84 +331,7 @@ export default function Workpage() {
           }}
         />
 
-        <nav
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "1.5rem 3rem",
-            zIndex: 10000,
-            background: "rgba(0, 0, 0, 0.6)",
-            backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(137, 207, 240, 0.2)",
-            animation: "fadeInDown 0.8s ease-out",
-          }}
-        >
-          <img
-            src="/New logo.svg"
-            alt="Gravity Engage"
-            style={{ height: "16px", cursor: "pointer", opacity: 0.8 }}
-            onClick={handleLogoClick}
-          />
-          <div style={{ display: "flex", gap: "3rem" }}>
-            {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
-              <button
-                key={item}
-                onClick={() => {
-                  if (item === "HOME") {
-                    navigate("/");
-                  } else if (item === "WORK") {
-                    navigate("/work");
-                  } else if (item === "EXPERIMENTS") {
-                    navigate("/experiments");
-                  } else if (item === "ABOUT") {
-                    navigate("/about");
-                  }
-                }}
-                style={{
-                  position: "relative",
-                  cursor: "pointer",
-                  background: "transparent",
-                  border: "none",
-                  color: idx === 1 ? "#89cff0" : "#ffffff",
-                  fontSize: "11px",
-                  fontWeight: "400",
-                  letterSpacing: "0.2em",
-                  fontFamily: "'Outfit', sans-serif",
-                  transition: "all 0.3s ease",
-                  padding: "8px 0",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "#89cff0";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  if (idx !== 1) e.currentTarget.style.color = "#ffffff";
-                  e.currentTarget.style.transform = "translateY(0)";
-                }}
-              >
-                {item}
-                {idx === 1 && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: -8,
-                      left: 0,
-                      right: 0,
-                      height: "2px",
-                      background: "linear-gradient(90deg, #89cff0, #8b5cf6)",
-                      animation: "glow 2s ease-in-out infinite",
-                    }}
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-        </nav>
+        <Navbar />
 
         <div
           style={{
