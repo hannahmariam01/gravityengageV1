@@ -349,7 +349,7 @@ export default function Workpage() {
           <img
             src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
             alt="Gravity Engage"
-            style={{ height: "40px", cursor: "pointer" }}
+            style={{ height: "20px", cursor: "pointer" }}
             onClick={handleLogoClick}
           />
           <div style={{ display: "flex", gap: "3rem" }}>

@@ -23,7 +23,7 @@ const Navbar = ({ activeLens, setActiveLens }) => {
           src="/New logo.svg"
           alt="Gravity Engage"
           style={{
-            height: "32px",
+            height: "16px",
             width: "auto",
             opacity: 0.8,
             transition: "transform 0.3s ease, opacity 0.3s ease",

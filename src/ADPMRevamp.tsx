@@ -169,7 +169,7 @@ export default function ADPMRevamp() {
         borderBottom: "1px solid rgba(137, 207, 240, 0.2)", animation: "fadeInDown 0.8s ease-out"
       }}>
         <img src="https://raw.githubusercontent.com/hannahmariam01/images/main/colored-logo.png"
-             alt="Gravity Engage" style={{ height: "40px", cursor: "pointer" }} onClick={handleLogoClick} />
+             alt="Gravity Engage" style={{ height: "20px", cursor: "pointer" }} onClick={handleLogoClick} />
         <div style={{ display: "flex", gap: "3rem" }}>
           {["HOME", "WORK", "PLAYGROUND", "ABOUT"].map((item, idx) => (
             <button key={item} onClick={() => navigate(item === "HOME" ? "/" : `/${item.toLowerCase()}`)}

@@ -244,7 +244,7 @@ export default function ExperimentsPage() {
                     <img
                         src="/New logo.svg"
                         alt="Gravity Engage"
-                        style={{ height: "32px", cursor: "pointer", opacity: 0.8 }}
+                        style={{ height: "16px", cursor: "pointer", opacity: 0.8 }}
                         onClick={() => navigate("/")}
                     />
                     <div style={{ display: "flex", gap: "3rem" }}>

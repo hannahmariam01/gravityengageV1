@@ -146,7 +146,7 @@ export default function AIPresentationDesigner() {
         borderBottom: "1px solid rgba(137, 207, 240, 0.2)", animation: "fadeInDown 0.8s ease-out"
       }}>
         <img src="/New logo.svg"
-             alt="Gravity Engage" style={{ height: "28px", cursor: "pointer" }} onClick={() => navigate("/")} />
+             alt="Gravity Engage" style={{ height: "14px", cursor: "pointer" }} onClick={() => navigate("/")} />
         <div style={{ display: "flex", gap: "3rem" }}>
           {["HOME", "WORK", "EXPERIMENTS", "ABOUT"].map((item, idx) => (
             <button key={item} onClick={() => navigate(item === "HOME" ? "/" : `/${item.toLowerCase()}`)}

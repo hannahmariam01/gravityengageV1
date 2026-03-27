@@ -109,15 +109,27 @@ export default function Index() {
   const screen2BgCanvasRef = useRef(null);
   const [clientPage, setClientPage] = useState(0);
   activeProjectIndexRef.current = activeProjectIndex;
-  const clientNames = [
-    'NEOM', 'Dubai Holding', 'Saudi Tourism Authority', 'National Projects', 
-    'Victoria State Government', 'AFP', 'Australian National University', 
-    'Singapore Tourism Board', 'Department of Health (AUS)', 
-    'Department of Health (UAE)', 'ASIC', 'Dubai Brand', 
-    'Resilience NSW', 'Executive Office', 'Unitywater', 
-    'Elisium', 'UN Tourism'
+  const clientLogos = [
+    { name: 'NEOM', src: '/Client logos/Neom.png' },
+    { name: 'Dubai Holding', src: '/Client logos/dubai holding.png' },
+    { name: 'Saudi Tourism Authority', src: '/Client logos/soudi tourism.png' },
+    { name: 'National Projects', src: '/Client logos/NPO.jpg' },
+    { name: 'Victoria State Government', src: '/Client logos/VICTORIA.png' },
+    { name: 'AFP', src: '/Client logos/AFP.png' },
+    { name: 'Australian National University', src: '/Client logos/ANU.png' },
+    { name: 'Singapore Tourism Board', src: '/Client logos/SINGAPORE TOURISM.png' },
+    { name: 'Department of Health (AUS)', src: '/Client logos/DOH AUS.jpg' },
+    { name: 'Department of Health (UAE)', src: '/Client logos/DOH ABU DHABI.png' },
+    { name: 'ASIC', src: '/Client logos/ASIC.png' },
+    { name: 'Dubai Brand', src: '/Client logos/DUBAI.png' },
+    { name: 'Resilience NSW', src: '/Client logos/NSW.png' },
+    { name: 'Executive Office', src: '/Client logos/Execitive office.png' },
+    { name: 'Unitywater', src: '/Client logos/unity water.png' },
+    { name: 'Elisium', src: '/Client logos/elisium.png' },
+    { name: 'UN Tourism', src: '/Client logos/un tourism.png' },
+    { name: 'Dubai Holding Real Estate', src: '/Client logos/dubai holding real estate.png' },
   ];
-  const totalClientPages = Math.ceil(clientNames.length / 4);
+  const totalClientPages = Math.ceil(clientLogos.length / 4);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -1185,12 +1197,11 @@ export default function Index() {
       <div ref={screen2Ref} style={{ position: "relative", zIndex: 200 }}>
         <div
           style={{
-            minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            padding: "6rem 6rem 6rem 12rem", // Increased left padding from 9rem to 12rem
+            alignItems: "center", // Center the inner content container (1400px)
+            justifyContent: "flex-start", // Start from top to control spacing
+            padding: "3rem 6rem 0rem 6rem", // Top: 3rem (48px), Left/Right: 6rem
             position: "relative",
             background: "#080412",
             overflow: "hidden",
@@ -1413,7 +1424,7 @@ export default function Index() {
               opacity: screen2Progress > 0.1 ? 1 : 0,
               transform: `translateY(${screen2Progress > 0.1 ? 0 : 40}px)`,
               transition: "opacity 1s ease, transform 1s ease",
-              paddingBottom: "2rem", // Reduced negative space below
+              paddingBottom: "0rem",
             }}
           >
             {/* Header - Matching Featured Projects Style */}
@@ -1436,7 +1447,7 @@ export default function Index() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Our client
+                Our clients
               </h2>
               <div
                 style={{
@@ -1471,7 +1482,7 @@ export default function Index() {
                     alignItems: 'flex-start',
                     padding: '0 2rem',
                   }}>
-                    {clientNames.slice(pageIdx * 4, pageIdx * 4 + 4).map((name, i) => (
+                    {clientLogos.slice(pageIdx * 4, pageIdx * 4 + 4).map((logo, i) => (
                       <div key={i} style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -1479,25 +1490,29 @@ export default function Index() {
                         gap: '1.5rem',
                         width: '200px',
                       }}>
-                        {/* Circular Logo Placeholder */}
+                        {/* Circular Logo Container */}
                         <div style={{
                           width: '120px',
                           height: '120px',
                           borderRadius: '50%',
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                          backgroundColor: '#ffffff', // Required white background
                           border: '1px solid rgba(255, 255, 255, 0.2)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
                           backdropFilter: 'blur(5px)',
+                          overflow: 'hidden', // Ensure image doesn't bleed out
                         }}>
-                          <div style={{
-                            width: '40px',
-                            height: '40px',
-                            borderRadius: '50%',
-                            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                          }} />
+                          <img 
+                            src={logo.src} 
+                            alt={logo.name}
+                            style={{
+                              width: '70%',
+                              height: '70%',
+                              objectFit: 'contain',
+                            }}
+                          />
                         </div>
                         {/* Client Name */}
                         <div style={{
@@ -1509,13 +1524,42 @@ export default function Index() {
                           lineHeight: '1.4',
                           opacity: 0.9,
                         }}>
-                          {name}
+                          {logo.name}
                         </div>
                       </div>
                     ))}
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Carousel Navigation Dots */}
+            <div style={{
+              display: 'flex',
+              gap: '0.8rem',
+              marginTop: '40px', // Space between logo names and dots
+              paddingBottom: '40px', // Extra padding belowDots
+              zIndex: 10,
+            }}>
+              {[...Array(totalClientPages)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setClientPage(idx)}
+                  onMouseEnter={() => setIsHoveringNav(true)}
+                  onMouseLeave={() => setIsHoveringNav(false)}
+                  style={{
+                    width: idx === clientPage ? '10px' : '6px',
+                    height: idx === clientPage ? '10px' : '6px',
+                    borderRadius: '50%',
+                    background: idx === clientPage ? '#89cff0' : 'rgba(137, 207, 240, 0.3)',
+                    border: idx === clientPage ? '2px solid #ffffff' : 'none',
+                    transition: 'all 0.3s ease',
+                    boxShadow: idx === clientPage ? '0 0 15px rgba(137, 207, 240, 0.8)' : 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -1528,7 +1572,7 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: `calc(100vh * ${projects.length + 1})`,
+          height: `calc(100vh + 3rem)`, // 48px gap
           background: "rgba(8, 4, 18, 1)",
         }}
       >
@@ -1559,7 +1603,7 @@ export default function Index() {
           {/* Header */}
           <div
             style={{
-              padding: "4rem 6rem 1rem",
+              padding: "3rem 6rem 1rem",
               opacity: screen3Progress > 0.2 ? 1 : 0,
               transform: `translateY(${screen3Progress > 0.2 ? 0 : 50}px)`,
               transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -2057,7 +2101,7 @@ export default function Index() {
           style={{
             maxWidth: "1400px",
             margin: "0 auto",
-            padding: "4rem 6rem",
+            padding: "0 6rem 3rem 6rem", // Top set to 0 to respect the 48px gap from projects
             borderTop: "1px solid rgba(137, 207, 240, 0.2)",
           }}
         >
