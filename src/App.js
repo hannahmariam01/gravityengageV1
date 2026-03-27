@@ -107,7 +107,6 @@ export default function Index() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const screen2BgCanvasRef = useRef(null);
-  const [clientPage, setClientPage] = useState(0);
   activeProjectIndexRef.current = activeProjectIndex;
   const clientLogos = [
     { name: 'NEOM', src: '/Client logos/Neom.png' },
@@ -129,14 +128,6 @@ export default function Index() {
     { name: 'UN Tourism', src: '/Client logos/un tourism.png' },
     { name: 'Dubai Holding Real Estate', src: '/Client logos/dubai holding real estate.png' },
   ];
-  const totalClientPages = Math.ceil(clientLogos.length / 4);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setClientPage((prev) => (prev + 1) % totalClientPages);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [totalClientPages]);
 
   const projects = [
     {
@@ -351,12 +342,12 @@ export default function Index() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    const stars = Array.from({ length: 100 }, () => ({
+    const stars = Array.from({ length: 60 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       size: Math.random() * 2 + 0.5,
       baseOpacity: Math.random() * 0.3 + 0.2,
-      speed: (Math.random() * 2 + 3) * 1000,
+      speed: (Math.random() * 4 + 6) * 1000,
       phase: Math.random() * Math.PI * 2,
     }));
 
@@ -782,6 +773,8 @@ export default function Index() {
       return;
     }
 
+    const lerpSpeed = activeLens ? 0.025 : 0.008;
+    
     const direction = delta > 0 ? 1 : -1;
     
     // Boundary checks for passing scroll back to page (using Ref to avoid stale closure)
@@ -1459,106 +1452,63 @@ export default function Index() {
               />
             </div>
 
-            {/* Carousel Container */}
+            {/* Logos Grid Container */}
             <div style={{ 
               width: '100%', 
-              overflow: 'hidden', 
-              position: 'relative',
-              height: '240px',
               display: 'flex',
-              alignItems: 'center',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              gap: '3rem 2rem',
+              padding: '0 2rem 4rem 2rem',
             }}>
-              <div style={{
-                display: 'flex',
-                width: '100%',
-                transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                transform: `translateX(-${clientPage * 100}%)`,
-              }}>
-                {[...Array(totalClientPages)].map((_, pageIdx) => (
-                  <div key={pageIdx} style={{
-                    minWidth: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    alignItems: 'flex-start',
-                    padding: '0 2rem',
-                  }}>
-                    {clientLogos.slice(pageIdx * 4, pageIdx * 4 + 4).map((logo, i) => (
-                      <div key={i} style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: '1.5rem',
-                        width: '200px',
-                      }}>
-                        {/* Circular Logo Container */}
-                        <div style={{
-                          width: '120px',
-                          height: '120px',
-                          borderRadius: '50%',
-                          backgroundColor: '#ffffff', // Required white background
-                          border: '1px solid rgba(255, 255, 255, 0.2)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
-                          backdropFilter: 'blur(5px)',
-                          overflow: 'hidden', // Ensure image doesn't bleed out
-                        }}>
-                          <img 
-                            src={logo.src} 
-                            alt={logo.name}
-                            style={{
-                              width: '70%',
-                              height: '70%',
-                              objectFit: 'contain',
-                            }}
-                          />
-                        </div>
-                        {/* Client Name */}
-                        <div style={{
-                          color: '#ffffff',
-                          fontSize: '14px',
-                          fontWeight: 400,
-                          textAlign: 'center',
-                          maxWidth: '180px',
-                          lineHeight: '1.4',
-                          opacity: 0.9,
-                        }}>
-                          {logo.name}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Carousel Navigation Dots */}
-            <div style={{
-              display: 'flex',
-              gap: '0.8rem',
-              marginTop: '40px', // Space between logo names and dots
-              paddingBottom: '40px', // Extra padding belowDots
-              zIndex: 10,
-            }}>
-              {[...Array(totalClientPages)].map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setClientPage(idx)}
+              {clientLogos.map((logo, i) => (
+                <div key={i} 
                   onMouseEnter={() => setIsHoveringNav(true)}
                   onMouseLeave={() => setIsHoveringNav(false)}
                   style={{
-                    width: idx === clientPage ? '10px' : '6px',
-                    height: idx === clientPage ? '10px' : '6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '1.2rem',
+                    width: '180px',
+                  }}>
+                  <div style={{
+                    width: '115px',
+                    height: '115px',
                     borderRadius: '50%',
-                    background: idx === clientPage ? '#89cff0' : 'rgba(137, 207, 240, 0.3)',
-                    border: idx === clientPage ? '2px solid #ffffff' : 'none',
-                    transition: 'all 0.3s ease',
-                    boxShadow: idx === clientPage ? '0 0 15px rgba(137, 207, 240, 0.8)' : 'none',
-                    cursor: 'pointer',
-                    padding: 0,
-                  }}
-                />
+                    backgroundColor: '#ffffff',
+                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 0 20px rgba(137, 207, 240, 0.1)',
+                    backdropFilter: 'blur(5px)',
+                    overflow: 'hidden',
+                  }}>
+                    <img 
+                      src={logo.src} 
+                      alt={logo.name}
+                      style={{
+                        width: '70%',
+                        height: '70%',
+                        objectFit: 'contain',
+                      }}
+                    />
+                  </div>
+                  {/* Client Name */}
+                  <div style={{
+                    color: '#ffffff',
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    textAlign: 'center',
+                    maxWidth: '160px',
+                    lineHeight: '1.4',
+                    opacity: 0.9,
+                  }}>
+                    {logo.name}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -1572,7 +1522,7 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: `calc(100vh + 3rem)`, // 48px gap
+          height: "140vh", // Reduced from 200vh to minimize gap at bottom
           background: "rgba(8, 4, 18, 1)",
         }}
       >
@@ -1673,7 +1623,7 @@ export default function Index() {
               opacity: screen3Progress > 0.3 ? 1 : 0,
               transition: "opacity 0.6s ease",
               overflow: "visible",
-              paddingTop: "18rem",
+              paddingTop: "12rem",
             }}
           >
             {/* Side Slider */}

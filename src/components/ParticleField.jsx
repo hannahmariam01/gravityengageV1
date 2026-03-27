@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-const COUNT = 3200;
+const COUNT = 1600;
 
 /* ── 1. BUILD: Perfect Rotating Cube ── */
 function buildCubeTargets() {
@@ -121,7 +121,7 @@ const ParticleField = ({ activeLens, scrollRef }) => {
     const scroll = scrollRef?.current && !isNaN(scrollRef.current) ? scrollRef.current : 0;
     const mx = (mouse.x * viewport.width) / 2, my = (mouse.y * viewport.height) / 2;
     const targetColor = (activeLens && LENS_COLORS[activeLens]) ? LENS_COLORS[activeLens] : DEFAULT_COLOR;
-    const lerpSpeed = activeLens ? 0.045 : 0.012;
+    const lerpSpeed = activeLens ? 0.025 : 0.008;
 
     for (let i = 0; i < COUNT; i++) {
       const i3 = i * 3, ph = phaseArr[i];
@@ -149,8 +149,8 @@ const ParticleField = ({ activeLens, scrollRef }) => {
         // Engaging 3D Swirling Energy Wave
         const x = waveArr[i3]; 
         
-        const spiralSpeed = 1.8;
-        const waveSpeed = 1.0;
+        const spiralSpeed = 0.8;
+        const waveSpeed = 0.5;
         
         // Central wave backbone
         const mainWave = Math.sin(x * 0.15 - t * waveSpeed) * 4.5;
@@ -192,12 +192,20 @@ const ParticleField = ({ activeLens, scrollRef }) => {
   });
 
   return (
-    <points ref={pointsRef} frustumCulled={false}>
+    <points key={COUNT} ref={pointsRef} frustumCulled={false}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" count={COUNT} array={posArr} itemSize={3} usage={THREE.DynamicDrawUsage} />
         <bufferAttribute attach="attributes-color" count={COUNT} array={colArr} itemSize={3} usage={THREE.DynamicDrawUsage} />
       </bufferGeometry>
-      <pointsMaterial size={0.08} vertexColors transparent opacity={0.9} blending={THREE.AdditiveBlending} depthWrite={false} />
+      <pointsMaterial 
+        size={0.08} 
+        vertexColors 
+        transparent 
+        opacity={0.9} 
+        blending={THREE.AdditiveBlending} 
+        depthWrite={false}
+        sizeAttenuation={true}
+      />
     </points>
   );
 };

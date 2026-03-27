@@ -193,7 +193,7 @@ const LensWorld = ({ activeLens, setActiveLens, hoveredLens, setHoveredLens, scr
           }}
         />
       ))}
-
+      
       {/* ── Arc glow overlay ── */}
       <div className="hero-arc-glow" />
       <div className="hero-arc-ring" />
