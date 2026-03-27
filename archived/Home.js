@@ -76,6 +76,10 @@ export default function Index() {
   const contactRef = useRef(null);
   const navigate = useNavigate();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const projectCarouselRef = useRef(null);
+  const projectWheelLockRef = useRef(false);
+  const activeProjectIndexRef = useRef(0);
   const [orbPosition, setOrbPosition] = useState({
     x: typeof window !== "undefined" ? window.innerWidth * 0.9 : 800,
     y: typeof window !== "undefined" ? window.innerHeight * 0.25 : 200,
@@ -93,6 +97,7 @@ export default function Index() {
   const waveCanvasRef = useRef(null);
 
   const waveCanvas2Ref = useRef(null);
+  const [sliderPosition, setSliderPosition] = useState(0);
   const [clientPageIndex, setClientPageIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
@@ -103,6 +108,7 @@ export default function Index() {
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const screen2BgCanvasRef = useRef(null);
+  activeProjectIndexRef.current = activeProjectIndex;
   const clientLogos = [
     { name: 'NEOM', src: '/Client logos/Neom.png' },
     { name: 'Dubai Holding', src: '/Client logos/dubai holding.png' },
@@ -748,6 +754,62 @@ export default function Index() {
       window.removeEventListener("resize", resizeCanvas);
     };
   }, [showLanding, mousePosition, scrollProgress]);
+
+  useEffect(() => {
+    const totalProjects = projects.length;
+    const position = (activeProjectIndex / (totalProjects - 1)) * 100;
+    setSliderPosition(position);
+  }, [activeProjectIndex, projects.length]);
+
+  const handleProjectWheel = (e) => {
+    if (!projectCarouselRef.current || !screen3Ref.current || activeLens) return;
+    
+    const sectionTop = screen3Ref.current.offsetTop;
+    const sectionHeight = screen3Ref.current.offsetHeight;
+    const windowHeight = window.innerHeight;
+    const scrollY = window.scrollY;
+    
+    // We lock when the user has scrolled into the section but not past its sticky range
+    const isSectionActive = scrollY >= sectionTop - 50 && scrollY < (sectionTop + sectionHeight - windowHeight - 50);
+    
+    if (!isSectionActive) return;
+
+    const delta = e.deltaY;
+    if (Math.abs(delta) < 10) return;
+
+    if (projectWheelLockRef.current) {
+      e.preventDefault();
+      return;
+    }
+
+    const direction = delta > 0 ? 1 : -1;
+    
+    // Check boundaries: if scroll-down at last project, allow page to continue.
+    // However, we want to stay locked for a bit at the end to make it feel intentional.
+    if (direction === 1 && activeProjectIndexRef.current === projects.length - 1) {
+      return;
+    }
+    // If scroll-up at first project, allow page to continue up.
+    if (direction === -1 && activeProjectIndexRef.current === 0) {
+      return;
+    }
+
+    // Capture the scroll event and advance carousel
+    e.preventDefault();
+    projectWheelLockRef.current = true;
+    setActiveProjectIndex(prev => Math.min(Math.max(prev + direction, 0), projects.length - 1));
+    
+    setTimeout(() => {
+      projectWheelLockRef.current = false;
+    }, 800);
+  };
+
+  useEffect(() => {
+    if (showLanding) return;
+    const wheelListener = (e) => handleProjectWheel(e);
+    window.addEventListener("wheel", wheelListener, { passive: false });
+    return () => window.removeEventListener("wheel", wheelListener);
+  }, [showLanding]);
 
   const { isAdmin, login, logout } = useAdmin();
   const [logoClicks, setLogoClicks] = useState(0);
@@ -1622,8 +1684,7 @@ export default function Index() {
         style={{
           position: "relative",
           zIndex: 300,
-          height: "auto",
-          minHeight: "100vh",
+          height: "400vh", // Increased height to provide more scrolling room for lock
           background: "rgba(8, 4, 18, 1)",
         }}
       >
@@ -1641,7 +1702,9 @@ export default function Index() {
         {/* Sticky container */}
         <div
           style={{
-            position: "relative",
+            position: "sticky",
+            top: 0,
+            height: "100vh",
             width: "100%",
             display: "flex",
             flexDirection: "column",
@@ -1708,216 +1771,426 @@ export default function Index() {
           </div>
 
           <div
+            ref={projectCarouselRef}
             style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2.5rem",
-              padding: "2rem 6rem 6rem",
-              maxWidth: "1400px",
-              margin: "0 auto",
-              width: "100%",
+              flex: 1,
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center", // Center vertically in space
               opacity: screen3Progress > 0.1 ? 1 : 0,
               transition: "opacity 0.6s ease",
+              overflow: "visible",
+              paddingTop: "0rem", // Remove large padding since header is now relative
             }}
           >
-            {projects.map((project, idx) => (
+            {/* Side Slider */}
+            <div
+              style={{
+                position: "fixed",
+                right: "4rem",
+                top: "50%",
+                transform: "translateY(-50%)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "1rem",
+                zIndex: 1000,
+                opacity: screen3Progress > 0.3 ? 1 : 0,
+                transition: "opacity 0.6s ease",
+              }}
+            >
+              {/* Slider Track - Now Clickable */}
               <div
-                key={idx}
-                className="project-card"
-                onMouseEnter={() => setHoveredProject(idx)}
-                onMouseLeave={() => setHoveredProject(null)}
-                onClick={() => {
-                  if (project.route) {
-                    navigate(project.route);
-                  }
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickY = e.clientY - rect.top;
+                  const percentage = (clickY / rect.height) * 100;
+                  const newIndex = Math.round(
+                    (percentage / 100) * (projects.length - 1)
+                  );
+                  setActiveProjectIndex(
+                    Math.max(0, Math.min(newIndex, projects.length - 1))
+                  );
                 }}
+                onMouseEnter={() => setIsHoveringNav(true)}
+                onMouseLeave={() => setIsHoveringNav(false)}
                 style={{
                   position: "relative",
-                  width: "100%",
-                  aspectRatio: "380 / 260",
-                  borderRadius: "16px",
-                  overflow: "hidden",
-                  border: `2px solid ${
-                    hoveredProject === idx
-                      ? "rgba(137, 207, 240, 0.8)"
-                      : "rgba(137, 207, 240, 0.5)"
-                  }`,
-                  background: "rgba(15, 5, 30, 0.8)",
-                  backdropFilter: "blur(1px)",
-                  boxShadow:
-                    hoveredProject === idx
-                      ? "0 30px 80px rgba(137, 207, 240, 0.6), 0 0 100px rgba(139, 92, 246, 0.5)"
-                      : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
-                  transition: "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                  width: "3px",
+                  height: "200px",
+                  background: "rgba(137, 207, 240, 0.2)",
+                  borderRadius: "10px",
                   cursor: "pointer",
                 }}
               >
-                <ProjectVideo 
-                  src={project.video} 
-                  isActive={true} 
-                  scale={project.scale} 
-                  blur={project.blur} 
-                />
+                {/* Active Progress */}
                 <div
                   style={{
                     position: "absolute",
-                    inset: 0,
-                    background:
-                      hoveredProject === idx
-                        ? "linear-gradient(135deg, rgba(15, 5, 30, 0.5), rgba(25, 10, 50, 0.6))"
-                        : "linear-gradient(135deg, rgba(15, 5, 30, 0.6), rgba(25, 10, 50, 0.7))",
-                    transition: "background 0.6s ease",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: `${sliderPosition}%`,
+                    background: "linear-gradient(180deg, #89cff0, #8b5cf6)",
+                    borderRadius: "10px",
+                    transition:
+                      "height 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    boxShadow: "0 0 15px rgba(137, 207, 240, 0.6)",
+                    pointerEvents: "none",
                   }}
                 />
 
+                {/* Slider Thumb - Now Draggable */}
                 <div
-                  style={{
-                    position: "relative",
-                    zIndex: 10,
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    padding: "2rem",
-                    transform:
-                      hoveredProject === idx
-                        ? "translateY(-5px)"
-                        : "translateY(0)",
-                    transition: "transform 0.6s ease",
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    const startY = e.clientY;
+                    const trackRect =
+                      e.currentTarget.parentElement.getBoundingClientRect();
+
+                    const handleMouseMove = (moveEvent) => {
+                      const deltaY = moveEvent.clientY - startY;
+                      const currentTop =
+                        (sliderPosition / 100) * trackRect.height;
+                      const newTop = Math.max(
+                        0,
+                        Math.min(trackRect.height, currentTop + deltaY)
+                      );
+                      const newPercentage = (newTop / trackRect.height) * 100;
+                      const newIndex = Math.round(
+                        (newPercentage / 100) * (projects.length - 1)
+                      );
+                      setActiveProjectIndex(
+                        Math.max(0, Math.min(newIndex, projects.length - 1))
+                      );
+                    };
+
+                    const handleMouseUp = () => {
+                      document.removeEventListener(
+                        "mousemove",
+                        handleMouseMove
+                      );
+                      document.removeEventListener("mouseup", handleMouseUp);
+                      setIsHoveringNav(false);
+                    };
+
+                    document.addEventListener("mousemove", handleMouseMove);
+                    document.addEventListener("mouseup", handleMouseUp);
+                    setIsHoveringNav(true);
                   }}
-                >
-                  <div>
+                  style={{
+                    position: "absolute",
+                    top: `${sliderPosition}%`,
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "12px",
+                    height: "12px",
+                    background: "#89cff0",
+                    borderRadius: "50%",
+                    border: "2px solid rgba(255, 255, 255, 0.8)",
+                    boxShadow: "0 0 20px rgba(137, 207, 240, 0.8)",
+                    transition: "top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    cursor: "grab",
+                  }}
+                />
+              </div>
+
+              {/* Project Indicators */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.5rem",
+                  alignItems: "center",
+                }}
+              >
+                {projects.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveProjectIndex(idx)}
+                    onMouseEnter={() => setIsHoveringNav(true)}
+                    onMouseLeave={() => setIsHoveringNav(false)}
+                    style={{
+                      width: idx === activeProjectIndex ? "10px" : "6px",
+                      height: idx === activeProjectIndex ? "10px" : "6px",
+                      borderRadius: "50%",
+                      background:
+                        idx === activeProjectIndex
+                          ? "#89cff0"
+                          : "rgba(137, 207, 240, 0.3)",
+                      border:
+                        idx === activeProjectIndex
+                          ? "2px solid #ffffff"
+                          : "none",
+                      transition: "all 0.3s ease",
+                      boxShadow:
+                        idx === activeProjectIndex
+                          ? "0 0 15px rgba(137, 207, 240, 0.8)"
+                          : "none",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Project Counter */}
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "#89cff0",
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {String(activeProjectIndex + 1).padStart(2, "0")} /{" "}
+                {String(projects.length).padStart(2, "0")}
+              </div>
+            </div>
+
+            <div
+              style={{
+                perspective: "1200px",
+                perspectiveOrigin: "50% 50%",
+                width: "100%",
+                height: "70%",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  position: "relative",
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                {projects.map((project, idx) => {
+                  const offset = idx - activeProjectIndex;
+
+                  if (Math.abs(offset) > 3) return null;
+
+                  const angle = offset * (Math.PI / 2.5);
+
+                  const x = Math.sin(angle) * 350;
+                  const y = offset * 220 + 50;
+                  const z = Math.cos(angle) * 400;
+
+                  const normalizedZ = (z + 350) / 700;
+                  const scale = 0.65 + normalizedZ * 0.45;
+
+                  const opacity = Math.max(0, 1 - Math.abs(offset) * 0.3);
+                  const zIndex = Math.round(100 + z);
+
+                  return (
                     <div
+                      key={idx}
                       style={{
-                        fontSize: "10px",
-                        fontWeight: 500,
-                        color: "#89cff0",
-                        letterSpacing: "0.2em",
-                        marginBottom: "1rem",
-                        textTransform: "uppercase",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
+                        position: "absolute",
+                        width: "380px",
+                        height: "260px",
+                        left: "50%",
+                        top: "50%",
+                        transform: `
+                  translate3d(${x}px, ${y}px, ${z}px)
+                  translate(-50%, -50%)
+                  scale(${scale})
+                `,
+                        transformStyle: "preserve-3d",
+                        transition:
+                          "all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                        opacity,
+                        zIndex,
+                        pointerEvents: offset === 0 ? "auto" : "none",
                       }}
                     >
                       <div
+                        className="project-card"
+                        onMouseEnter={() => setHoveredProject(idx)}
+                        onMouseLeave={() => setHoveredProject(null)}
                         style={{
-                          width: "20px",
-                          height: "1px",
-                          background: "#89cff0",
-                        }}
-                      />
-                      Project {String(idx + 1).padStart(2, "0")}
-                    </div>
-                    <h3
-                      style={{
-                        fontSize: "28px",
-                        fontWeight: 600,
-                        color: "#ffffff",
-                        marginBottom: project.subtitle
-                          ? "0.5rem"
-                          : "1rem",
-                        lineHeight: "1.2",
-                      }}
-                    >
-                      {project.name}
-                    </h3>
-                    {project.subtitle && (
-                      <h4
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: 400,
-                          color: "#ffffff",
-                          marginBottom: "0.75rem",
-                          lineHeight: "1.3",
+                          position: "relative",
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "16px",
+                          overflow: "hidden",
+                          border: `2px solid ${hoveredProject === idx
+                            ? "rgba(137, 207, 240, 0.8)"
+                            : "rgba(137, 207, 240, 0.5)"
+                            }`,
+                          background: "rgba(15, 5, 30, 0.8)",
+                          backdropFilter: "blur(1px)",
+                          boxShadow:
+                            hoveredProject === idx
+                              ? "0 30px 80px rgba(137, 207, 240, 0.6), 0 0 100px rgba(139, 92, 246, 0.5)"
+                              : "0 20px 60px rgba(137, 207, 240, 0.4), 0 0 80px rgba(139, 92, 246, 0.3)",
                         }}
                       >
-                        {project.subtitle}
-                      </h4>
-                    )}
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: 300,
-                        color: "rgba(255, 255, 255, 0.85)",
-                        lineHeight: "1.5",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      {project.description}
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                    }}
-                  >
-                    <button
-                      onClick={() => {
-                        if (project.route) {
-                          navigate(project.route);
-                        }
-                      }}
-                      onMouseEnter={(e) => {
-                        setIsHoveringNav(true);
-                        e.currentTarget.style.background =
-                          "transparent";
-                        e.currentTarget.style.color = "#89cff0";
-                        e.currentTarget.style.transform = "scale(1.05)";
-                      }}
-                      onMouseLeave={(e) => {
-                        setIsHoveringNav(false);
-                        e.currentTarget.style.background = "#89cff0";
-                        e.currentTarget.style.color = "#000000";
-                        e.currentTarget.style.transform = "scale(1)";
-                      }}
-                      style={{
-                        padding: "0.4rem 0.8rem",
-                        background: "#89cff0",
-                        border: "2px solid #89cff0",
-                        color: "#000000",
-                        fontSize: "9px",
-                        fontWeight: 600,
-                        letterSpacing: "0.05em",
-                        transition:
-                          "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
-                        borderRadius: "5px",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      View Project
-                    </button>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        color: "#89cff0",
-                        fontSize: "13px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        style={{ marginLeft: "0.5rem" }}
-                      >
-                        <path
-                          d="M7 3L14 10L7 17"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+                        <ProjectVideo src={project.video} isActive={offset === 0} scale={project.scale} blur={project.blur} />
+                        <div
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            background:
+                              hoveredProject === idx
+                                ? "linear-gradient(135deg, rgba(15, 5, 30, 0.5), rgba(25, 10, 50, 0.6))"
+                                : "linear-gradient(135deg, rgba(15, 5, 30, 0.6), rgba(25, 10, 50, 0.7))",
+                            transition: "background 0.6s ease",
+                          }}
                         />
-                      </svg>
+
+                        <div
+                          style={{
+                            position: "relative",
+                            zIndex: 10,
+                            height: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            padding: "2rem",
+                            transform:
+                              hoveredProject === idx
+                                ? "translateY(-5px)"
+                                : "translateY(0)",
+                            transition: "transform 0.6s ease",
+                          }}
+                        >
+                          <div>
+                            <div
+                              style={{
+                                fontSize: "10px",
+                                fontWeight: 500,
+                                color: "#89cff0",
+                                letterSpacing: "0.2em",
+                                marginBottom: "1rem",
+                                textTransform: "uppercase",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: "20px",
+                                  height: "1px",
+                                  background: "#89cff0",
+                                }}
+                              />
+                              Project {String(idx + 1).padStart(2, "0")}
+                            </div>
+                            <h3
+                              style={{
+                                fontSize: "28px",
+                                fontWeight: 600,
+                                color: "#ffffff",
+                                marginBottom: project.subtitle
+                                  ? "0.5rem"
+                                  : "1rem",
+                                lineHeight: "1.2",
+                              }}
+                            >
+                              {project.name}
+                            </h3>
+                            {project.subtitle && (
+                              <h4
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 400,
+                                  color: "#ffffff",
+                                  marginBottom: "0.75rem",
+                                  lineHeight: "1.3",
+                                }}
+                              >
+                                {project.subtitle}
+                              </h4>
+                            )}
+                            <p
+                              style={{
+                                fontSize: "13px",
+                                fontWeight: 300,
+                                color: "rgba(255, 255, 255, 0.85)",
+                                lineHeight: "1.5",
+                                marginBottom: "1rem",
+                              }}
+                            >
+                              {project.description}
+                            </p>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.75rem",
+                            }}
+                          >
+                            <button
+                              onClick={() => {
+                                if (project.route) {
+                                  navigate(project.route);
+                                }
+                              }}
+                              onMouseEnter={(e) => {
+                                setIsHoveringNav(true);
+                                e.currentTarget.style.background =
+                                  "transparent";
+                                e.currentTarget.style.color = "#89cff0";
+                                e.currentTarget.style.transform = "scale(1.05)";
+                              }}
+                              onMouseLeave={(e) => {
+                                setIsHoveringNav(false);
+                                e.currentTarget.style.background = "#89cff0";
+                                e.currentTarget.style.color = "#000000";
+                                e.currentTarget.style.transform = "scale(1)";
+                              }}
+                              style={{
+                                padding: "0.4rem 0.8rem",
+                                background: "#89cff0",
+                                border: "2px solid #89cff0",
+                                color: "#000000",
+                                fontSize: "9px",
+                                fontWeight: 600,
+                                letterSpacing: "0.05em",
+                                transition:
+                                  "all 0.3s cubic-bezier(0.23, 1, 0.32, 1)",
+                                borderRadius: "5px",
+                                textTransform: "uppercase",
+                              }}
+                            >
+                              View Project
+                            </button>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                color: "#89cff0",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                              }}
+                            >
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                style={{ marginLeft: "0.5rem" }}
+                              >
+                                <path
+                                  d="M7 3L14 10L7 17"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
@@ -1936,7 +2209,7 @@ export default function Index() {
           style={{
             maxWidth: "1400px",
             margin: "0 auto",
-            padding: "3rem 6rem 3rem 6rem", // Reduced top padding
+            padding: "6rem 6rem 3rem 6rem", // Added top padding to fix spacing issue
             borderTop: "1px solid rgba(137, 207, 240, 0.2)",
           }}
         >
